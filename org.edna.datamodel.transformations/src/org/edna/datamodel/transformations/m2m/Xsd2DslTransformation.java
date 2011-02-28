@@ -253,6 +253,9 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 				if (f.exists()) {
 					URI uri = URI.createFileURI(f.getPath());
 					getResourceSet().getResource(uri, true);
+					// load also referenced .edna_datamodel
+					URI dslUri = URI.createURI(uri.toString().replace(".xsd", ".edna_datamodel"));
+					getResourceSet().getResource(dslUri, true);
 				}
 			}
 		}
@@ -262,36 +265,5 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 	protected int getAmountOfWork(XSDSchema sourceModel) {
 		int numberOfClasses = EcoreUtil2.eAllOfType(sourceModel, ComplexType.class).size();
 		return numberOfClasses+2;
-	}
-
-	@Override
-	public Resource loadSourceModel() {
-		final Resource sourceResource = super.loadSourceModel();
-		final Iterable<Resource> resources = Iterables.filter(sourceResource.getResourceSet().getResources(), new Predicate<Resource>() {
-			public boolean apply(Resource input) {
-				return !input.getURI().lastSegment().equals(sourceResource.getURI().lastSegment()) && input.getURI().lastSegment().endsWith(".xsd");
-			}
-		});
-
-		for (Resource r : Lists.newArrayList(resources)) {
-			URI uriToLoad = URI.createURI(r.getURI().toString().replace(".xsd", ".edna_datamodel"));
-			if (uriToLoad.isFile()) {
-				for (String projectName : EcorePlugin.getPlatformResourceMap().keySet()) {
-					URI projectUri = EcorePlugin.getPlatformResourceMap().get(projectName);
-					// Is the .uml resource relative to the given project?
-					if (uriToLoad.toString().startsWith(projectUri.toString())) {
-						// convert to platform resource
-						uriToLoad = URI.createPlatformResourceURI("/"+projectName+uriToLoad.toString().substring(uriToLoad.toString().indexOf(projectName)+projectName.length()),true);
-					}
-				}
-			}
-			try {
-				sourceResource.getResourceSet().getResource(uriToLoad, true);
-			} catch (RuntimeException e) {
-				e.printStackTrace();
-				throw e;
-			}
-		}
-		return sourceResource;
 	}
 }
