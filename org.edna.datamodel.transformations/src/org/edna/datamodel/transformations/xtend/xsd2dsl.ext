@@ -1,0 +1,149 @@
+/*
+ *    Project: The EDNA Kernel
+ *             http://www.edna-site.org
+ *
+ *    File: "$Id:$"
+ *
+ *    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+ *                            Grenoble, France
+ *
+ *    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
+ *                       Olof Svensson (svensson@esrf.fr)
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published
+ *    by the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    and the GNU Lesser General Public License  along with this program.
+ *    If not, see <http://www.gnu.org/licenses/>.
+ */
+import org::eclipse::emf::ecore;
+import org::eclipse::emf::ecore::resource;
+import org::eclipse::xsd;
+import org::edna::datamodel::datamodel;
+
+extension org::eclipse::xtend::util::stdlib::io;
+extension org::eclipse::xtend::util::stdlib::globalvar;
+extension org::edna::datamodel::transformations::xtend::javaextensions;
+
+
+/**
+ * This is the entry function for the transformation.
+ * @param nsUri Value for targetNamespace of the XSD
+ * @param dslModel The Datamodel DSL Model with the classes to transform
+ */
+create Model transform (XSDSchema schema):
+	("Transforming XSD Schema "+schema.eResource().URI+" to Datamodel DSL...").info() ->
+	storeGlobalVar("schema", schema) -> // used later with getSchema()
+	storeGlobalVar("model", this) -> // used later with getSchema()
+	this.setTargetNamespace(schema.targetNamespace) ->
+	// resolve proxies in order to get the right XSDs to include
+	resolveAll(schema.eResource()) ->
+	schema.allXSDComplexTypes().collect(type|
+		this.types.add(type.createTypeDefinition())
+	) ->
+	// must happen after the types have been added to the model
+	schema.allXSDComplexTypes().collect(type|
+		type.createElementDeclarations()
+	) ->
+	// schema.allXSDComplexTypes().setDocumentation() ->
+	("Transformation finished.").info() ->
+	this
+	;
+
+
+/**
+ * Creates a Complex Type Definition for a class.
+ * @param umlClass The DSL Complex Type class to transform.
+ */
+create ComplexType createTypeDefinition (XSDComplexTypeDefinition complexType) :
+	("Creating Complex Type for "+complexType.name+".").info() ->
+	this.setName(complexType.name) ->
+	// set base type if complexType has a super type.
+	complexType.hasBaseType()
+		? this.setBaseType(findComplexTypeByName(complexType.baseType.name)!=null ? findComplexTypeByName(complexType.baseType.name) : complexType.baseType.createTypeDefinition())
+		: null ->
+	// this.elements.addAll(complexType.createElementDeclarations()) ->
+	this.setDoc(complexType.findElementDeclaration().annotation.getDocumentationText())
+	;
+
+
+private XSDElementDeclaration findElementDeclaration (XSDComplexTypeDefinition complexType) :
+	getSchema().eAllContents().convertToList().typeSelect(XSDElementDeclaration).selectFirst(e|e.typeDefinition==complexType);
+
+/**
+ * Returns the Type Definition for Primitives (xs:string etc.)
+ */
+
+cached PrimitiveType createTypeDefinition (XSDSimpleTypeDefinition xsdPrimitiveType) :
+	("Resolving primitive type "+xsdPrimitiveType.name+".").info() ->
+	switch (xsdPrimitiveType.name) {
+		case "string" : org::edna::datamodel::datamodel::PrimitiveType::STRING
+		case "integer" : org::edna::datamodel::datamodel::PrimitiveType::INTEGER
+		case "float" : org::edna::datamodel::datamodel::PrimitiveType::FLOAT
+		case "double" : org::edna::datamodel::datamodel::PrimitiveType::DOUBLE
+		case "boolean" : org::edna::datamodel::datamodel::PrimitiveType::BOOLEAN
+		default: null
+	};
+
+/** Should never be called. */
+Void createTypeDefinition (Object otherType) :
+	("Unexpected call for "+otherType.metaType.name).error() ->
+	null;
+
+/** Should never be called. */
+Void createTypeDefinition (Void nullValue) :
+	("Unexpected call for a null value.").error() ->
+	null;
+
+
+List[ElementDeclaration] createElementDeclarations (XSDComplexTypeDefinition xsdComplexType) :
+	let complexType = createTypeDefinition(xsdComplexType) :
+	("Creating Element Declarations for "+xsdComplexType.name+".").debug() ->
+	complexType.elements.addAll(
+		xsdComplexType.content.eAllContents().convertToList().typeSelect(XSDParticle).collect(x|x.createElementDeclaration())
+		)
+	;
+
+
+
+create ElementDeclaration createElementDeclaration (XSDParticle particle) :
+	let element = particle.eAllContents().convertToList().typeSelect(XSDElementDeclaration).first() :
+	let elementType = (findComplexTypeByName(element.type.name) != null
+		? findComplexTypeByName(element.type.name)
+		: element.type.createTypeDefinition()
+		) :
+	this.setName(element.name) ->
+	ComplexType.isInstance(elementType) ? this.setRef((ComplexType)elementType) : this.setType((PrimitiveType)elementType) ->
+	this.setMultiple(particle.maxOccurs!=1) ->
+	this.setOptional(particle.minOccurs==0) ->
+	this.setDoc(getDocumentationText(element.annotation))
+	;
+
+//=============================================================================
+// Helper functions.
+//=============================================================================
+
+cached List[XSDComplexTypeDefinition] allXSDComplexTypes (XSDSchema schema) :
+	schema.eAllContents().convertToList().typeSelect(XSDComplexTypeDefinition).reject(e|e.name=="anyType");
+
+private ComplexType findComplexTypeByName (String name) :
+	let allTypes = ((List[ComplexType]) GLOBALVAR complexTypes).union(getModel().eAllContents().convertToList().typeSelect(ComplexType)) :
+	let result = allTypes.selectFirst(type|type.name==name) :
+	// ("find complex: "+ name+" : "+result).info() ->
+	(result!=null ? registerResource(result.eResource()) : null) ->
+	result
+	;
+
+Boolean hasBaseType (XSDComplexTypeDefinition type) : type.baseType!=null && type.baseType.name!="anyType";
+
+XSDSchema getSchema () : (XSDSchema) getGlobalVar("schema");
+
+Model getModel () : (Model) getGlobalVar("model");

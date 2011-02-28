@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML-to-XSD transformator
+Bundle-SymbolicName: org.edna.datamodel.transformations;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.xpand,
+ org.eclipse.xtend,
+ org.eclipse.xtend.typesystem.emf,
+ org.eclipse.emf.mwe.utils;bundle-version="1.0.0",
+ org.eclipse.xtend.typesystem.uml2;bundle-version="1.0.0",
+ org.antlr.runtime;bundle-version="3.0.0",
+ com.ibm.icu;bundle-version="4.0.1",
+ org.eclipse.xtend.util.stdlib;bundle-version="1.0.0",
+ org.eclipse.xsd;bundle-version="2.5.0",
+ org.eclipse.xtend.typesystem.emf.java;bundle-version="1.0.1",
+ org.edna.datamodel.language;bundle-version="1.0.0",
+ org.eclipse.xtext;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.6.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.commons.logging
+Bundle-Vendor: EDNA

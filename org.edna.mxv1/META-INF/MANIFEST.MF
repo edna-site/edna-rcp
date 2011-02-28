@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MXv1 Plug-in
+Bundle-SymbolicName: org.edna.mxv1;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.edna.mxv1.Activator
+Bundle-Vendor: EDNA
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.edna.kernel;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.edna.mxv1,
+ org.edna.mxv1.views,
+ org.edna.mxv1.xsdata

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<XSDataImage  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="XSDataImage">
+    <path  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="XSDataString">
+        <value>/tmp/testimage.img</value>
+    </path>
+    <date  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="XSDataString">
+        <value>10th of Januar 1973</value>
+    </date>
+    <number  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="XSDataInteger">
+        <value>1</value>
+    </number>
+</XSDataImage>

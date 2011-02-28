@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XSDataInputTomography>
+    <byteDepthOfImage>
+        <value>0</value>
+        <valid>true</valid>
+    </byteDepthOfImage>
+    <valid>true</valid>
+</XSDataInputTomography>

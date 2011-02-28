@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.edna.tomov1.TomoView"
+            id="org.edna.tomov1.TomoRecon"
+            name="Tomography Launcher"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>

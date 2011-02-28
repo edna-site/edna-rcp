@@ -1,0 +1,174 @@
+/*
+ *    Project: The EDNA Kernel
+ *             http://www.edna-site.org
+ *
+ *    File: "$Id:$"
+ *
+ *    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+ *                            Grenoble, France
+ *
+ *    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
+ *                       Olof Svensson (svensson@esrf.fr)
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published
+ *    by the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    and the GNU Lesser General Public License  along with this program.
+ *    If not, see <http://www.gnu.org/licenses/>.
+ */
+import org::eclipse::emf::ecore;
+import org::eclipse::emf::ecore::resource;
+import org::eclipse::uml2::uml;
+import org::edna::datamodel::datamodel;
+
+extension org::eclipse::xtend::util::stdlib::io;
+extension org::eclipse::xtend::util::stdlib::globalvar;
+extension org::edna::datamodel::transformations::xtend::javaextensions;
+
+
+/**
+ * This is the entry function for the transformation.
+ * @param umlModel The UML Model with the classes to transform
+ * @param nsUri Value for targetNamespace of the XSD
+ */
+create org::edna::datamodel::datamodel::Model transform (org::eclipse::uml2::uml::Model umlModel, String nsUri ) :
+	("Transforming UML Model "+umlModel.eResource().URI+" to Datamodel DSL...").info() ->
+	storeGlobalVar("model", umlModel) -> // used later with getModel()
+	// prefix elements from Schema schema (i.e. primitive types) with xs:
+	// resolve proxies in order to get the right XSDs to include
+	resolveAll(umlModel.eResource()) ->
+	this.setTargetNamespace(nsUri) ->
+	// iterate over all classes of the umlModel (sorted by name) and
+	// create an Element Declaration and Complex Type Definition for each of them
+	umlModel.allClasses().collect(cls|
+		this.types.add(cls.createTypeDefinition())
+	) ->
+//	umlModel.allClasses().sortBy(x|x.name).collect(cls|
+//		createElementDeclarations(cls.createTypeDefinition(), cls)
+//	) ->
+	// documentation can only be added after elements are attached to the schema
+	// see http://download.eclipse.org/modeling/mdt/xsd/javadoc/2.3.0/org/eclipse/xsd/util/XSDPrototypicalSchema.html
+	// (search for "annotation must be attached to a schema")
+	// umlModel.allClasses().setDocumentation() ->
+	("Transformation finished.").info() ->
+	this
+	;
+
+ComplexType createTypeDefinition (Class umlClass) :
+	findComplexTypeByName(umlClass.name) != null
+	? findComplexTypeByName(umlClass.name).info()
+	: createComplexType (umlClass).info()
+	;
+
+/**
+ * Creates a Complex Type Definition for a class.
+ * @param umlClass The UML class to transform.
+ */
+create ComplexType createComplexType (Class umlClass) :
+	("Creating Complex Type for "+umlClass.name+".").info() ->
+	this.setName(umlClass.name) ->
+	// set base type if umlClass has a super class.
+	!umlClass.superClasses.isEmpty
+		? (
+		    this.setBaseType(umlClass.superClasses.first().createTypeDefinition())
+		  )
+		: null ->
+	this.createElementDeclarations (umlClass) ->
+	this.setDoc(getDocumentationText(umlClass)) ->
+	this;
+
+/**
+ * Returns the Type Definition for Primitives (xs:string etc.)
+ */
+cached org::edna::datamodel::datamodel::PrimitiveType createTypeDefinition (PrimitiveType umlPrimitiveType) :
+	("Resolving primitive type "+umlPrimitiveType.name+".").info() ->
+	switch (umlPrimitiveType.name) {
+		case "string" : org::edna::datamodel::datamodel::PrimitiveType::STRING
+		case "integer" : org::edna::datamodel::datamodel::PrimitiveType::INTEGER
+		case "float" : org::edna::datamodel::datamodel::PrimitiveType::FLOAT
+		case "double" : org::edna::datamodel::datamodel::PrimitiveType::DOUBLE
+		case "boolean" : org::edna::datamodel::datamodel::PrimitiveType::BOOLEAN
+		default: null
+	};
+
+/** Should never be called. */
+Void createTypeDefinition (Object otherType) :
+	("Unexpected call for "+otherType.metaType.name).error() ->
+	null;
+
+/** Should never be called. */
+Void createTypeDefinition (Void nullValue) :
+	("Unexpected call for a null value.").error() ->
+	null;
+
+/**
+ * Creates a Sequence of Element Declarations for each attribute and
+ * outgoing navigable association of a class.
+ */
+ComplexType createElementDeclarations (ComplexType target, Class umlClass) :
+	// create ElementDeclaration for each class attribute
+	target.elements.addAll(umlClass.ownedAttributes.collect(x|x.createElementDeclaration())) ->
+	// create ElementDeclaration for each navigable association end
+	// target.elements.addAll(umlClass.getAssociationEnds().collect(x|x.createElementDeclaration()))
+	target
+	;
+
+/**
+ * Creates an Element Declaration for an attribute or association end.
+ */
+create ElementDeclaration createElementDeclaration (Property umlProperty) :
+	this.setName(umlProperty.name) ->
+	umlProperty.hasComplexType()
+		? this.setRef(umlProperty.type.createTypeDefinition())
+		: this.setType(umlProperty.type.createTypeDefinition())
+		->
+	this.setMultiple(umlProperty.multivalued) ->
+	this.setOptional(umlProperty.lower==0) ->
+	this.setDoc(getDocumentationText(umlProperty)) ->
+	this;
+
+private Boolean hasComplexType (Property umlProperty) :
+	Class.isInstance(umlProperty.type);
+
+//=============================================================================
+// Helper functions.
+//=============================================================================
+
+/**
+ * Selects all outgoing navigable association ends of a class.
+ */
+List[Property] getAssociationEnds (Class umlClass) :
+	umlClass.associations.ownedEnds.select(e|e.navigable && e.type!=umlClass);
+
+List[Property] getAttributesAndAssociationEnds (Class umlClass) :
+	umlClass.attributes.union(umlClass.getAssociationEnds()).sortBy(e|e.name);
+
+cached List[Class] allClasses (Model umlModel) :
+	convertToList(umlModel.eAllContents()).typeSelect(Class).sortBy(x|x.name);
+
+cached List[Comment] allComments (Model umlModel) :
+	convertToList(umlModel.eAllContents()).typeSelect(Comment);
+
+private cached ComplexType findComplexTypeByName (String name) :
+	let allTypes = ((List[ComplexType]) GLOBALVAR complexTypes).union(getModel().eAllContents().convertToList().typeSelect(ComplexType)) :
+	let result = allTypes.selectFirst(type|type.name==name) :
+	// ("find complex: "+ name+" : "+result).info() ->
+	(result!=null ? registerResource(result.eResource()) : null) ->
+	result
+	;
+
+List[Resource] getResourcesToInclude (Model umlModel) :
+	umlModel.eResource().resourceSet.resources
+		.reject(r|r==umlModel.eResource())
+		.reject(r|{"XSDPrimitiveTypes.uml","Standard.profile.uml","Ecore.profile.uml"}.contains(r.URI.lastSegment()));
+
+Model getModel () : getGlobalVar("model");
+

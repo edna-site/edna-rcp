@@ -1,0 +1,69 @@
+import org::eclipse::xsd;
+
+//=============================================================================
+// Declaration of Java Extensions
+//=============================================================================
+
+/**
+ * The convertToList() functions are a workaround for accessing the eAllContents
+ * operation with the JavaBeansMetaModel.
+ */
+List[org::eclipse::emf::ecore::EObject] convertToList (List col) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.toList (java.util.List);
+
+List[org::eclipse::emf::ecore::EObject] convertToList (org::eclipse::emf::common::util::TreeIterator col) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.toList (java.util.List);
+
+Void resolveAll (org::eclipse::emf::ecore::resource::Resource res) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.resolveAll(org.eclipse.emf.ecore.resource.Resource);
+
+cached Void registerResource (org::eclipse::emf::ecore::resource::Resource res) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.registerResource (org.eclipse.emf.ecore.resource.Resource);
+
+
+List[org::eclipse::uml2::uml::PrimitiveType] getPrimitiveTypes () :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.getXsdPrimitiveTypes ();
+
+List[org::edna::datamodel::datamodel::ComplexType] getComplexTypes () :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.getComplexTypes ();
+
+
+/**
+ * Retrieves the documentation text for an element. Returns null if the element
+ * has no documentation.
+ */
+String getDocumentationText (org::eclipse::uml2::uml::Element elem) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.getDocumentationText (org.eclipse.uml2.uml.Element);
+String getDocumentationText (org::eclipse::xsd::XSDAnnotation annotation) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.getDocumentationText (org.eclipse.xsd.XSDAnnotation);
+String getDocumentationText (Void nullValue) : null;
+
+
+// XSD specific functions
+Void setQNamePrefix (XSDSchema schema, String prefix, String namespace) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.setQNamePrefix (org.eclipse.xsd.XSDSchema, java.lang.String, java.lang.String);
+
+XSDSimpleTypeDefinition resolvePrimitiveTypeDefinition (XSDSchema schema, String primitiveTypeName) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.resolvePrimitiveTypeDefinition (org.eclipse.xsd.XSDSchema, java.lang.String);
+
+cached XSDAnnotation createDocumentation (XSDElementDeclaration elementDeclaration, String documentation) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.createDocumentation (org.eclipse.xsd.XSDElementDeclaration, java.lang.String);
+
+cached XSDAnnotation createDocumentation (XSDElementDeclaration elementDeclaration, org::eclipse::uml2::uml::Element umlElement) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.createDocumentation (org.eclipse.xsd.XSDElementDeclaration, org.eclipse.uml2.uml.Element);
+
+XSDInclude createInclude (org::eclipse::emf::ecore::resource::Resource referringResource, org::eclipse::emf::ecore::resource::Resource res) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.createInclude (org.eclipse.emf.ecore.resource.Resource, org.eclipse.emf.ecore.resource.Resource);
+
+List[XSDSchema] allSchemas (XSDSchema s) :
+	allSchemas(s, includeUri().split(",").trim());
+
+private String includeUri () : (String) GLOBALVAR includeUri;
+
+private List[XSDSchema] allSchemas (XSDSchema s, List[String] includeUri) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.allSchemas (org.eclipse.xsd.XSDSchema, java.util.List);
+
+org::eclipse::emf::ecore::resource::ResourceSet getGlobalResourceSet () : JAVA org.eclipse.emf.mwe.utils.SingleGlobalResourceSet.get();
+
+Void attachToResource (org::eclipse::emf::ecore::EObject obj) :
+	JAVA org.edna.datamodel.transformations.util.JavaExtensions.attachToDummyResource(org.eclipse.emf.ecore.EObject);

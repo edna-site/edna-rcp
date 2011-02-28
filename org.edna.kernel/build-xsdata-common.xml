@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Build EDNA kernel common xsdata" default="final" basedir=".">
+	<property name="buildDirectory" value="${basedir}/src"/>
+	<property name="destinationDirectory" value="${basedir}/src/org/edna/kernel/xsdata"/>
+	<property name="dataBindingNameSpace" value="org.edna.kernel.xsdata" />
+	<echo message="Build directory=${buildDirectory}"/>
+	<echo message="Destination directory=${destinationDirectory}"/>
+	<echo message="Data binding name space=${dataBindingNameSpace}"/>
+	<property name="pathToXSDataCommonXSD" value="${basedir}/../edna/kernel/datamodel/XSDataCommon.xsd"/>
+	<condition property="ednaExistInWorkspace">
+		<available file="${pathToXSDataCommonXSD}"/>
+	</condition>
+	<target name="init">
+		<echo message="Deleting destination files"/>
+		<delete>
+			<fileset dir="${basedir}/src/org/edna/kernel/xsdata" includes="*.java"/>
+		</delete>
+	</target>
+	<path id="castor.class.path">
+		<pathelement location="${basedir}/lib/castor-1.3.jar"/>
+		<pathelement location="${basedir}/lib/castor-1.3-core.jar"/>
+		<pathelement location="${basedir}/lib/castor-1.3-codegen.jar"/>
+		<pathelement location="${basedir}/lib/castor-1.3-anttasks.jar"/>
+		<pathelement location="${basedir}/lib/castor-1.3-xml-schema.jar"/>
+		<pathelement location="${basedir}/lib/commons-logging-1.1.1.jar"/>
+	</path>
+	<target name="runCastor" depends="init" if="ednaExistInWorkspace">
+		<echo message="Running castor"/>
+		<taskdef name="castor-srcgen"
+			classname="org.castor.anttask.CastorCodeGenTask"
+			classpathref="castor.class.path" />
+		<castor-srcgen file="${pathToXSDataCommonXSD}"
+			todir="${buildDirectory}"
+			package="${dataBindingNameSpace}"
+			types="j2"
+			properties="${basedir}/lib/castorbuilder.properties"
+			warnings="true"
+			nodesc="true"/>
+	</target>
+	<target name="castorNotRun" depends="init" unless="ednaExistInWorkspace">
+		<echo message="ERROR! Cannot run castor because the XSD file ${pathToXSDataCommonXSD} is not present."/>
+	</target>
+	<target name="final" depends="runCastor,castorNotRun">
+	</target>
+</project>

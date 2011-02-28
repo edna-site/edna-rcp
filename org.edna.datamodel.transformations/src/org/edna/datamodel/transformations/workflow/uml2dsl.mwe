@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+      Project: The EDNA Kernel
+               http://www.edna-site.org
+
+      File: "$Id:$"
+
+      Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+                              Grenoble, France
+
+      Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
+                         Olof Svensson (svensson@esrf.fr)
+
+      This program is free software: you can redistribute it and/or modify
+      it under the terms of the GNU Lesser General Public License as published
+      by the Free Software Foundation, either version 3 of the License, or
+      (at your option) any later version.
+
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU Lesser General Public License for more details.
+
+      You should have received a copy of the GNU General Public License
+      and the GNU Lesser General Public License  along with this program.
+      If not, see <http://www.gnu.org/licenses/>.
+-->
+<workflow>
+	<property name="standalone" value="true"/>
+	<!-- comma seperated list of file folders that are scanned for .edna_datamodel files to include -->
+	<property name="includePaths" value=""/>
+
+    <!-- initializes resourcemaps, urimaps, etc. -->
+    <bean class="org.eclipse.emf.mwe.utils.StandaloneSetup">
+    	<platformUri value=".."/>
+    	<registerGeneratedEPackage value="org.eclipse.emf.ecore.EcorePackage"/>
+    </bean>
+
+	<bean id="domainmodelStandaloneSetup" class="org.edna.datamodel.DatamodelStandaloneSetup" standalone="${standalone}"/>
+    <!-- Setup UML2 support -->
+    <bean class="org.eclipse.xtend.typesystem.uml2.Setup" standardUML2Setup="${standalone}"/>
+
+	<!-- remove resources from previous run from the global resource set -->
+	<component class="org.edna.datamodel.transformations.workflow.GlobalResourceSetClearer"/>
+
+	<!-- read all DSL ComplexTypes known and store them into slot 'complexTypes' -->
+    <component class="org.edna.datamodel.transformations.workflow.ReaderExt">
+		<register idRef="domainmodelStandaloneSetup"/>
+		<load class="org.eclipse.xtext.mwe.SlotEntry">
+			<slot value="complexTypes"/>
+			<type value="ComplexType"/>
+		</load>
+		<validate class="org.eclipse.xtext.mwe.Validator$Disabled"/>
+		<includePaths value="${includePaths}"/>
+		<!-- The target file must not be loaded, since this results into scoping problems -->
+		<uriFilter class="org.edna.datamodel.transformations.workflow.TargetUriFilter" uri="${targetFile}"/>
+    </component>
+
+	<component class="org.edna.datamodel.transformations.workflow.TransformationComponent">
+		<transformation class="org.edna.datamodel.transformations.m2m.Uml2DslTransformation">
+			<sourceUri value="${modelFile}"/>
+			<targetUri value="${targetFile}"/>
+			<nsUri value="${nsUri}"/>
+		</transformation>
+	</component>
+
+</workflow>

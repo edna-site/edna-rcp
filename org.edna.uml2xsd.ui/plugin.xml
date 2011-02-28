@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.edna.uml2xsd.ui.objectContribution1"
+            nameFilter="*.uml"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.edna.uml2xsd.ui.TransformAction"
+               enablesFor="1"
+               id="org.edna.uml2xsd.ui.transformAction"
+               label="Transform to XSD"
+               menubarPath="additions"
+               tooltip="Transforms the EDNA datamodel to XSD">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

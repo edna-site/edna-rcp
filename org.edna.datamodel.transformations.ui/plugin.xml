@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.umlFile"
+            nameFilter="*.uml"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.UML2XSDTransformAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.uml2xsd"
+               label="Transform to XSD"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Transforms the EDNA UML datamodel to XSD">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.umlFile2"
+            nameFilter="*.uml"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.UML2DSLTransformAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.uml2dsl"
+               label="Transform to Datamodel Language"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Transforms the EDNA UML datamodel to Datamodel Language">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.dslFile"
+            nameFilter="*.edna_datamodel"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.DSL2UMLTransformAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.dsl2uml"
+               label="Transform to UML"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Transforms the Datamodel Language file to EDNA UML datamodel">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.dslFile2"
+            nameFilter="*.edna_datamodel"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.DSL2XSDTransformAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.dsl2xsd"
+               label="Transform to XSD"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Transforms the Datamodel Language file to XSD">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.xsdFile"
+            nameFilter="*.xsd"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.XSD2DSLTransformAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.xsd2dsl"
+               label="Transform to Datamodel Language"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Transforms the XSD schema to Datamodel Language">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

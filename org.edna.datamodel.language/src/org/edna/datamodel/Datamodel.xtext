@@ -1,0 +1,41 @@
+grammar org.edna.datamodel.Datamodel with org.eclipse.xtext.common.Terminals
+
+generate datamodel "http://www.edna.org/datamodel/Datamodel"
+
+Model:
+	("targetNamespace" targetNamespace=STRING)
+	(imports+=Import)*
+	(types+=ComplexType
+	| packages+=Package)*
+	;
+
+Import:
+	"import" importedNamespace=QualifiedNameWithWildCard;
+
+Package:
+	"package" name=ID "{"
+		(types+=ComplexType
+		| packages+=Package)*
+	"}";
+
+ComplexType:
+	"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{"
+		doc=STRING?
+		elements+=ElementDeclaration*
+	"}";
+
+ElementDeclaration:
+	name=ID ":" (ref=[ComplexType] | type=PrimitiveType) (multiple?="[]")? (optional?="optional")? (doc=STRING)?;
+
+enum PrimitiveType:
+	undefined|string|integer|boolean|float|double;
+
+// =============================================================================
+// Datatype rules
+// =============================================================================
+
+QualifiedName:
+  ID ('.' ID)*;
+
+QualifiedNameWithWildCard:
+  QualifiedName '.*'?;

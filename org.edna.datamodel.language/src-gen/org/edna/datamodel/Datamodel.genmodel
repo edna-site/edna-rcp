@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.edna.datamodel.language/src-gen"
+    editDirectory="/org.edna.datamodel.language.edit/src" editorDirectory="/org.edna.datamodel.language.editor/src"
+    modelPluginID="org.edna.datamodel.language" forceOverwrite="true" modelName="Datamodel"
+    updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.edna.datamodel.language.edit"
+    editorPluginID="org.edna.datamodel.language.editor">
+  <genPackages prefix="Datamodel" basePackage="org.edna.datamodel" disposableProviderFactory="true"
+      ecorePackage="Datamodel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Datamodel.ecore#//PrimitiveType">
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/undefined"/>
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/string"/>
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/integer"/>
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/boolean"/>
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/float"/>
+      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/double"/>
+    </genEnums>
+    <genClasses ecoreClass="Datamodel.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Model/targetNamespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/packages"/>
+    </genClasses>
+    <genClasses ecoreClass="Datamodel.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Import/importedNamespace"/>
+    </genClasses>
+    <genClasses ecoreClass="Datamodel.ecore#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Package/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Package/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Package/packages"/>
+    </genClasses>
+    <genClasses ecoreClass="Datamodel.ecore#//ComplexType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ComplexType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ComplexType/baseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ComplexType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ComplexType/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Datamodel.ecore#//ElementDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ElementDeclaration/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/multiple"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/optional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/doc"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

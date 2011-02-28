@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="EDNA Kernel"
+            id="org.edna_site.eclipse.kernel">
+      </category>
+      <view
+            name="Test Launcher"
+            icon="icons/sample.gif"
+            category="org.edna_site.eclipse.kernel"
+            class="org.edna.kernel.views.TestLauncherView"
+            id="org.edna_site.eclipse.kernel.views.TestLauncherView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="org.edna_site.eclipse.kernel.views.TestLauncherView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="EDNA"
+            class="org.edna.kernel.preferences.LauncherPreferencePage"
+            id="org.edna_site.eclipse.kernel.preferences.LauncherPreferencePage"
+            name="EDNA Launcher">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.edna.kernel.preferences.LauncherPreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
