@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.mwe.core.WorkflowContext;
 import org.eclipse.emf.mwe.core.issues.Issues;
@@ -66,9 +65,6 @@ public class ReaderExt extends Reader {
 	@Override
 	protected void checkConfigurationInternal(Issues issues) {
 		checkRequiredConfigProperty("resourceSetSlot", resourceSetSlot, issues);
-		for (URI path : EcorePlugin.getPlatformResourceMap().values()) {
-			addPath(path.toFileString());
-		}
 		if (includePaths != null && !"".equals(includePaths)) {
 			for (String path : includePaths.split(",")) {
 				addPath(path.trim());
