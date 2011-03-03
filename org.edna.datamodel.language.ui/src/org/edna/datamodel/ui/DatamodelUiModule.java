@@ -5,7 +5,6 @@ package org.edna.datamodel.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.resource.containers.IAllContainersState.Provider;
-import org.edna.datamodel.ui.scoping.ExtendedContainerStateProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
