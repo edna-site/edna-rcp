@@ -113,6 +113,28 @@
                tooltip="Transforms the XSD schema to Datamodel Language">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.edna.datamodel.transformations.objectContribution.xsdFile"
+            nameFilter="*.xsd"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+         	label="EDNA"
+         	path="additions"
+         	id="EDNA.actions">
+            <separator
+                  name="groupEDNA">
+            </separator>
+         </menu>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.XSDGenerateDatabindingsAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.xsd_generateds"
+               label="Generate Data Bindings"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Generate Data Binding Python classes">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>
