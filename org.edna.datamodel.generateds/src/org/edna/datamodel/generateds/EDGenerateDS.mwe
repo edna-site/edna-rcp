@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<--
+/*
+ *    Project: The EDNA Kernel
+ *             http://www.edna-site.org
+ *
+ *    File: "$Id:$"
+ *
+ *    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+ *                            Grenoble, France
+ *
+ *    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
+ *                       Olof Svensson (svensson@esrf.fr)
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Lesser General Public License as published
+ *    by the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Lesser General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    and the GNU Lesser General Public License  along with this program.
+ *    If not, see <http://www.gnu.org/licenses/>.
+ */
+-->
+<workflow>
+	<property name="model" />
+	<property name="targetDir"/>
+	<property name="targetFile"/>
+	<property name="standalone" value="true"/>
+
+	<!-- set up EMF for standalone execution -->
+	<bean class="org.eclipse.emf.mwe.utils.StandaloneSetup">
+		<platformUri value=".."/>
+	</bean>
+
+	<!-- instantiate metamodel -->
+	<bean id="mm_emf" class="org.eclipse.xtend.typesystem.xsd.XSDMetaModel">
+		<schemaFile value="http://www.w3.org/2001/XMLSchema.xsd"/>
+	</bean>
+
+	<!-- load model and store it in slot 'model' -->
+	<component class="org.eclipse.xtend.typesystem.xsd.XMLReader">
+		<uri value="${model}" />
+		<modelSlot value="model" />
+		<metaModel idRef="mm_emf"/>
+	</component>
+
+	<!--  generate code -->
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel idRef="mm_emf"/>
+		<globalVarDef name="targetFile" value="'${targetFile}'"/>
+		<expand
+			value="org::edna::datamodel::generateds::EDGenerateDS::main FOR model" />
+		<outlet path="${targetDir}" />
+	</component>
+</workflow>
