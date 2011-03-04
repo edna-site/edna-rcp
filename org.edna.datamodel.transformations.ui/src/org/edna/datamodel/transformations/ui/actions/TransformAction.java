@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -41,6 +42,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.mwe.core.monitor.ProgressMonitorAdapter;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -94,6 +96,15 @@ public abstract class TransformAction extends ActionDelegate implements IObjectA
 					WorkflowRunnerAdapter wfRunner = new WorkflowRunnerAdapter();
 					HashMap<String, String> args = new HashMap<String, String>();
 					configureArguments(args);
+
+					// register all open projects in the PlatformResorceMap. This
+					// will be used later to map file URIs back to platform URIs and enables
+					// relative path resolution
+					for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+						if (p.isOpen()) {
+							EcorePlugin.getPlatformResourceMap().put(p.getName(), URI.createFileURI(p.getLocation().toString()));
+						}
+ 					}
 
 					boolean executionResult = wfRunner.run(getWorkflowFile(), new ProgressMonitorAdapter(monitor), args, null);
 					if (executionResult == true) {
