@@ -28,7 +28,7 @@
 <workflow>
 	<property name="standalone" value="true"/>
     <!-- initializes resourcemaps, urimaps, etc. -->
-    <bean class="org.eclipse.emf.mwe.utils.StandaloneSetup">
+    <bean class="org.edna.datamodel.transformations.workflow.StandaloneSetup">
     	<platformUri value=".."/>
     	<!-- Set up XSD Infoset support -->
     	<registerGeneratedEPackage value="org.eclipse.xsd.XSDPackage"/>

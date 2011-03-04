@@ -31,7 +31,7 @@
 	<property name="includePaths" value=""/>
 
     <!-- initializes resourcemaps, urimaps, etc. -->
-    <bean class="org.eclipse.emf.mwe.utils.StandaloneSetup">
+    <bean class="org.edna.datamodel.transformations.workflow.StandaloneSetup">
     	<platformUri value=".."/>
     	<registerGeneratedEPackage value="org.eclipse.emf.ecore.EcorePackage"/>
     </bean>
