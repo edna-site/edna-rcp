@@ -145,6 +145,7 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 		args.put("standalone", "false");
 		args.put("model", fileURI.toString());
 		args.put("targetFile", targetFile.lastSegment());
+		// TODO: Detect whether a "plugins" directoy exists in file.getLocation().toFile().getParent().getParent(); if so use that one as target dir
 		args.put("targetDir", file.getLocation().toFile().getParent());
 
 	}
