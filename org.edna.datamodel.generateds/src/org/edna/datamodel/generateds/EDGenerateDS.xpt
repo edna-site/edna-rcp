@@ -1260,7 +1260,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 			showIndent(outfile, level)
 			outfile.write('),\n')
 		«ELSE-»«REM»multi-valued«ENDREM»
-		outfile.write('«e.name»=[\n)
+		outfile.write('«e.name»=[\n')
 		level += 1
 		for «e.name» in self.«e.name»
 			showIndent(outfile,level)
