@@ -33,14 +33,14 @@
 
 «DEFINE main FOR xmlSchema::SchemaType»
 «FILE targetFilename()-»
+«EXPAND preamble»
 «EXPAND before»
 «EXPAND complexTypDef FOREACH complexType»
 «EXPAND after»
 «ENDFILE»
 «ENDDEFINE»
 
-«REM»Static block«ENDREM»
-«DEFINE before FOR SchemaType-»
+«DEFINE preamble FOR SchemaType-»
 #!/usr/bin/env python
 
 #
@@ -53,6 +53,11 @@ import StringIO
 from xml.dom import minidom
 from xml.dom import Node
 
+«EXPAND imports»
+«ENDDEFINE»
+
+«REM»Static block«ENDREM»
+«DEFINE before FOR SchemaType-»
 #
 # If you have installed IPython you can uncomment and use the following.
 # IPython is available from http://ipython.scipy.org/.
@@ -1310,4 +1315,10 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 			if self.«name»:
 				self.«name».export(outfile, level, name_='«name»')
 	«ENDIF-»
+«ENDDEFINE»
+
+«DEFINE imports FOR SchemaType-»
+«FOREACH include AS include-»
+from «include.schemaLocation.replaceFirst("\\.xsd", "")» import *
+«ENDFOREACH-»
 «ENDDEFINE»
