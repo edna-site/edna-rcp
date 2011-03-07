@@ -88,9 +88,7 @@ String initAssignment(Element e):
 	};
 
 String initAssignement(ComplexType ct):
-	getAllBaseDefinitions(ct, {}).reject(e|e==null).sequence.reject(e|e==null).element.addAll(
-	getAllBaseDefinitions(ct, {}).getElementsInSequence()
-	).initAssignment().toString(", ");
+	getAllBaseDefinitions(ct, {}).getElementsInSequence().initAssignment().toString(", ");
 
 String initValues(ComplexType ct):
 	getAllBaseDefinitions(ct, {}).getElementsInSequence().name.toString(", ");
