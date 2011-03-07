@@ -146,14 +146,20 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 		args.put("standalone", "false");
 		args.put("model", fileURI.toString());
 		args.put("targetFile", targetFile.lastSegment());
-		// Detect whether a "plugins" directoy exists in file.getLocation().toFile().getParent().getParent(); if so use that one as target dir
-		File pluginsDir = new File(new File(file.getLocation().toFile().getParent()).getParent(), "plugins");
-		if (pluginsDir.exists()) {
-			args.put("targetDir", pluginsDir.getAbsolutePath());
-		} else {
-			args.put("targetDir", file.getLocation().toFile().getParent());
-		}
+		args.put("targetDir", getTargetDir(file).getAbsolutePath());
+	}
 
+	private File getTargetDir (IFile sourceFile) {
+		// Detect whether a "plugins" directoy exists in file.getLocation().toFile().getParent().getParent(); if so use that one as target dir
+		File srcDir = new File(new File(sourceFile.getLocation().toFile().getParent()).getParent(), "src");
+		File pluginsDir = new File(new File(sourceFile.getLocation().toFile().getParent()).getParent(), "plugins");
+		if (srcDir.exists()) {
+			return srcDir;
+		} else if (pluginsDir.exists()) {
+			return pluginsDir;
+		} else {
+			return new File(sourceFile.getLocation().toFile().getParent());
+		}
 	}
 
 	/**
