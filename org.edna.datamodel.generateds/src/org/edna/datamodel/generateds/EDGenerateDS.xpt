@@ -1136,20 +1136,20 @@ if __name__ == '__main__':
 class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
     subclass = None
     «IF hasElementsInSequence()-»
-    def __init__(self, «initAssignement()»):
+	def __init__(self, «initAssignement()»):
     «ELSE-»
-    def __init__(self, «initAssignement()» , valueOf_=''):
+	def __init__(self, «initAssignement()» , valueOf_=''):
     «ENDIF-»
 	«IF hasExtension()-»
-        «getExtension()».__init__(self, «initValues(getComplexType(getExtension()))»)
+		«getExtension()».__init__(self, «initValues(getComplexType(getExtension()))»)
 	«ENDIF-»
  	«IF hasElementsInSequence()-»
     «FOREACH getElementsInSequence() AS e-»
     	«IF e.isCollection()-»
-    	 if «e.name» is None:
-            self.«e.name» = []
-            else:
-         self.«e.name» = «e.name»
+		if «e.name» is None:
+			self.«e.name» = []
+		else:
+			self.«e.name» = «e.name»
         «ELSE-»
         self.«e.name» = «e.name»
     	«ENDIF-»
@@ -1188,9 +1188,9 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
     «ELSE-»
         pass
     «ENDIF-»
-    def exportChildren(self, outfile, level, name_='«name»'):
+	def exportChildren(self, outfile, level, name_='«name»'):
     «IF hasExtension()-»
-        «getExtension()».exportChildren(self, outfile, level, name_)
+		«getExtension()».exportChildren(self, outfile, level, name_)
     «ELSE-»
 	     showIndent(outfile, level)
     «ENDIF-»
@@ -1272,18 +1272,18 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
     «ELSE-»
     	pass
     «ENDIF-»
-    def buildChildren(self, child_, nodeName_):
+	def buildChildren(self, child_, nodeName_):
     «IF hasElementsInSequence()-»
     «LET getElementsInSequence().first() AS e»«REM»Gesonderte Behandlung des ersten Elementes«ENDREM»«""-»
-    if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == '«e.name»':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    fval_ = float(sval_)
-                except ValueError:
-                    raise «e.valueError()»
-                self.«e.name» = fval_
+		if child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == '«e.name»':
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+				    fval_ = float(sval_)
+				except ValueError:
+				    raise «e.valueError()»
+				self.«e.name» = fval_
     «ENDLET-»
     «FOREACH getElementsInSequence().withoutFirst() AS e»«REM»Erste Elemente wurde bereits behandelt (siehe oben LET)«ENDREM»«""-»
         elif child_.nodeType == Node.ELEMENT_NODE and \
@@ -1303,10 +1303,10 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 «DEFINE exportChildren FOR Element-»
 	«IF isCollection()-»
 		for «name»_ in self.get«name.toFirstUpper()»():
-            «name»_.export(outfile, level, name_='«name»')
+			«name»_.export(outfile, level, name_='«name»')
 	«ELSE-»
-	if self.get«name.toFirstUpper()»() != None :
-            if self.«name»:
-                self.«name».export(outfile, level, name_='«name»')
+		if self.get«name.toFirstUpper()»() != None :
+			if self.«name»:
+				self.«name».export(outfile, level, name_='«name»')
 	«ENDIF-»
 «ENDDEFINE»
