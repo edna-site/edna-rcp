@@ -181,7 +181,7 @@ class _MemberSpec(object):
 #
 «ENDDEFINE»
 
-«REM»Statischer Block. Ausschließlich der besseren Lesbarkeit des main Blocks geschuldet«ENDREM»
+«REM»Static block«ENDREM»
 «DEFINE after FOR SchemaType»
 from xml.sax import handler, make_parser
 
@@ -1273,8 +1273,8 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 		pass
 	«ENDIF-»
 	def buildChildren(self, child_, nodeName_):
-	«IF hasElementsInSequence()-»
-	«LET getElementsInSequence().first() AS e»«REM»Gesonderte Behandlung des ersten Elementes«ENDREM»«""-»
+	«IF hasElementsInSequence()-»«REM»
+	«LET getElementsInSequence().first() AS e»«""-»
 		if child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == '«e.name»':
 			if child_.firstChild:
@@ -1285,10 +1285,11 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 					raise «e.valueError()»
 				self.«e.name» = fval_
 	«ENDLET-»
-	«FOREACH getElementsInSequence().withoutFirst() AS e»«REM»Erste Elemente wurde bereits behandelt (siehe oben LET)«ENDREM»«""-»
-		elif child_.nodeType == Node.ELEMENT_NODE and \
+	«ENDREM»«""-»
+	«FOREACH getElementsInSequence() AS e ITERATOR it-»
+		«it.firstIteration ? "id" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == '«e.name»':
-			obj_ = XSDataString.factory()
+			obj_ = «e.type.localPart».factory()
 			obj_.build(child_)
 			self.set«e.name.toFirstUpper()»(obj_)
 	«ENDFOREACH-»
