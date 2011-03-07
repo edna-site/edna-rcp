@@ -1310,7 +1310,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 			nodeName_ == '«e.name»':
 			obj_ = «e.type.localPart».factory()
 			obj_.build(child_)
-			self.set«e.name.toFirstUpper()»(obj_)
+			self.«IF e.isCollection()»«e.name».append«ELSE»set«e.name.toFirstUpper()»«ENDIF»(obj_)
 	«ENDFOREACH-»
 	«ELSE-»
 		if child_.nodeType == Node.TEXT_NODE:
