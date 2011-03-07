@@ -1192,7 +1192,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	«IF hasExtension()-»
 		«getExtension()».exportChildren(self, outfile, level, name_)
 	«ELSE-»
-		 showIndent(outfile, level)
+		showIndent(outfile, level)
 	«ENDIF-»
 	«EXPAND exportChildren FOREACH getElementsInSequence()-»
 
