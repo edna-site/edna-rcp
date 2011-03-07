@@ -62,15 +62,18 @@ public class TargetUriFilter implements UriFilter {
 				}
 			} else if (uri.isFile()) {
 				// For File URIs locate the respective project from the platform resource map
+				boolean uriIsFromOpenProject = false;
 				for (String projectName : EcorePlugin.getPlatformResourceMap().keySet()) {
 					URI projectUri = EcorePlugin.getPlatformResourceMap().get(projectName);
 					if (uriAsString.startsWith(projectUri.toString())) {
-						if (!EcorePlugin.getWorkspaceRoot().getProject(projectName).isOpen()) {
-							return false;
+						if (EcorePlugin.getWorkspaceRoot().getProject(projectName).isOpen()) {
+							uriIsFromOpenProject = true;
+							break;
 						}
 					}
 				}
-
+				if (!uriIsFromOpenProject)
+					return false;
 			}
 		}
 		final String sourceFileName = this.uri.lastSegment().substring(0, this.uri.lastSegment().lastIndexOf('.'));

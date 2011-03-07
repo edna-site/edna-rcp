@@ -295,9 +295,16 @@ public class Dsl2UmlTransformation extends AbstractDatamodelTransformation<org.e
 			for (String projectName : EcorePlugin.getPlatformResourceMap().keySet()) {
 				URI projectUri = EcorePlugin.getPlatformResourceMap().get(projectName);
 				// Is the .uml resource relative to the given project?
-				if (uriToLoad.toString().startsWith(projectUri.toString())) {
-					// convert to platform resource
-					uriToLoad = URI.createPlatformResourceURI("/"+projectName+uriToLoad.toString().substring(uriToLoad.toString().indexOf(projectName)+projectName.length()),true);
+				// convert to platform resource
+				if (EcorePlugin.IS_ECLIPSE_RUNNING) {
+					if (uriToLoad.toString().startsWith(projectUri.toString()) && EcorePlugin.getWorkspaceRoot().getProject(projectName).isOpen()) {
+						uriToLoad = URI.createPlatformResourceURI("/"+projectName+uriToLoad.toString().substring(uriToLoad.toString().indexOf(projectName)+projectName.length()),true);
+						break;
+					}
+				} else {
+					if (uriToLoad.toString().startsWith(projectUri.toString())) {
+						uriToLoad = URI.createPlatformResourceURI("/"+projectName+uriToLoad.toString().substring(uriToLoad.toString().indexOf(projectName)+projectName.length()),true);
+					}
 				}
 			}
 			sourceResource.getResourceSet().getResource(uriToLoad, true);
