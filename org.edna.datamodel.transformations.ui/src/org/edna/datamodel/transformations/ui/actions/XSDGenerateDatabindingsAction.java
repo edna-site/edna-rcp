@@ -26,6 +26,7 @@
  */
 package org.edna.datamodel.transformations.ui.actions;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -101,7 +102,7 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 						Activator.getDefault().getLog()
 								.log(new Status(IStatus.OK, Activator.PLUGIN_ID, message));
 						// refresh the folder containing the UML and XSD model
-						file.getParent().refreshLocal(IResource.DEPTH_ONE, null);
+						file.getParent().getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 						return Status.OK_STATUS;
 					} else {
 						final String message = "Transformation of " + file.getName() + " failed.";
@@ -145,8 +146,13 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 		args.put("standalone", "false");
 		args.put("model", fileURI.toString());
 		args.put("targetFile", targetFile.lastSegment());
-		// TODO: Detect whether a "plugins" directoy exists in file.getLocation().toFile().getParent().getParent(); if so use that one as target dir
-		args.put("targetDir", file.getLocation().toFile().getParent());
+		// Detect whether a "plugins" directoy exists in file.getLocation().toFile().getParent().getParent(); if so use that one as target dir
+		File pluginsDir = new File(new File(file.getLocation().toFile().getParent()).getParent(), "plugins");
+		if (pluginsDir.exists()) {
+			args.put("targetDir", pluginsDir.getAbsolutePath());
+		} else {
+			args.put("targetDir", file.getLocation().toFile().getParent());
+		}
 
 	}
 
