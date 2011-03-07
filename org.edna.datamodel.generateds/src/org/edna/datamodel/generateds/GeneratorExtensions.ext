@@ -26,7 +26,6 @@
  */
 import xmlSchema;
 
-
 /**
  * The name of the target file.
  */
@@ -57,11 +56,13 @@ Boolean hasElementsInSequence(ComplexType ct):
 List[Element] getElementsInSequence(Void v): {};
 List[Element] getElementsInSequence(ComplexType ct):
 	ct.complexContent == null ?
-		{}
+		(ct.sequence!=null ? ct.sequence.element : {})
 	:
 	(
 		ct.complexContent.^extension == null ?
+		(
 			{}
+		)
 		:
 			(
 			ct.complexContent.^extension.sequence == null ?
