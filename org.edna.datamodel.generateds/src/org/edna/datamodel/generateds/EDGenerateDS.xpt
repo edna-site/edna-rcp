@@ -1287,7 +1287,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	«ENDLET-»
 	«ENDREM»«""-»
 	«FOREACH getElementsInSequence() AS e ITERATOR it-»
-		«it.firstIteration ? "id" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
+		«it.firstIteration ? "if" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == '«e.name»':
 			obj_ = «e.type.localPart».factory()
 			obj_.build(child_)
