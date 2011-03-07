@@ -1250,14 +1250,28 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	def exportLiteralChildren(self, outfile, level, name_):
 		showIndent(outfile, level)
 		«IF hasSequence()-»
+		«FOREACH getElementsInSequence() AS e-»
+		«IF e.maxOccurs==1-»
 		outfile.write('value=%e,\n' % self.getValue())
-		«FOREACH getElementsInSequence().select(e|e.minOccurs == 0) AS e-»
 		if self.«e.name»:
 			showIndent(outfile, level)
 			outfile.write('unit=«e.type.localPart»(\n')
 			self.«e.name».exportLiteral(outfile, level, name_='unit')
 			showIndent(outfile, level)
 			outfile.write('),\n')
+		«ELSE-»«REM»multi-valued«ENDREM»
+		outfile.write('«e.name»=[\n)
+		level += 1
+		for «e.name» in self.«e.name»
+			showIndent(outfile,level)
+			outfile.write('«e.type.localPart»(\n')
+			«e.name».exportLiteral(outfile, level, name_='«e.name»')
+			showIndent(outfile,level)
+			outfile.write(')\n')
+		level -= 1
+		showIndent(outfile,level)
+		outfile.write('],\n')
+		«ENDIF-»
 		«ENDFOREACH-»
 		«ELSE-»
 		outfile.write('valueOf_ = "%s",\n' % (self.valueOf_,))
