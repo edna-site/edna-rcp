@@ -1258,6 +1258,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 			showIndent(outfile, level)
 			outfile.write('),\n')
 		«ELSE-»«REM»multi-valued«ENDREM»
+		showIndent(outfile, level)
 		outfile.write('«e.name»=[\n')
 		level += 1
 		for «e.name» in self.«e.name»:
@@ -1265,7 +1266,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 			outfile.write('«e.type.localPart»(\n')
 			«e.name».exportLiteral(outfile, level, name_='«e.name»')
 			showIndent(outfile,level)
-			outfile.write(')\n')
+			outfile.write('),\n')
 		level -= 1
 		showIndent(outfile,level)
 		outfile.write('],\n')
