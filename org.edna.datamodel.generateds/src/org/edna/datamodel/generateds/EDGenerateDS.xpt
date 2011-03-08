@@ -1143,7 +1143,7 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	«IF hasElementsInSequence()-»
 	def __init__(self, «initAssignement()»):
 	«ELSE-»
-	def __init__(self, «initAssignement()» , valueOf_=''):
+	def __init__(self, valueOf_=''):
 	«ENDIF-»
 	«IF hasExtension()-»
 		«getExtension()».__init__(self, «initValues(getComplexType(getExtension()))»)
