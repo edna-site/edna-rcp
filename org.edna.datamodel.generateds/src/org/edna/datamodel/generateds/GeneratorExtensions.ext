@@ -26,6 +26,7 @@
  */
 import xmlSchema;
 
+extension org::eclipse::xtend::util::stdlib::globalvar;
 /**
  * The name of the target file.
  */
@@ -33,16 +34,21 @@ String targetFilename () : GLOBALVAR targetFile;
 
 String currentTime () : JAVA org.edna.datamodel.generateds.JavaExtensions.getTimestamp ();
 
+SchemaType setSchema (SchemaType schema) : storeGlobalVar("schema", schema);
+SchemaType getSchema () : getGlobalVar("schema");
+
 /**
  * Returns true if a type has an extension element
  */
 Boolean hasExtension(ComplexType ct):
 	ct.complexContent.^extension != null;
 
+/**
+ * Returns the name of the extended base type
+ */
 String getExtension(ComplexType ct):
 	ct.complexContent.^extension.base.localPart;
 
-//Verhalten wann welche Variante der Sequenz abgefragt werden kann, ist noch nicht klar.
 Boolean hasSequence(ComplexType ct):
 	ct.complexContent.^extension.sequence != null;
 Boolean hasSequenceShort(ComplexType ct):
@@ -53,7 +59,7 @@ Boolean hasElementsInSequence(ComplexType ct):
 	||
 	hasSequenceShort(ct) && !ct.sequence.element.isEmpty;
 
-List[Element] getElementsInSequence(Void v): {};
+
 List[Element] getElementsInSequence(ComplexType ct):
 	ct.complexContent == null ?
 		(ct.sequence!=null ? ct.sequence.element : {})
@@ -72,6 +78,8 @@ List[Element] getElementsInSequence(ComplexType ct):
 			)
 		)
 	;
+/** If called for null pointer return empty list */
+List[Element] getElementsInSequence(Void v): {};
 
 String valueError(Element e):
 	switch (e.type.localPart) {
@@ -87,7 +95,7 @@ String initAssignment(Element e):
 		default : e.name+"=None"
 	};
 
-String initAssignement(ComplexType ct):
+String initAssignment(ComplexType ct):
 	getAllBaseDefinitions(ct, {}).getElementsInSequence().initAssignment().toString(", ");
 
 String initValues(ComplexType ct):
@@ -96,7 +104,7 @@ String initValues(ComplexType ct):
 /**
  * Returns the complete hierarchy of a type.
  * @param ct A type to start with
- * @param list The list into which ct and its base types ae inserted
+ * @param list The list into which ct and its base types are inserted
  */
 List[ComplexType] getAllBaseDefinitions(ComplexType ct, List[ComplexType] list):
 	list.contains(ct) ? list : list.add(ct) ->
@@ -109,12 +117,27 @@ List[ComplexType] getAllBaseDefinitions(ComplexType ct, List[ComplexType] list):
 ComplexType getBase(ComplexType ct):
 	getComplexType(ct, getExtension(ct));
 
-SchemaType getSchemaType(ComplexType ct):
-	(SchemaType)ct.eContainer;
+SchemaType getSchemaType(emf::EObject ctx):
+	(SchemaType)ctx.eRootContainer;
 
-//TODO: Aufbohren, sodass ggf. auch in anderen Schama gesucht wird
-ComplexType getComplexType(ComplexType ct, String name):
-	ct.getSchemaType().complexType.selectFirst(e|e.name == name);
+ComplexType getComplexType(emf::EObject ctx, String name):
+	ctx.getSchemaType().complexType.selectFirst(e|e.name == name);
 
-Boolean isCollection(Element e):
+/**
+ * Returns true if the elements is multi-valued.
+ */
+Boolean isMultivalued(Element e):
 	e.maxOccurs != 1;
+// ----------------------------------------------------------------------------
+// Compute imported type names
+// ----------------------------------------------------------------------------
+
+Set[String] allBaseTypeNames (SchemaType schema) :
+	schema.complexType.select(ct|ct.hasExtension()).getBase().name.toSet();
+Set[String] allReferencedTypesFromElements (SchemaType schema) :
+	schema.complexType.getElementsInSequence().type.localPart;
+
+Boolean isPrimitive (String name) :
+	{"string","double","integer","boolean"}.contains(name);
+Boolean isInternal (String name) : getSchema().getComplexType(name)!=null;
+
