@@ -1245,18 +1245,16 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	def exportLiteralAttributes(self, outfile, level, name_):
 		pass
 		«IF hasExtension()-»
-		«name».exportLiteralAttributes(self, outfile, level, name_)
+		«getExtension()».exportLiteralAttributes(self, outfile, level, name_)
 		«ENDIF-»
 	def exportLiteralChildren(self, outfile, level, name_):
-		showIndent(outfile, level)
 		«IF hasSequence()-»
 		«FOREACH getElementsInSequence() AS e-»
 		«IF e.maxOccurs==1-»
-		outfile.write('value=%e,\n' % self.getValue())
 		if self.«e.name»:
 			showIndent(outfile, level)
-			outfile.write('unit=«e.type.localPart»(\n')
-			self.«e.name».exportLiteral(outfile, level, name_='unit')
+			outfile.write('«e.name»=«e.type.localPart»(\n')
+			self.«e.name».exportLiteral(outfile, level, name_='«e.name»')
 			showIndent(outfile, level)
 			outfile.write('),\n')
 		«ELSE-»«REM»multi-valued«ENDREM»
@@ -1315,8 +1313,10 @@ class «name»«IF hasExtension()»(«getExtension()»)«ENDIF»:
 	«ELSE-»
 		if child_.nodeType == Node.TEXT_NODE:
 			self.valueOf_ += child_.nodeValue
-		«getExtension()».buildChildren(self, child_, nodeName_)
 	«ENDIF-»
+	«IF hasExtension()-»
+		«getExtension()».buildChildren(self, child_, nodeName_)
+	«ENDIF»
 # end class «name»
 «ENDDEFINE»
 
