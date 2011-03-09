@@ -64,7 +64,7 @@ import com.google.inject.Inject;
  * Executes the transformation process.
  * @author Karsten Thoms
  */
-public class XSDGenerateDatabindingsAction extends ActionDelegate implements IObjectActionDelegate {
+public class DSLGenerateDatabindingsAction extends ActionDelegate implements IObjectActionDelegate {
 
 	protected ISelection selection;
 	protected IAction action;
@@ -136,7 +136,7 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 	}
 
 	protected URI getTargetFileUri (URI sourceFile) {
-		return URI.createURI(sourceFile.toString().replaceFirst("\\.xsd", ".py"));
+		return URI.createURI(sourceFile.toString().replaceFirst("\\.edna_datamodel", ".py"));
 	}
 
 	protected void configureArguments (HashMap<String, String> args) {
@@ -197,6 +197,6 @@ public class XSDGenerateDatabindingsAction extends ActionDelegate implements IOb
 	}
 
 	protected String getWorkflowFile() {
-		return "org/edna/datamodel/generateds/EDGenerateDS.mwe";
+		return "org/edna/datamodel/generateds/EDGenerateDS_dsl.mwe";
 	}
 }

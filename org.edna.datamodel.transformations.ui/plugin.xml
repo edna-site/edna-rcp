@@ -24,20 +24,6 @@
                menubarPath="EDNA.actions/groupEDNA"
                tooltip="Transforms the EDNA UML datamodel to XSD">
          </action>
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.edna.datamodel.transformations.objectContribution.umlFile2"
-            nameFilter="*.uml"
-            objectClass="org.eclipse.core.resources.IFile">
-         <menu
-         	label="EDNA"
-         	path="additions"
-         	id="EDNA.actions">
-            <separator
-                  name="groupEDNA">
-            </separator>
-         </menu>
          <action
                class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.UML2DSLTransformAction"
                enablesFor="1"
@@ -68,20 +54,6 @@
                menubarPath="EDNA.actions/groupEDNA"
                tooltip="Transforms the Datamodel Language file to EDNA UML datamodel">
          </action>
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.edna.datamodel.transformations.objectContribution.dslFile2"
-            nameFilter="*.edna_datamodel"
-            objectClass="org.eclipse.core.resources.IFile">
-         <menu
-         	label="EDNA"
-         	path="additions"
-         	id="EDNA.actions">
-            <separator
-                  name="groupEDNA">
-            </separator>
-         </menu>
          <action
                class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.DSL2XSDTransformAction"
                enablesFor="1"
@@ -89,6 +61,14 @@
                label="Transform to XSD"
                menubarPath="EDNA.actions/groupEDNA"
                tooltip="Transforms the Datamodel Language file to XSD">
+         </action>
+         <action
+               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.DSLGenerateDatabindingsAction"
+               enablesFor="1"
+               id="org.edna.datamodel.transformations.action.xsd_generateds_dsl"
+               label="Generate Data Bindings"
+               menubarPath="EDNA.actions/groupEDNA"
+               tooltip="Generate Data Binding Python classes">
          </action>
       </objectContribution>
       <objectContribution
@@ -112,20 +92,6 @@
                menubarPath="EDNA.actions/groupEDNA"
                tooltip="Transforms the XSD schema to Datamodel Language">
          </action>
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.edna.datamodel.transformations.objectContribution.xsdFile"
-            nameFilter="*.xsd"
-            objectClass="org.eclipse.core.resources.IFile">
-         <menu
-         	label="EDNA"
-         	path="additions"
-         	id="EDNA.actions">
-            <separator
-                  name="groupEDNA">
-            </separator>
-         </menu>
          <action
                class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.XSDGenerateDatabindingsAction"
                enablesFor="1"
