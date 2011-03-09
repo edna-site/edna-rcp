@@ -1197,7 +1197,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF hasExtension()-»
 		«baseType.name».exportChildren(self, outfile, level, name_)
 	«ELSE-»
-		showIndent(outfile, level)
+		pass
 	«ENDIF-»
 	«EXPAND exportChildren FOREACH elements-»
 
