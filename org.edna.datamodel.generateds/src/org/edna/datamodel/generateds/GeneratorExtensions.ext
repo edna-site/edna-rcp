@@ -24,70 +24,28 @@
  *    and the GNU Lesser General Public License  along with this program.
  *    If not, see <http://www.gnu.org/licenses/>.
  */
-import xmlSchema;
+import datamodel;
 
 extension org::eclipse::xtend::util::stdlib::globalvar;
-/**
- * The name of the target file.
- */
-String targetFilename () : GLOBALVAR targetFile;
-
-String currentTime () : JAVA org.edna.datamodel.generateds.JavaExtensions.getTimestamp ();
-
-SchemaType setSchema (SchemaType schema) : storeGlobalVar("schema", schema);
-SchemaType getSchema () : getGlobalVar("schema");
 
 /**
  * Returns true if a type has an extension element
  */
 Boolean hasExtension(ComplexType ct):
-	ct.complexContent.^extension != null;
-
-/**
- * Returns the name of the extended base type
- */
-String getExtension(ComplexType ct):
-	ct.complexContent.^extension.base.localPart;
-
-Boolean hasSequence(ComplexType ct):
-	ct.complexContent.^extension.sequence != null;
-Boolean hasSequenceShort(ComplexType ct):
-	ct.sequence != null;
-
-Boolean hasElementsInSequence(ComplexType ct):
-	hasSequence(ct) && !ct.complexContent.^extension.sequence.element.isEmpty
-	||
-	hasSequenceShort(ct) && !ct.sequence.element.isEmpty;
+	ct.baseType != null;
 
 
-List[Element] getElementsInSequence(ComplexType ct):
-	ct.complexContent == null ?
-		(ct.sequence!=null ? ct.sequence.element : {})
-	:
-	(
-		ct.complexContent.^extension == null ?
-		(
-			{}
-		)
-		:
-			(
-			ct.complexContent.^extension.sequence == null ?
-				{}
-			:
-			ct.complexContent.^extension.sequence.element
-			)
-		)
-	;
-/** If called for null pointer return empty list */
-List[Element] getElementsInSequence(Void v): {};
+List[ElementDeclaration] getElementsInSequence(Void v): {};
+List[ElementDeclaration] getElementsInSequence(ComplexType ct):
+	ct.elements;
 
-String valueError(Element e):
-	switch (e.type.localPart) {
+String valueError(ElementDeclaration e):
+	switch (e.name) {
 		default : " ValueError('requires float (or double) -- %s' % child_.toxml())"
 	};
 
-String initAssignment(Element e):
-	switch (e.type.localPart.toLowerCase()) {
+String initAssignment(ElementDeclaration e):
+	switch (e.name.toLowerCase()) {
 		case "string" : e.name+"=''"
 		case "double" : e.name+"=0.0"
 		case "integer" : e.name+"=-1"
@@ -109,35 +67,38 @@ String initValues(ComplexType ct):
 List[ComplexType] getAllBaseDefinitions(ComplexType ct, List[ComplexType] list):
 	list.contains(ct) ? list : list.add(ct) ->
 	ct.hasExtension() ?
-		getAllBaseDefinitions(getBase(ct), list)
+		getAllBaseDefinitions(ct.baseType, list)
 	:
 		list
 	;
 
-ComplexType getBase(ComplexType ct):
-	getComplexType(ct, getExtension(ct));
-
-SchemaType getSchemaType(emf::EObject ctx):
-	(SchemaType)ctx.eRootContainer;
+Model getModel(emf::EObject ctx):
+	(Model)ctx.eRootContainer;
 
 ComplexType getComplexType(emf::EObject ctx, String name):
-	ctx.getSchemaType().complexType.selectFirst(e|e.name == name);
+	ctx.getModel().eAllContents.typeSelect(ComplexType).selectFirst(e|e.name == name);
 
+String typeName (ElementDeclaration e) :
+	e.ref!=null ? e.ref.name : e.type.toString();
+
+cached List[ComplexType] allTypes (Model m) : sortComplexTypes(m.eAllContents.typeSelect(ComplexType));
+
+cached List[ComplexType] allImportedTypes (Model m) :
+	allTypes(m).select(t|t.baseType!=null && t.baseType.eRootContainer!=m).baseType.toSet().sortBy(t|t.resourceName());
+
+//=============================================================================
+// GLOBAL VARS
+//=============================================================================
 /**
- * Returns true if the elements is multi-valued.
+ * The name of the target file.
  */
-Boolean isMultivalued(Element e):
-	e.maxOccurs != 1;
-// ----------------------------------------------------------------------------
-// Compute imported type names
-// ----------------------------------------------------------------------------
+String targetFilename () : GLOBALVAR targetFile;
 
-Set[String] allBaseTypeNames (SchemaType schema) :
-	schema.complexType.select(ct|ct.hasExtension()).getBase().name.toSet();
-Set[String] allReferencedTypesFromElements (SchemaType schema) :
-	schema.complexType.getElementsInSequence().type.localPart;
+//=============================================================================
+// JAVA EXTENSIONS
+//=============================================================================
+String currentTime () : JAVA org.edna.datamodel.generateds.JavaExtensions.getTimestamp ();
 
-Boolean isPrimitive (String name) :
-	{"string","double","integer","boolean"}.contains(name);
-Boolean isInternal (String name) : getSchema().getComplexType(name)!=null;
+String resourceName (ComplexType t) :  JAVA org.edna.datamodel.generateds.JavaExtensions.getResourceName(org.eclipse.emf.ecore.EObject);
 
+List[ComplexType] sortComplexTypes (List[ComplexType] types) :  JAVA org.edna.datamodel.generateds.JavaExtensions.sortComplexTypes(java.util.List);

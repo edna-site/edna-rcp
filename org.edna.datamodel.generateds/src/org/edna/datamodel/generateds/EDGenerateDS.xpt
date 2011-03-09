@@ -1,4 +1,4 @@
-ÇREMÈ
+Â«REMÂ»
 /*
  *    Project: The EDNA Kernel
  *             http://www.edna-site.org
@@ -25,27 +25,26 @@
  *    and the GNU Lesser General Public License  along with this program.
  *    If not, see <http://www.gnu.org/licenses/>.
  */
-ÇENDREMÈ
+Â«ENDREMÂ»
 
-ÇIMPORT xmlSchemaÈ
+Â«IMPORT datamodelÂ»
 
-ÇEXTENSION org::edna::datamodel::generateds::GeneratorExtensionsÈ
+Â«EXTENSION org::edna::datamodel::generateds::GeneratorExtensionsÂ»
 
-ÇDEFINE main FOR xmlSchema::SchemaTypeÈ
-ÇsetSchema()È
-ÇFILE targetFilename()-È
-ÇEXPAND preambleÈ
-ÇEXPAND beforeÈ
-ÇEXPAND complexTypDef FOREACH complexTypeÈ
-ÇEXPAND afterÈ
-ÇENDFILEÈ
-ÇENDDEFINEÈ
+Â«DEFINE main FOR ModelÂ»
+Â«FILE targetFilename()-Â»
+Â«EXPAND preambleÂ»
+Â«EXPAND beforeÂ»
+Â«EXPAND complexTypDef FOREACH allTypes()Â»
+Â«EXPAND afterÂ»
+Â«ENDFILEÂ»
+Â«ENDDEFINEÂ»
 
-ÇDEFINE preamble FOR SchemaType-È
+Â«DEFINE preamble FOR Model-Â»
 #!/usr/bin/env python
 
 #
-# Generated ÇcurrentTime()È by EDGenerateDS.
+# Generated Â«currentTime()Â» by EDGenerateDS.
 #
 
 import sys
@@ -54,11 +53,11 @@ import StringIO
 from xml.dom import minidom
 from xml.dom import Node
 
-ÇEXPAND importsÈ
-ÇENDDEFINEÈ
+Â«EXPAND importsÂ»
+Â«ENDDEFINEÂ»
 
-ÇREMÈStatic blockÇENDREMÈ
-ÇDEFINE before FOR SchemaType-È
+Â«REMÂ»Static blockÂ«ENDREMÂ»
+Â«DEFINE before FOR Model-Â»
 #
 # If you have installed IPython you can uncomment and use the following.
 # IPython is available from http://ipython.scipy.org/.
@@ -185,10 +184,10 @@ class _MemberSpec(object):
 #
 # Data representation classes.
 #
-ÇENDDEFINEÈ
+Â«ENDDEFINEÂ»
 
-ÇREMÈStatic blockÇENDREMÈ
-ÇDEFINE after FOR SchemaTypeÈ
+Â«REMÂ»Static blockÂ«ENDREMÂ»
+Â«DEFINE after FOR ModelÂ»
 from xml.sax import handler, make_parser
 
 class SaxStackElement:
@@ -1136,77 +1135,77 @@ if __name__ == '__main__':
 	main()
 	#import pdb
 	#pdb.run('main()')
-ÇENDDEFINEÈ
+Â«ENDDEFINEÂ»
 
-ÇDEFINE complexTypDef FOR ComplexTypeÈ
-class ÇnameÈÇIF hasExtension()È(ÇgetExtension()È)ÇENDIFÈ:
+Â«DEFINE complexTypDef FOR ComplexTypeÂ»
+class Â«nameÂ»Â«IF hasExtension()Â»(Â«baseType.nameÂ»)Â«ENDIFÂ»:
 	subclass = None
-	ÇIF hasElementsInSequence()-È
-	def __init__(self, ÇinitAssignment()È):
-	ÇELSE-È
+	Â«IF !elements.isEmpty-Â»
+	def __init__(self, Â«initAssignment()Â»):
+	Â«ELSE-Â»
 	def __init__(self, valueOf_=''):
-	ÇENDIF-È
-	ÇIF hasExtension()-È
-		ÇgetExtension()È.__init__(self, ÇinitValues(getComplexType(getExtension()))È)
-	ÇENDIF-È
-	ÇIF hasElementsInSequence()-È
-	ÇFOREACH getElementsInSequence() AS e-È
-		ÇIF e.isMultivalued()-È
-		if Çe.nameÈ is None:
-			self.Çe.nameÈ = []
+	Â«ENDIF-Â»
+	Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».__init__(self, Â«initValues(getComplexType(baseType.name))Â»)
+	Â«ENDIF-Â»
+	Â«IF !elements.isEmpty-Â»
+	Â«FOREACH elements AS e-Â»
+		Â«IF e.multiple-Â»
+		if Â«e.nameÂ» is None:
+			self.Â«e.nameÂ» = []
 		else:
-			self.Çe.nameÈ = Çe.nameÈ
-		ÇELSE-È
-		self.Çe.nameÈ = Çe.nameÈ
-		ÇENDIF-È
-	ÇENDFOREACH-È
-	ÇELSE-È
+			self.Â«e.nameÂ» = Â«e.nameÂ»
+		Â«ELSE-Â»
+		self.Â«e.nameÂ» = Â«e.nameÂ»
+		Â«ENDIF-Â»
+	Â«ENDFOREACH-Â»
+	Â«ELSE-Â»
 		self.valueOf_ = valueOf_
-	ÇENDIF-È
+	Â«ENDIF-Â»
 	def factory(*args_, **kwargs_):
-		if ÇnameÈ.subclass:
-			return ÇnameÈ.subclass(*args_, **kwargs_)
+		if Â«nameÂ».subclass:
+			return Â«nameÂ».subclass(*args_, **kwargs_)
 		else:
-			return ÇnameÈ(*args_, **kwargs_)
+			return Â«nameÂ»(*args_, **kwargs_)
 	factory = staticmethod(factory)
-	ÇIF hasElementsInSequence()-È
-	ÇFOREACH getElementsInSequence() AS e-È
-	def getÇe.name.toFirstUpper()È(self): return self.Çe.nameÈ
-	def setÇe.name.toFirstUpper()È(self, Çe.nameÈ): self.Çe.nameÈ = Çe.nameÈ
-	ÇIF e.isMultivalued()-È
-	def addÇe.name.toFirstUpper()È(self, value): self.Çe.nameÈ.append(value)
-	def insertÇe.name.toFirstUpper()È(self, index, value): self.Çe.nameÈ[index] = value
-	ÇENDIF-È
-	ÇENDFOREACH-È
-	ÇELSE-È
+	Â«IF !elements.isEmpty-Â»
+	Â«FOREACH elements AS e-Â»
+	def getÂ«e.name.toFirstUpper()Â»(self): return self.Â«e.nameÂ»
+	def setÂ«e.name.toFirstUpper()Â»(self, Â«e.nameÂ»): self.Â«e.nameÂ» = Â«e.nameÂ»
+	Â«IF e.multiple-Â»
+	def addÂ«e.name.toFirstUpper()Â»(self, value): self.Â«e.nameÂ».append(value)
+	def insertÂ«e.name.toFirstUpper()Â»(self, index, value): self.Â«e.nameÂ»[index] = value
+	Â«ENDIF-Â»
+	Â«ENDFOREACH-Â»
+	Â«ELSE-Â»
 	def getValueOf_(self): return self.valueOf_
 	def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
-	ÇENDIF-È
-	def export(self, outfile, level, name_='ÇnameÈ'):
+	Â«ENDIF-Â»
+	def export(self, outfile, level, name_='Â«nameÂ»'):
 		showIndent(outfile, level)
 		outfile.write('<%s>\n' % name_)
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write('</%s>\n' % name_)
-	def exportAttributes(self, outfile, level, name_='ÇnameÈ'):
-	ÇIF hasExtension()-È
-		ÇgetExtension()È.exportAttributes(self, outfile, level, name_='ÇnameÈ')
-	ÇELSE-È
+	def exportAttributes(self, outfile, level, name_='Â«nameÂ»'):
+	Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».exportAttributes(self, outfile, level, name_='Â«nameÂ»')
+	Â«ELSE-Â»
 		pass
-	ÇENDIF-È
-	def exportChildren(self, outfile, level, name_='ÇnameÈ'):
-	ÇIF hasExtension()-È
-		ÇgetExtension()È.exportChildren(self, outfile, level, name_)
-	ÇELSE-È
+	Â«ENDIF-Â»
+	def exportChildren(self, outfile, level, name_='Â«nameÂ»'):
+	Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».exportChildren(self, outfile, level, name_)
+	Â«ELSE-Â»
 		showIndent(outfile, level)
-	ÇENDIF-È
-	ÇEXPAND exportChildren FOREACH getElementsInSequence()-È
+	Â«ENDIF-Â»
+	Â«EXPAND exportChildren FOREACH elements-Â»
 
 	#Only to export the entire XML tree to a file stream on disk
 	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write("<?xml version=\"1.0\" ?>\n")
-		self.export( outfile, 0, name_='ÇnameÈ' )
+		self.export( outfile, 0, name_='Â«nameÂ»' )
 		outfile.close()
 
 
@@ -1214,7 +1213,7 @@ class ÇnameÈÇIF hasExtension()È(ÇgetExtension()È)ÇENDIFÈ:
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = ÇnameÈ.factory()
+		rootObj = Â«nameÂ».factory()
 		rootObj.build(rootNode)
 		return rootObj
 	parseString = staticmethod( parseString )
@@ -1224,7 +1223,7 @@ class ÇnameÈÇIF hasExtension()È(ÇgetExtension()È)ÇENDIFÈ:
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = ÇnameÈ.factory()
+		rootObj = Â«nameÂ».factory()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
@@ -1234,51 +1233,51 @@ class ÇnameÈÇIF hasExtension()È(ÇgetExtension()È)ÇENDIFÈ:
 	def marshal( self ):
 		oStreamString = StringIO.StringIO()
 		oStreamString.write('<?xml version="1.0" ?>\n')
-		self.export( oStreamString, 0, name_="ÇnameÈ" )
+		self.export( oStreamString, 0, name_="Â«nameÂ»" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
 		return oStringXML
 
-	def exportLiteral(self, outfile, level, name_='ÇnameÈ'):
+	def exportLiteral(self, outfile, level, name_='Â«nameÂ»'):
 		level += 1
 		self.exportLiteralAttributes(outfile, level, name_)
 		self.exportLiteralChildren(outfile, level, name_)
 	def exportLiteralAttributes(self, outfile, level, name_):
 		pass
-		ÇIF hasExtension()-È
-		ÇgetExtension()È.exportLiteralAttributes(self, outfile, level, name_)
-		ÇENDIF-È
+		Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».exportLiteralAttributes(self, outfile, level, name_)
+		Â«ENDIF-Â»
 	def exportLiteralChildren(self, outfile, level, name_):
-		ÇIF hasSequence()-È
-		ÇFOREACH getElementsInSequence() AS e-È
-		ÇIF e.maxOccurs==1-È
-		if self.Çe.nameÈ:
+		Â«IF !elements.isEmpty-Â»
+		Â«FOREACH elements AS e-Â»
+		Â«IF !e.multiple-Â»
+		if self.Â«e.nameÂ»:
 			showIndent(outfile, level)
-			outfile.write('Çe.nameÈ=Çe.type.localPartÈ(\n')
-			self.Çe.nameÈ.exportLiteral(outfile, level, name_='Çe.nameÈ')
+			outfile.write('Â«e.nameÂ»=Â«e.typeName()Â»(\n')
+			self.Â«e.nameÂ».exportLiteral(outfile, level, name_='Â«e.nameÂ»')
 			showIndent(outfile, level)
 			outfile.write('),\n')
-		ÇELSE-ÈÇREMÈmulti-valuedÇENDREMÈ
+		Â«ELSE-Â»Â«REMÂ»multi-valuedÂ«ENDREMÂ»
 		showIndent(outfile, level)
-		outfile.write('Çe.nameÈ=[\n')
+		outfile.write('Â«e.nameÂ»=[\n')
 		level += 1
-		for Çe.nameÈ in self.Çe.nameÈ:
+		for Â«e.nameÂ» in self.Â«e.nameÂ»:
 			showIndent(outfile,level)
-			outfile.write('Çe.type.localPartÈ(\n')
-			Çe.nameÈ.exportLiteral(outfile, level, name_='Çe.nameÈ')
+			outfile.write('Â«e.typeName()Â»(\n')
+			Â«e.nameÂ».exportLiteral(outfile, level, name_='Â«e.nameÂ»')
 			showIndent(outfile,level)
 			outfile.write('),\n')
 		level -= 1
 		showIndent(outfile,level)
 		outfile.write('],\n')
-		ÇENDIF-È
-		ÇENDFOREACH-È
-		ÇELSE-È
+		Â«ENDIF-Â»
+		Â«ENDFOREACH-Â»
+		Â«ELSE-Â»
 		outfile.write('valueOf_ = "%s",\n' % (self.valueOf_,))
-		ÇENDIF-È
-		ÇIF hasExtension()-È
-		ÇgetExtension()È.exportLiteralChildren(self, outfile, level, name_)
-		ÇENDIF-È
+		Â«ENDIF-Â»
+		Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».exportLiteralChildren(self, outfile, level, name_)
+		Â«ENDIF-Â»
 	def build(self, node_):
 		attrs = node_.attributes
 		self.buildAttributes(attrs)
@@ -1286,43 +1285,43 @@ class ÇnameÈÇIF hasExtension()È(ÇgetExtension()È)ÇENDIFÈ:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
 	def buildAttributes(self, attrs):
-	ÇIF hasExtension()-È
-		ÇgetExtension()È.buildAttributes(self, attrs)
-	ÇELSE-È
+	Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».buildAttributes(self, attrs)
+	Â«ELSE-Â»
 		pass
-	ÇENDIF-È
+	Â«ENDIF-Â»
 	def buildChildren(self, child_, nodeName_):
-	ÇIF hasElementsInSequence()-È
-	ÇFOREACH getElementsInSequence() AS e ITERATOR it-È
-		Çit.firstIteration ? "if" : "elif"È child_.nodeType == Node.ELEMENT_NODE and \
-			nodeName_ == 'Çe.nameÈ':
-			obj_ = Çe.type.localPartÈ.factory()
+	Â«IF !elements.isEmpty-Â»
+	Â«FOREACH elements AS e ITERATOR it-Â»
+		Â«it.firstIteration ? "if" : "elif"Â» child_.nodeType == Node.ELEMENT_NODE and \
+			nodeName_ == 'Â«e.nameÂ»':
+			obj_ = Â«e.typeName()Â».factory()
 			obj_.build(child_)
-			self.ÇIF e.isMultivalued()ÈÇe.nameÈ.appendÇELSEÈsetÇe.name.toFirstUpper()ÈÇENDIFÈ(obj_)
-	ÇENDFOREACH-È
-	ÇELSE-È
+			self.Â«IF e.multipleÂ»Â«e.nameÂ».appendÂ«ELSEÂ»setÂ«e.name.toFirstUpper()Â»Â«ENDIFÂ»(obj_)
+	Â«ENDFOREACH-Â»
+	Â«ELSE-Â»
 		if child_.nodeType == Node.TEXT_NODE:
 			self.valueOf_ += child_.nodeValue
-	ÇENDIF-È
-	ÇIF hasExtension()-È
-		ÇgetExtension()È.buildChildren(self, child_, nodeName_)
-	ÇENDIFÈ
-# end class ÇnameÈ
-ÇENDDEFINEÈ
+	Â«ENDIF-Â»
+	Â«IF hasExtension()-Â»
+		Â«baseType.nameÂ».buildChildren(self, child_, nodeName_)
+	Â«ENDIFÂ»
+# end class Â«nameÂ»
+Â«ENDDEFINEÂ»
 
-ÇDEFINE exportChildren FOR Element-È
-	ÇIF isMultivalued()-È
-		for ÇnameÈ_ in self.getÇname.toFirstUpper()È():
-			ÇnameÈ_.export(outfile, level, name_='ÇnameÈ')
-	ÇELSE-È
-		if self.getÇname.toFirstUpper()È() != None :
-			if self.ÇnameÈ:
-				self.ÇnameÈ.export(outfile, level, name_='ÇnameÈ')
-	ÇENDIF-È
-ÇENDDEFINEÈ
+Â«DEFINE exportChildren FOR ElementDeclaration-Â»
+	Â«IF multiple-Â»
+		for Â«nameÂ»_ in self.getÂ«name.toFirstUpper()Â»():
+			Â«nameÂ»_.export(outfile, level, name_='Â«nameÂ»')
+	Â«ELSE-Â»
+		if self.getÂ«name.toFirstUpper()Â»() != None :
+			if self.Â«nameÂ»:
+				self.Â«nameÂ».export(outfile, level, name_='Â«nameÂ»')
+	Â«ENDIF-Â»
+Â«ENDDEFINEÂ»
 
-ÇDEFINE imports FOR SchemaType-È
-ÇFOREACH include AS include-È
-from Çinclude.schemaLocation.replaceFirst("\\.xsd", "")È import *
-ÇENDFOREACH-È
-ÇENDDEFINEÈ
+Â«DEFINE imports FOR Model-Â»
+Â«FOREACH allImportedTypes() AS t-Â»
+from Â«t.resourceName()Â» import Â«t.nameÂ»
+Â«ENDFOREACHÂ»
+Â«ENDDEFINEÂ»

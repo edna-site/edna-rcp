@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<workflow>
+	<property name="model" />
+	<property name="targetDir"/>
+	<property name="targetFile"/>
+	<property name="standalone" value="true"/>
+
+	<!-- set up EMF for standalone execution -->
+	<bean class="org.edna.datamodel.generateds.StandaloneSetup">
+		<platformUri value=".."/>
+	</bean>
+
+	<bean id="domainmodelStandaloneSetup" class="org.edna.datamodel.DatamodelStandaloneSetup" standalone="${standalone}"/>
+
+	<!-- read all DSL ComplexTypes known and store them into slot 'complexTypes' -->
+    <component class="org.edna.datamodel.transformations.workflow.ReaderExt">
+		<register idRef="domainmodelStandaloneSetup"/>
+		<load class="org.eclipse.xtext.mwe.SlotEntry">
+			<slot value="complexTypes"/>
+			<type value="ComplexType"/>
+		</load>
+		<validate class="org.eclipse.xtext.mwe.Validator$Disabled"/>
+		<includePaths value="${includePaths}"/>
+		<!-- The target file must not be loaded, since this results into scoping problems -->
+		<uriFilter class="org.edna.datamodel.transformations.workflow.TargetUriFilter" uri="${targetFile}"/>
+    </component>
+
+    <component class="org.eclipse.emf.mwe.utils.Reader">
+    	<uri value="${model}"/>
+    	<modelSlot value="sourceModel"/>
+    </component>
+
+	<!--  generate code -->
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+		<globalVarDef name="targetFile" value="'${targetFile}'"/>
+		<expand
+			value="org::edna::datamodel::generateds::EDGenerateDS::main FOR sourceModel" />
+		<outlet path="${targetDir}" />
+		<fileEncoding value="UTF-8"/>
+	</component>
+</workflow>

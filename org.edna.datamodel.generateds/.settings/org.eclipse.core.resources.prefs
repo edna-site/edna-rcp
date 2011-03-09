@@ -1,7 +1,7 @@
-#Thu Mar 03 21:16:49 CET 2011
+#Wed Mar 09 08:54:01 CET 2011
 eclipse.preferences.version=1
 encoding//.settings/org.eclipse.xtend.shared.ui.prefs=MacRoman
 encoding//src/org/edna/datamodel/generateds/EDGenerateDS.mwe=MacRoman
-encoding//src/org/edna/datamodel/generateds/EDGenerateDS.xpt=MacRoman
+encoding//src/org/edna/datamodel/generateds/EDGenerateDS.xpt=UTF-8
 encoding//src/org/edna/datamodel/generateds/GeneratorExtensions.ext=MacRoman
 encoding/<project>=UTF-8
