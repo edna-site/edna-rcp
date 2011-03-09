@@ -29,6 +29,9 @@
 	<property name="standalone" value="true"/>
 	<!-- comma seperated list of file folders that are scanned for .edna_datamodel files to include -->
 	<property name="includePaths" value=""/>
+	<property name="targetModelSlot" value=""/>
+	<property name="nsUri" value="http://www.edna-site.org"/>
+	<property name="serializeTransformedModel" value="true"/>
 
     <!-- initializes resourcemaps, urimaps, etc. -->
     <bean class="org.edna.datamodel.transformations.workflow.StandaloneSetup">
@@ -60,6 +63,8 @@
     </component>
 
 	<component class="org.edna.datamodel.transformations.workflow.TransformationComponent">
+		<serializeTransformedModel value="${serializeTransformedModel}"/>
+		<outputSlot value="${targetModelSlot}"/>
 		<transformation class="org.edna.datamodel.transformations.m2m.Xsd2DslTransformation">
 			<sourceUri value="${modelFile}"/>
 			<targetUri value="${targetFile}"/>

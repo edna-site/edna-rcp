@@ -41,6 +41,8 @@ import org.edna.datamodel.transformations.m2m.AbstractDatamodelTransformation;
 @SuppressWarnings("rawtypes")
 public class TransformationComponent extends AbstractWorkflowComponent2 {
 	private AbstractDatamodelTransformation transformation;
+	private boolean serializeTransformedModel = true;
+	private String outputSlot;
 
 	public void setTransformation(AbstractDatamodelTransformation transformation) {
 		this.transformation = transformation;
@@ -60,11 +62,23 @@ public class TransformationComponent extends AbstractWorkflowComponent2 {
 			transformation.setMonitor(monitor);
 			Resource sourceModel = transformation.loadSourceModel();
 			transformation.apply(sourceModel.getContents().get(0));
-			transformation.writeTargetResource();
+			if (serializeTransformedModel)
+				transformation.writeTargetResource();
+			if (outputSlot!=null) {
+				ctx.set(outputSlot, transformation.getTargetModel());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			issues.addError(this, e.getMessage());
 		}
 	}
 
+	public void setSerializeTransformedModel(boolean serializeTransformedModel) {
+		this.serializeTransformedModel = serializeTransformedModel;
+	}
+
+	public void setOutputSlot(String outputSlot) {
+		if (!"".equals(outputSlot))
+			this.outputSlot = outputSlot;
+	}
 }
