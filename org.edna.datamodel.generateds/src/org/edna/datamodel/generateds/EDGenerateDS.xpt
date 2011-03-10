@@ -241,6 +241,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e ITERATOR it-»
 		«it.firstIteration ? "if" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
+			# minOccurs for «e.name» is «e.optional ? 0 : 1»
 			nodeName_ == '«e.name»':
 			obj_ = «e.typeName()».factory()
 			obj_.build(child_)
