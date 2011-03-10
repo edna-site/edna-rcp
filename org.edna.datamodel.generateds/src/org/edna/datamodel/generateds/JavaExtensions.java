@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.edna.datamodel.datamodel.ComplexType;
+import org.edna.datamodel.datamodel.ElementDeclaration;
 
 public class JavaExtensions {
 	public static String getTimestamp () {
@@ -47,7 +49,8 @@ public class JavaExtensions {
 	 * Returns the name of the resource the object is contained in without the trailing file extension.
 	 */
 	public static String getResourceName (EObject obj) {
-		if (obj.eResource()==null) return "";
+		if (obj.eResource()==null)
+			return null;
 		final String resource = obj.eResource().getURI().lastSegment();
 		return resource.substring(0, resource.lastIndexOf('.'));
 	}
@@ -57,13 +60,54 @@ public class JavaExtensions {
 		Collections.sort(result, new Comparator<ComplexType>() {
 			public int compare(ComplexType t1, ComplexType t2) {
 				if (t1 == t2) return 0;
-				if (t1.getBaseType()!=null && t1.getBaseType()==t2)
+				if (t1.getBaseType()!=null && t2.getBaseType()==null)
 					return 1;
-				if (t2.getBaseType()!=null && t2.getBaseType()==t1)
+				if (t1.getBaseType()==null && t2.getBaseType()!=null)
 					return -1;
+				int hierarchy = getHierarchyLevel(t1).compareTo(getHierarchyLevel(t2));
+				if (hierarchy != 0)
+					return hierarchy;
+				if (hasReferenceTo(t1, t2))
+					return 1;
+				if (hasReferenceTo(t2, t1))
+					return -1;
+				if (getResourceName(t1) != null && !getResourceName(t1).equals(getResourceName(t2)))
+					return getResourceName(t1).compareTo(getResourceName(t2));
+
 				return t1.getName().compareTo(t2.getName());
 			}
 		});
+		for (ComplexType t : result) {
+			System.out.println(t.getName()+"\n");
+		}
 		return result;
+	}
+
+	private static boolean hasReferenceTo (ComplexType source, ComplexType target) {
+		ComplexType currentBaseType = source.getBaseType();
+		while (currentBaseType!=null && !currentBaseType.eIsProxy()) {
+			if (currentBaseType==target)
+				return true;
+			currentBaseType = currentBaseType.getBaseType();
+		}
+		for (ElementDeclaration element: source.getElements()) {
+			if (element.getRef()!=null && element.getRef()==target)
+				return true;
+		}
+		return false;
+	}
+
+	private static Integer getHierarchyLevel (ComplexType t) {
+		int level = 0;
+		ComplexType baseType = t.getBaseType();
+		while (baseType != null && !baseType.eIsProxy()) {
+			level ++;
+			baseType = baseType.getBaseType();
+		}
+		return level;
+	}
+
+	public static void resolveAllInResource (EObject ctx) {
+		EcoreUtil.resolveAll(ctx.eResource().getResourceSet());
 	}
 }

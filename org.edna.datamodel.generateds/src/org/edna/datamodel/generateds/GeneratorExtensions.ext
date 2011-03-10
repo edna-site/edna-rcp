@@ -27,6 +27,7 @@
 import datamodel;
 
 extension org::eclipse::xtend::util::stdlib::globalvar;
+extension org::eclipse::xtend::util::stdlib::io reexport;
 
 /**
  * Returns true if a type has an extension element
@@ -84,7 +85,14 @@ String typeName (ElementDeclaration e) :
 cached List[ComplexType] allTypes (Model m) : sortComplexTypes(m.eAllContents.typeSelect(ComplexType));
 
 cached List[ComplexType] allImportedTypes (Model m) :
-	allTypes(m).select(t|t.baseType!=null && t.baseType.eRootContainer!=m).baseType.toSet().sortBy(t|t.resourceName());
+	let result = ((List[ComplexType]) {}) :
+	allTypes(m).collect(t|
+		(t.baseType!=null && t.baseType.resourceName()!=null && t.baseType.eRootContainer!=m ? result.add(t.baseType) : null) ->
+		result.addAll(t.elements.select(e|e.ref!=null && e.ref.resourceName()!=null && e.ref.eRootContainer!=m).ref)
+	) ->
+	result.toSet().sortBy(t|t.resourceName());
+
+create Set[ComplexType] importedTypes () : ((List[ComplexType]) {}).toSet();
 
 //=============================================================================
 // GLOBAL VARS
@@ -93,12 +101,14 @@ cached List[ComplexType] allImportedTypes (Model m) :
  * The name of the target file.
  */
 String targetFilename () : GLOBALVAR targetFile;
-
 //=============================================================================
 // JAVA EXTENSIONS
 //=============================================================================
 String currentTime () : JAVA org.edna.datamodel.generateds.JavaExtensions.getTimestamp ();
 
-String resourceName (ComplexType t) :  JAVA org.edna.datamodel.generateds.JavaExtensions.getResourceName(org.eclipse.emf.ecore.EObject);
+String resourceName (emf::EObject t) :  JAVA org.edna.datamodel.generateds.JavaExtensions.getResourceName(org.eclipse.emf.ecore.EObject);
 
 List[ComplexType] sortComplexTypes (List[ComplexType] types) :  JAVA org.edna.datamodel.generateds.JavaExtensions.sortComplexTypes(java.util.List);
+
+Void resolveAllInResource (emf::EObject ctx) : JAVA org.edna.datamodel.generateds.JavaExtensions.resolveAllInResource (org.eclipse.emf.ecore.EObject);
+Void resolveAll (emf::EObject ctx) : JAVA org.eclipse.emf.ecore.util.EcoreUtil.resolveAll (org.eclipse.emf.ecore.EObject);
