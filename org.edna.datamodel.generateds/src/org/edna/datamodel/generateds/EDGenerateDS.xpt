@@ -241,11 +241,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e ITERATOR it-»
 		«it.firstIteration ? "if" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
-			# minOccurs for «e.name» is «e.optional ? 0 : 1»
 			nodeName_ == '«e.name»':
 			obj_ = «e.typeName()».factory()
 			obj_.build(child_)
-			self.«IF e.multiple»«e.name».append«ELSE»set«e.name.toFirstUpper()»«ENDIF»(obj_)
+			self.«IF e.multiple»«e.name».append«ELSE»set«e.name.toFirstUpper()»«ENDIF-»(obj_)
 	«ENDFOREACH-»
 	«ELSE-»
 		if child_.nodeType == Node.TEXT_NODE:
@@ -274,6 +273,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		rootNode = doc.documentElement
 		rootObj = «name».factory()
 		rootObj.build(rootNode)
+		# Check that all minOccurs are obeyed by marshalling the created object
+		oStreamString = StringIO.StringIO()
+		rootObj.export( oStreamString, 0, name_="«name»" )
+		oStreamString.close()		
 		return rootObj
 	parseString = staticmethod( parseString )
 	#Static method for parsing a file
@@ -291,10 +294,17 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF multiple-»
 		for «name»_ in self.get«name.toFirstUpper()»():
 			«name»_.export(outfile, level, name_='«name»')
+		«IF !optional-»
+		if self.get«name.toFirstUpper()»() == []:
+			print "Warning! Non-optional list of elements «name» of type «typeName()» is empty!"
+		«ENDIF-»
 	«ELSE-»
-		if self.get«name.toFirstUpper()»() != None :
-			if self.«name»:
-				self.«name».export(outfile, level, name_='«name»')
+		if self.«name»:
+			self.«name».export(outfile, level, name_='«name»')
+		«IF !optional-»
+		else:
+			print "Warning! Non-optional attribute «name» of type «typeName()» is None!"
+		«ENDIF-»
 	«ENDIF-»
 «ENDDEFINE»
 
