@@ -28,8 +28,11 @@ package org.edna.datamodel.transformations.ui;
 
 import org.eclipse.emf.mwe.core.resources.ResourceLoaderFactory;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.shared.SharedStateModule;
+import org.eclipse.xtext.util.Modules2;
 import org.edna.datamodel.DatamodelRuntimeModule;
 import org.edna.datamodel.transformations.ui.util.BundleResourceLoader;
+import org.edna.datamodel.ui.DatamodelUiModule;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Guice;
@@ -89,7 +92,7 @@ public class Activator extends AbstractUIPlugin {
 
 	private void configure() {
 		ResourceLoaderFactory.setCurrentThreadResourceLoader(new BundleResourceLoader("org.edna.datamodel.transformations"));
-		injector = Guice.createInjector(new DatamodelRuntimeModule());
+		injector = Guice.createInjector(Modules2.mixin(new DatamodelRuntimeModule(), new DatamodelUiModule(getDefault()), new SharedStateModule()));
 	}
 
 	public Injector getInjector() {

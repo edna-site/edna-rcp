@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<workflow>
+	<property name="model" />
+	<property name="targetDir"/>
+	<property name="targetFile"/>
+
+	<!--  generate code -->
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+		<globalVarDef name="targetFile" value="'${targetFile}'"/>
+		<expand
+			value="org::edna::datamodel::generateds::EDGenerateDS::main FOR sourceModel" />
+		<outlet path="${targetDir}" />
+		<fileEncoding value="UTF-8"/>
+	</component>
+</workflow>

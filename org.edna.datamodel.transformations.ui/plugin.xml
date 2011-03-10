@@ -92,14 +92,6 @@
                menubarPath="EDNA.actions/groupEDNA"
                tooltip="Transforms the XSD schema to Datamodel Language">
          </action>
-         <action
-               class="org.edna.datamodel.transformations.ui.util.ExecutableExtensionFactory:org.edna.datamodel.transformations.ui.actions.XSDGenerateDatabindingsAction"
-               enablesFor="1"
-               id="org.edna.datamodel.transformations.action.xsd_generateds"
-               label="Generate Data Bindings"
-               menubarPath="EDNA.actions/groupEDNA"
-               tooltip="Generate Data Binding Python classes">
-         </action>
       </objectContribution>
    </extension>
 

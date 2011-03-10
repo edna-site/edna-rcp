@@ -28,6 +28,7 @@ package org.edna.datamodel.transformations.ui.actions;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -42,7 +43,9 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.mwe.core.monitor.ProgressMonitorAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.mwe.core.WorkflowFacade;
+import org.eclipse.emf.mwe.core.issues.Issues;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -51,11 +54,13 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionDelegate;
+import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
+import org.edna.datamodel.datamodel.DatamodelPackage;
+import org.edna.datamodel.datamodel.Model;
 import org.edna.datamodel.transformations.ui.Activator;
-import org.edna.datamodel.transformations.ui.util.WorkflowRunnerAdapter;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -92,16 +97,33 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
-					WorkflowRunnerAdapter wfRunner = new WorkflowRunnerAdapter();
 					HashMap<String, String> args = new HashMap<String, String>();
 					configureArguments(args);
+					WorkflowFacade wfFacade = new WorkflowFacade(getWorkflowFile(), args);
 
-					boolean executionResult = wfRunner.run(getWorkflowFile(), new ProgressMonitorAdapter(monitor), args, null);
+					IResourceDescription resDesc = index.getResourceDescription(fileURI);
+					if (resDesc == null) {
+						throw new IllegalStateException("Resource "+fileURI.lastSegment()+" not found in Xtext index. Is the Xtext nature set and was the project built?");
+					}
+
+					Map<String, Object> slotContents = new HashMap<String, Object>();
+					Model model = (Model) resDesc.getExportedObjects(DatamodelPackage.Literals.MODEL).iterator().next().getEObjectOrProxy();
+
+					for (IResourceDescription rd : index.getAllResourceDescriptions()) {
+						resourceSet.createResource(rd.getURI());
+					}
+					model = (Model) EcoreUtil.resolve(model, resourceSet);
+
+					slotContents.put("sourceModel", model);
+					// boolean executionResult = wfRunner.run(getWorkflowFile(), new ProgressMonitorAdapter(monitor), args, null);
+					Issues issues = wfFacade.run(slotContents);
+					boolean executionResult = !issues.hasErrors();
+
 					if (executionResult == true) {
 						final String message = "Generated Data Bindings for " + file.getName() + " to "+targetFile.lastSegment()+".";
 						Activator.getDefault().getLog()
 								.log(new Status(IStatus.OK, Activator.PLUGIN_ID, message));
-						// refresh the folder containing the UML and XSD model
+						// refresh the folder containing changed resources
 						file.getParent().getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 						return Status.OK_STATUS;
 					} else {
@@ -197,6 +219,6 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 	}
 
 	protected String getWorkflowFile() {
-		return "org/edna/datamodel/generateds/EDGenerateDS_dsl.mwe";
+		return "org/edna/datamodel/transformations/ui/actions/EDGenerateDS_dsl_plugin.mwe";
 	}
 }
