@@ -5,10 +5,10 @@
  *
  *    File: "$Id:$"
  *
- *    Copyright (C) 2008-2009 European Synchrotron Radiation Facility
+ *    Copyright (C) 2008-2011 European Synchrotron Radiation Facility
  *                            Grenoble, France
  *
- *    Principal authors: Marie-Francoise Incardona (incardon@esrf.fr)
+ *    Principal authors: Karsten Thoms (karsten.thoms@itemis.de)
  *                       Olof Svensson (svensson@esrf.fr)
  *
  *    This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,35 @@
  *    You should have received a copy of the GNU General Public License
  *    and the GNU Lesser General Public License  along with this program.
  *    If not, see <http://www.gnu.org/licenses/>.
+ *
+ *    This file is inspired by early versions of the GenerateDS project 
+ *    http://www.rexx.com/~dkuhlman/generateDS.html
+ *     
  */
+ 
+## LICENSE
+
+## Copyright (c) 2003 Dave Kuhlman
+
+## Permission is hereby granted, free of charge, to any person obtaining
+## a copy of this software and associated documentation files (the
+## "Software"), to deal in the Software without restriction, including
+## without limitation the rights to use, copy, modify, merge, publish,
+## distribute, sublicense, and/or sell copies of the Software, and to
+## permit persons to whom the Software is furnished to do so, subject to
+## the following conditions:
+
+## The above copyright notice and this permission notice shall be
+## included in all copies or substantial portions of the Software.
+
+## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+## EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+## IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+## CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+## TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+## SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
 «ENDREM»
 
 «IMPORT datamodel»
@@ -47,8 +75,6 @@
 # Generated «currentTime()» by EDGenerateDS.
 #
 
-import sys
-import getopt
 import StringIO
 from xml.dom import minidom
 from xml.dom import Node
@@ -58,20 +84,6 @@ from xml.dom import Node
 
 «REM»Static block«ENDREM»
 «DEFINE before FOR Model-»
-#
-# If you have installed IPython you can uncomment and use the following.
-# IPython is available from http://ipython.scipy.org/.
-#
-
-## from IPython.Shell import IPShellEmbed
-## args = ''
-## ipshell = IPShellEmbed(args,
-##	   banner = 'Dropping into IPython',
-##	   exit_msg = 'Leaving Interpreter, back to program.')
-
-# Then use the following line where and when you want to drop into the
-# IPython shell:
-#	 ipshell('<some message> -- Entering ipshell.\nHit Ctrl-D to exit')
 
 #
 # Support/utility functions.
@@ -80,28 +92,6 @@ from xml.dom import Node
 def showIndent(outfile, level):
 	for idx in range(level):
 		outfile.write('    ')
-
-def quote_xml(inStr):
-	s1 = inStr
-	s1 = s1.replace('&', '&amp;')
-	s1 = s1.replace('<', '&lt;')
-	s1 = s1.replace('"', '&quot;')
-	return s1
-
-def quote_python(inStr):
-	s1 = inStr
-	if s1.find("'") == -1:
-		if s1.find('\n') == -1:
-			return "'%s'" % s1
-		else:
-			return "'''%s'''" % s1
-	else:
-		if s1.find('"') != -1:
-			s1 = s1.replace('"', '\\"')
-		if s1.find('\n') == -1:
-			return '"%s"' % s1
-		else:
-			return '"""%s"""' % s1
 
 
 class MixedContainer:
@@ -167,20 +157,6 @@ class MixedContainer:
 			showIndent(outfile, level)
 			outfile.write(')\n')
 
-
-class _MemberSpec(object):
-	def __init__(self, name='', data_type='', container=0):
-		self.name = name
-		self.data_type = data_type
-		self.container = container
-	def set_name(self, name): self.name = name
-	def get_name(self): return self.name
-	def set_data_type(self, data_type): self.data_type = data_type
-	def get_data_type(self): return self.data_type
-	def set_container(self, container): self.container = container
-	def get_container(self): return self.container
-
-
 #
 # Data representation classes.
 #
@@ -188,953 +164,9 @@ class _MemberSpec(object):
 
 «REM»Static block«ENDREM»
 «DEFINE after FOR Model»
-from xml.sax import handler, make_parser
 
-class SaxStackElement:
-	def __init__(self, name='', obj=None):
-		self.name = name
-		self.obj = obj
-		self.content = ''
+# End of data representation classes.
 
-#
-# SAX handler
-#
-class SaxXSConfigurationHandler(handler.ContentHandler):
-	def __init__(self):
-		self.stack = []
-		self.root = None
-
-	def getRoot(self):
-		return self.root
-
-	def setDocumentLocator(self, locator):
-		self.locator = locator
-
-	def showError(self, msg):
-		print '*** (showError):', msg
-		sys.exit(-1)
-
-	def startElement(self, name, attrs):
-		done = 0
-		if name == 'XSConfiguration':
-			obj = XSConfiguration.factory()
-			stackObj = SaxStackElement('XSConfiguration', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSPluginList':
-			obj = XSPluginList.factory()
-			stackObj = SaxStackElement('XSPluginList', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'shape':
-			stackObj = SaxStackElement('shape', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'size':
-			stackObj = SaxStackElement('size', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'dtype':
-			stackObj = SaxStackElement('dtype', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'data':
-			stackObj = SaxStackElement('data', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'coding':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('coding', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'md5sum':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('md5sum', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'value':
-			stackObj = SaxStackElement('value', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'keyValuePair':
-			obj = XSDataKeyValuePair.factory()
-			stackObj = SaxStackElement('keyValuePair', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'unit':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('unit', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'error':
-			obj = XSDataDouble.factory()
-			stackObj = SaxStackElement('error', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'baseDirectory':
-			obj = XSDataFile.factory()
-			stackObj = SaxStackElement('baseDirectory', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'executionTime':
-			obj = XSDataTime.factory()
-			stackObj = SaxStackElement('executionTime', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'pluginName':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('pluginName', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'startOfExecution':
-			obj = XSDataDate.factory()
-			stackObj = SaxStackElement('startOfExecution', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'systeminfo':
-			obj = XSDataSysteminfo.factory()
-			stackObj = SaxStackElement('systeminfo', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'workingDirectory':
-			obj = XSDataFile.factory()
-			stackObj = SaxStackElement('workingDirectory', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'configuration':
-			obj = XSConfiguration.factory()
-			stackObj = SaxStackElement('configuration', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'path':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('path', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'date':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('date', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'number':
-			obj = XSDataInteger.factory()
-			stackObj = SaxStackElement('number', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'key':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('key', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm11':
-			stackObj = SaxStackElement('m11', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm12':
-			stackObj = SaxStackElement('m12', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm13':
-			stackObj = SaxStackElement('m13', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm21':
-			stackObj = SaxStackElement('m21', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm22':
-			stackObj = SaxStackElement('m22', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm23':
-			stackObj = SaxStackElement('m23', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm31':
-			stackObj = SaxStackElement('m31', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm32':
-			stackObj = SaxStackElement('m32', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'm33':
-			stackObj = SaxStackElement('m33', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'debuginfo':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('debuginfo', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'level':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('level', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'text':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('text', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'type':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('typexx', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'q0':
-			stackObj = SaxStackElement('q0', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'q1':
-			stackObj = SaxStackElement('q1', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'q2':
-			stackObj = SaxStackElement('q2', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'q3':
-			stackObj = SaxStackElement('q3', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'x':
-			obj = XSDataLength.factory()
-			stackObj = SaxStackElement('x', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'y':
-			obj = XSDataLength.factory()
-			stackObj = SaxStackElement('y', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'z':
-			obj = XSDataLength.factory()
-			stackObj = SaxStackElement('z', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'executiveSummary':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('executiveSummary', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'isSuccess':
-			obj = XSDataBoolean.factory()
-			stackObj = SaxStackElement('isSuccess', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'executionInfo':
-			obj = XSDataExecutionInfo.factory()
-			stackObj = SaxStackElement('executionInfo', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'compiler':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('compiler', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'hostIP':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('hostIP', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'hostName':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('hostName', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'operatingSystem':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('operatingSystem', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'operatingSystemType':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('operatingSystemType', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'userName':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('userName', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'virtualMachine':
-			obj = XSDataString.factory()
-			stackObj = SaxStackElement('virtualMachine', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'v1':
-			stackObj = SaxStackElement('v1', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'v2':
-			stackObj = SaxStackElement('v2', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'v3':
-			stackObj = SaxStackElement('v3', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'enabled':
-			stackObj = SaxStackElement('enabled', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'name':
-			stackObj = SaxStackElement('name', None)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSOptionItem':
-			obj = XSOptionItem.factory()
-			stackObj = SaxStackElement('XSOptionItem', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSParamItem':
-			obj = XSParamItem.factory()
-			stackObj = SaxStackElement('XSParamItem', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSParamList':
-			obj = XSParamList.factory()
-			stackObj = SaxStackElement('XSParamList', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSOptionList':
-			obj = XSOptionList.factory()
-			stackObj = SaxStackElement('XSOptionList', obj)
-			self.stack.append(stackObj)
-			done = 1
-		elif name == 'XSPluginItem':
-			obj = XSPluginItem.factory()
-			stackObj = SaxStackElement('XSPluginItem', obj)
-			self.stack.append(stackObj)
-			done = 1
-		if not done:
-			self.reportError('"%s" element not allowed here.' % name)
-
-	def endElement(self, name):
-		done = 0
-		if name == 'XSConfiguration':
-			if len(self.stack) == 1:
-				self.root = self.stack[-1].obj
-				self.stack.pop()
-				done = 1
-		elif name == 'XSPluginList':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setXSPluginList(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'shape':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = int(content)
-					except:
-						self.reportError('"shape" must be integer -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.addShape(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'size':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = int(content)
-					except:
-						self.reportError('"size" must be integer -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setSize(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'dtype':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				self.stack[-2].obj.setDtype(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'data':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				self.stack[-2].obj.setData(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'coding':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setCoding(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'md5sum':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setMd5sum(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'value':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content and content in ('true', '1'):
-					content = 1
-				else:
-					content = 0
-				self.stack[-2].obj.setValue(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'keyValuePair':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.addKeyValuePair(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'unit':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setUnit(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'error':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setError(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'baseDirectory':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setBaseDirectory(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'executionTime':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setExecutionTime(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'pluginName':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setPluginName(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'startOfExecution':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setStartOfExecution(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'systeminfo':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setSysteminfo(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'workingDirectory':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setWorkingDirectory(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'configuration':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setConfiguration(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'path':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setPath(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'date':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setDate(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'number':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setNumber(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'key':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setKey(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'm11':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m11" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM11(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm12':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m12" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM12(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm13':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m13" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM13(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm21':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m21" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM21(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm22':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m22" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM22(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm23':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m23" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM23(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm31':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m31" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM31(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm32':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m32" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM32(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'm33':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"m33" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setM33(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'debuginfo':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setDebuginfo(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'level':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setLevel(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'text':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setText(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'type':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setType(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'q0':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"q0" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setQ0(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'q1':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"q1" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setQ1(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'q2':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"q2" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setQ2(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'q3':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"q3" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setQ3(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'x':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setX(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'y':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setY(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'z':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setZ(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'executiveSummary':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setExecutiveSummary(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'isSuccess':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setIsSuccess(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'executionInfo':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setExecutionInfo(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'compiler':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setCompiler(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'hostIP':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setHostIP(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'hostName':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setHostName(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'operatingSystem':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setOperatingSystem(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'operatingSystemType':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setOperatingSystemType(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'userName':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setUserName(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'virtualMachine':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setVirtualMachine(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'v1':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"v1" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setV1(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'v2':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"v2" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setV2(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'v3':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content:
-					try:
-						content = float(content)
-					except:
-						self.reportError('"v3" must be float -- content: %s' % content)
-				else:
-					content = -1
-				self.stack[-2].obj.setV3(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'enabled':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				if content and content in ('true', '1'):
-					content = 1
-				else:
-					content = 0
-				self.stack[-2].obj.setEnabled(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'name':
-			if len(self.stack) >= 2:
-				content = self.stack[-1].content
-				self.stack[-2].obj.setName(content)
-				self.stack.pop()
-				done = 1
-		elif name == 'XSOptionItem':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.addXSOptionItem(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'XSParamItem':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.addXSParamItem(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'XSParamList':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setXSParamList(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'XSOptionList':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.setXSOptionList(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		elif name == 'XSPluginItem':
-			if len(self.stack) >= 2:
-				self.stack[-2].obj.addXSPluginItem(self.stack[-1].obj)
-				self.stack.pop()
-				done = 1
-		if not done:
-			self.reportError('"%s" element not allowed here.' % name)
-
-	def characters(self, chrs, start, end):
-		if len(self.stack) > 0:
-			self.stack[-1].content += chrs[start:end]
-
-	def reportError(self, mesg):
-		locator = self.locator
-		sys.stderr.write('Doc: %s  Line: %d	 Column: %d\n' % \
-			(locator.getSystemId(), locator.getLineNumber(),
-			locator.getColumnNumber() + 1))
-		sys.stderr.write(mesg)
-		sys.stderr.write('\n')
-		sys.exit(-1)
-		#raise RuntimeError
-
-USAGE_TEXT = """
-Usage: python <Parser>.py [ -s ] <in_xml_file>
-Options:
-	-s		  Use the SAX parser, not the minidom parser.
-"""
-
-def usage():
-	print USAGE_TEXT
-	sys.exit(-1)
-
-
-#
-# SAX handler used to determine the top level element.
-#
-class SaxSelectorHandler(handler.ContentHandler):
-	def __init__(self):
-		self.topElementName = None
-	def getTopElementName(self):
-		return self.topElementName
-	def startElement(self, name, attrs):
-		self.topElementName = name
-		raise StopIteration
-
-
-def parseSelect(inFileName):
-	infile = file(inFileName, 'r')
-	topElementName = None
-	parser = make_parser()
-	documentHandler = SaxSelectorHandler()
-	parser.setContentHandler(documentHandler)
-	try:
-		try:
-			parser.parse(infile)
-		except StopIteration:
-			topElementName = documentHandler.getTopElementName()
-		if topElementName is None:
-			raise RuntimeError, 'no top level element'
-		topElementName = topElementName.replace('-', '_').replace(':', '_')
-		if topElementName not in globals():
-			raise RuntimeError, 'no class for top element: %s' % topElementName
-		topElement = globals()[topElementName]
-		infile.seek(0)
-		doc = minidom.parse(infile)
-	finally:
-		infile.close()
-	rootNode = doc.childNodes[0]
-	rootObj = topElement.factory()
-	rootObj.build(rootNode)
-	# Enable Python to collect the space used by the DOM.
-	doc = None
-	sys.stdout.write('<?xml version="1.0" ?>\n')
-	rootObj.export(sys.stdout, 0)
-	return rootObj
-
-
-def saxParse(inFileName):
-	parser = make_parser()
-	documentHandler = SaxXSConfigurationHandler()
-	parser.setDocumentHandler(documentHandler)
-	parser.parse('file:%s' % inFileName)
-	root = documentHandler.getRoot()
-	sys.stdout.write('<?xml version="1.0" ?>\n')
-	root.export(sys.stdout, 0)
-	return root
-
-
-def saxParseString(inString):
-	parser = make_parser()
-	documentHandler = SaxXSConfigurationHandler()
-	parser.setDocumentHandler(documentHandler)
-	parser.feed(inString)
-	parser.close()
-	rootObj = documentHandler.getRoot()
-	#sys.stdout.write('<?xml version="1.0" ?>\n')
-	#rootObj.export(sys.stdout, 0)
-	return rootObj
-
-
-def parse(inFileName):
-	doc = minidom.parse(inFileName)
-	rootNode = doc.documentElement
-	rootObj = XSConfiguration.factory()
-	rootObj.build(rootNode)
-	# Enable Python to collect the space used by the DOM.
-	doc = None
-	sys.stdout.write('<?xml version="1.0" ?>\n')
-	rootObj.export(sys.stdout, 0, name_="XSConfiguration")
-	return rootObj
-
-
-def parseString(inString):
-	doc = minidom.parseString(inString)
-	rootNode = doc.documentElement
-	rootObj = XSConfiguration.factory()
-	rootObj.build(rootNode)
-	# Enable Python to collect the space used by the DOM.
-	doc = None
-	sys.stdout.write('<?xml version="1.0" ?>\n')
-	rootObj.export(sys.stdout, 0, name_="XSConfiguration")
-	return rootObj
-
-
-def parseLiteral(inFileName):
-	doc = minidom.parse(inFileName)
-	rootNode = doc.documentElement
-	rootObj = XSConfiguration.factory()
-	rootObj.build(rootNode)
-	# Enable Python to collect the space used by the DOM.
-	doc = None
-	sys.stdout.write('from XSDataCommon import *\n\n')
-	sys.stdout.write('rootObj = XSConfiguration(\n')
-	rootObj.exportLiteral(sys.stdout, 0, name_="XSConfiguration")
-	sys.stdout.write(')\n')
-	return rootObj
-
-class XSDataCommon:
-	pass
-
-
-def main():
-	args = sys.argv[1:]
-	if len(args) == 2 and args[0] == '-s':
-		saxParse(args[1])
-	elif len(args) == 1:
-		parse(args[0])
-	else:
-		usage()
-
-
-if __name__ == '__main__':
-	main()
-	#import pdb
-	#pdb.run('main()')
 «ENDDEFINE»
 
 «DEFINE complexTypDef FOR ComplexType»
@@ -1171,7 +203,9 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
 	def get«e.name.toFirstUpper()»(self): return self.«e.name»
-	def set«e.name.toFirstUpper()»(self, «e.name»): self.«e.name» = «e.name»
+	def set«e.name.toFirstUpper()»(self, «e.name»):
+		# TODO: Check that  «e.name» is of type «e.typeName()»
+		self.«e.name» = «e.name»
 	«IF e.multiple-»
 	def add«e.name.toFirstUpper()»(self, value): self.«e.name».append(value)
 	def insert«e.name.toFirstUpper()»(self, index, value): self.«e.name»[index] = value
@@ -1187,12 +221,6 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
 		outfile.write('</%s>\n' % name_)
-	def exportAttributes(self, outfile, level, name_='«name»'):
-	«IF hasExtension()-»
-		«baseType.name».exportAttributes(self, outfile, level, name_='«name»')
-	«ELSE-»
-		pass
-	«ENDIF-»
 	def exportChildren(self, outfile, level, name_='«name»'):
 	«IF hasExtension()-»
 		«baseType.name».exportChildren(self, outfile, level, name_)
@@ -1200,96 +228,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		pass
 	«ENDIF-»
 	«EXPAND exportChildren FOREACH elements-»
-
-	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
-		outfile = open( _outfileName, "w" )
-		outfile.write("<?xml version=\"1.0\" ?>\n")
-		self.export( outfile, 0, name_='«name»' )
-		outfile.close()
-
-
-	#Static method for parsing a string
-	def parseString( _inString ):
-		doc = minidom.parseString(_inString)
-		rootNode = doc.documentElement
-		rootObj = «name».factory()
-		rootObj.build(rootNode)
-		return rootObj
-	parseString = staticmethod( parseString )
-
-
-	#Static method for parsing a file
-	def parseFile( _inFilePath ):
-		doc = minidom.parse(_inFilePath)
-		rootNode = doc.documentElement
-		rootObj = «name».factory()
-		rootObj.build(rootNode)
-		return rootObj
-	parseFile = staticmethod( parseFile )
-
-
-	#Method for marshalling an object
-	def marshal( self ):
-		oStreamString = StringIO.StringIO()
-		oStreamString.write('<?xml version="1.0" ?>\n')
-		self.export( oStreamString, 0, name_="«name»" )
-		oStringXML = oStreamString.getvalue()
-		oStreamString.close()
-		return oStringXML
-
-	def exportLiteral(self, outfile, level, name_='«name»'):
-		level += 1
-		self.exportLiteralAttributes(outfile, level, name_)
-		self.exportLiteralChildren(outfile, level, name_)
-	def exportLiteralAttributes(self, outfile, level, name_):
-		pass
-		«IF hasExtension()-»
-		«baseType.name».exportLiteralAttributes(self, outfile, level, name_)
-		«ENDIF-»
-	def exportLiteralChildren(self, outfile, level, name_):
-		«IF !elements.isEmpty-»
-		«FOREACH elements AS e-»
-		«IF !e.multiple-»
-		if self.«e.name»:
-			showIndent(outfile, level)
-			outfile.write('«e.name»=«e.typeName()»(\n')
-			self.«e.name».exportLiteral(outfile, level, name_='«e.name»')
-			showIndent(outfile, level)
-			outfile.write('),\n')
-		«ELSE-»«REM»multi-valued«ENDREM»
-		showIndent(outfile, level)
-		outfile.write('«e.name»=[\n')
-		level += 1
-		for «e.name» in self.«e.name»:
-			showIndent(outfile,level)
-			outfile.write('«e.typeName()»(\n')
-			«e.name».exportLiteral(outfile, level, name_='«e.name»')
-			showIndent(outfile,level)
-			outfile.write('),\n')
-		level -= 1
-		showIndent(outfile,level)
-		outfile.write('],\n')
-		«ENDIF-»
-		«ENDFOREACH-»
-		«ELSE-»
-		outfile.write('valueOf_ = "%s",\n' % (self.valueOf_,))
-		«ENDIF-»
-		«IF hasExtension()-»
-		«baseType.name».exportLiteralChildren(self, outfile, level, name_)
-		«ENDIF-»
 	def build(self, node_):
-		attrs = node_.attributes
-		self.buildAttributes(attrs)
 		for child_ in node_.childNodes:
 			nodeName_ = child_.nodeName.split(':')[-1]
 			self.buildChildren(child_, nodeName_)
-	def buildAttributes(self, attrs):
-	«IF hasExtension()-»
-		«baseType.name».buildAttributes(self, attrs)
-	«ELSE-»
-		pass
-	«ENDIF-»
 	def buildChildren(self, child_, nodeName_):
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e ITERATOR it-»
@@ -1305,7 +247,37 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«ENDIF-»
 	«IF hasExtension()-»
 		«baseType.name».buildChildren(self, child_, nodeName_)
-	«ENDIF»
+	«ENDIF-»
+	#Method for marshalling an object
+	def marshal( self ):
+		oStreamString = StringIO.StringIO()
+		oStreamString.write('<?xml version="1.0" ?>\n')
+		self.export( oStreamString, 0, name_="«name»" )
+		oStringXML = oStreamString.getvalue()
+		oStreamString.close()
+		return oStringXML
+	#Only to export the entire XML tree to a file stream on disk
+	def outputFile( self, _outfileName ):
+		outfile = open( _outfileName, "w" )
+		outfile.write("<?xml version=\"1.0\" ?>\n")
+		self.export( outfile, 0, name_='«name»' )
+		outfile.close()
+	#Static method for parsing a string
+	def parseString( _inString ):
+		doc = minidom.parseString(_inString)
+		rootNode = doc.documentElement
+		rootObj = «name».factory()
+		rootObj.build(rootNode)
+		return rootObj
+	parseString = staticmethod( parseString )
+	#Static method for parsing a file
+	def parseFile( _inFilePath ):
+		doc = minidom.parse(_inFilePath)
+		rootNode = doc.documentElement
+		rootObj = «name».factory()
+		rootObj.build(rootNode)
+		return rootObj
+	parseFile = staticmethod( parseFile )
 # end class «name»
 «ENDDEFINE»
 
