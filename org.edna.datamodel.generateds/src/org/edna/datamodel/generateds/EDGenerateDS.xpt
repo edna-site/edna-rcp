@@ -184,11 +184,11 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«FOREACH elements AS e-»
 		«IF e.multiple-»
 		if «e.name» is None:
-			self.«e.name» = []
+			self.__«e.name» = []
 		else:
-			self.«e.name» = «e.name»
+			self.__«e.name» = «e.name»
 		«ELSE-»
-		self.«e.name» = «e.name»
+		self.__«e.name» = «e.name»
 		«ENDIF-»
 	«ENDFOREACH-»
 	«ELSE-»
@@ -202,13 +202,18 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	factory = staticmethod(factory)
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
-	def get«e.name.toFirstUpper()»(self): return self.«e.name»
+	def get«e.name.toFirstUpper()»(self): return self.__«e.name»
 	def set«e.name.toFirstUpper()»(self, «e.name»):
-		# TODO: Check that  «e.name» is of type «e.typeName()»
-		self.«e.name» = «e.name»
+		# Check that «e.name» is of type «e.typeName()»
+		if «e.name».__class__.__name__ != "«e.typeName()»":
+			print "Warning! «name».set«e.name.toFirstUpper()» argument is not «e.typeName()» but %s" % «e.name».__class__.__name__
+		self.__«e.name» = «e.name»
+	def del«e.name.toFirstUpper()»(self): self.__«e.name» = None
+	# Properties
+	«e.name» = property(get«e.name.toFirstUpper()», set«e.name.toFirstUpper()», del«e.name.toFirstUpper()», "Property for «e.name»")
 	«IF e.multiple-»
-	def add«e.name.toFirstUpper()»(self, value): self.«e.name».append(value)
-	def insert«e.name.toFirstUpper()»(self, index, value): self.«e.name»[index] = value
+	def add«e.name.toFirstUpper()»(self, value): self.__«e.name».append(value)
+	def insert«e.name.toFirstUpper()»(self, index, value): self.__«e.name»[index] = value
 	«ENDIF-»
 	«ENDFOREACH-»
 	«ELSE-»
