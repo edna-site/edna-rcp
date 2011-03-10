@@ -94,6 +94,16 @@ def showIndent(outfile, level):
 		outfile.write('    ')
 
 
+def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
+	if not _strExpectedType in ["float", "double", "string", "boolean", "integer"]:
+		if _value.__class__.__name__ != _strExpectedType:
+			print "Warning! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
+
+
+def warnEmptyAttribute(_strName, _strTypeName):
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+			print "Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName)
+
 class MixedContainer:
 	# Constants for category:
 	CategoryNone = 0
@@ -175,7 +185,11 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«IF !elements.isEmpty-»
 	def __init__(self, «initAssignment()»):
 	«ELSE-»
+	«IF hasExtension()-»
+	def __init__(self, «initAssignment(getComplexType(baseType.name))», valueOf_=''):
+	«ELSE-»
 	def __init__(self, valueOf_=''):
+	«ENDIF-»
 	«ENDIF-»
 	«IF hasExtension()-»
 		«baseType.name».__init__(self, «initValues(getComplexType(baseType.name))»)
@@ -204,16 +218,22 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«FOREACH elements AS e-»
 	def get«e.name.toFirstUpper()»(self): return self.__«e.name»
 	def set«e.name.toFirstUpper()»(self, «e.name»):
-		# Check that «e.name» is of type «e.typeName()»
-		if «e.name».__class__.__name__ != "«e.typeName()»":
-			print "Warning! «name».set«e.name.toFirstUpper()» argument is not «e.typeName()» but %s" % «e.name».__class__.__name__
+		«IF e.multiple-»
+		checkType("«name»", "set«e.name.toFirstUpper()»", «e.name», "list")
+		«ELSE-»
+		checkType("«name»", "set«e.name.toFirstUpper()»", «e.name», "«e.typeName()»")
+		«ENDIF-»
 		self.__«e.name» = «e.name»
 	def del«e.name.toFirstUpper()»(self): self.__«e.name» = None
 	# Properties
 	«e.name» = property(get«e.name.toFirstUpper()», set«e.name.toFirstUpper()», del«e.name.toFirstUpper()», "Property for «e.name»")
 	«IF e.multiple-»
-	def add«e.name.toFirstUpper()»(self, value): self.__«e.name».append(value)
-	def insert«e.name.toFirstUpper()»(self, index, value): self.__«e.name»[index] = value
+	def add«e.name.toFirstUpper()»(self, value): 
+		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
+		self.__«e.name».append(value)
+	def insert«e.name.toFirstUpper()»(self, index, value): 
+		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
+		self.__«e.name»[index] = value
 	«ENDIF-»
 	«ENDFOREACH-»
 	«ELSE-»
@@ -242,9 +262,58 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«FOREACH elements AS e ITERATOR it-»
 		«it.firstIteration ? "if" : "elif"» child_.nodeType == Node.ELEMENT_NODE and \
 			nodeName_ == '«e.name»':
+			«IF e.typeName()=="boolean"-»
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				if sval_ in ('true', '1'):
+					ival_ = 1
+				elif sval_ in ('false', '0'):
+					ival_ = 0
+				else:
+					raise ValueError('requires boolean -- %s' % child_.toxml())
+				«IF e.multiple-»
+				self.__«e.name».append(ival_)
+				«ELSE-»
+				self.__«e.name» = ival_	
+				«ENDIF-»
+			«ELSEIF e.typeName()=="string"-»
+			value_ = ''
+			for text__content_ in child_.childNodes:
+				value_ += text__content_.nodeValue
+			«IF e.multiple-»
+			self.__«e.name».append(value_)
+			«ELSE-»
+			self.__«e.name» = value_	
+			«ENDIF-»
+			«ELSEIF e.typeName()=="double" || e.typeName()=="float"-»
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					fval_ = float(sval_)
+				except ValueError:
+					raise ValueError('requires float (or double) -- %s' % child_.toxml())
+				«IF e.multiple-»
+				self.__«e.name».append(fval_)
+				«ELSE-»
+				self.__«e.name» = fval_	
+				«ENDIF-»
+			«ELSEIF e.typeName()=="integer"-»
+			if child_.firstChild:
+				sval_ = child_.firstChild.nodeValue
+				try:
+					ival_ = int(sval_)
+				except ValueError:
+					raise ValueError('requires integer -- %s' % child_.toxml())
+				«IF e.multiple-»
+				self.__«e.name».append(ival_)
+				«ELSE-»
+				self.__«e.name» = ival_	
+				«ENDIF-»
+			«ELSE-»
 			obj_ = «e.typeName()».factory()
 			obj_.build(child_)
 			self.«IF e.multiple»«e.name».append«ELSE»set«e.name.toFirstUpper()»«ENDIF-»(obj_)
+			«ENDIF-»
 	«ENDFOREACH-»
 	«ELSE-»
 		if child_.nodeType == Node.TEXT_NODE:
@@ -293,17 +362,45 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 «DEFINE exportChildren FOR ElementDeclaration-»
 	«IF multiple-»
 		for «name»_ in self.get«name.toFirstUpper()»():
+			«IF typeName()=="boolean"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%d</«name»>\n' % «name»_)
+			«ELSEIF typeName()=="string"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%s</«name»>\n' % «name»_)
+			«ELSEIF typeName()=="double" || typeName()=="float"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%f</«name»>\n' % «name»_)
+			«ELSEIF typeName()=="integer"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%d</«name»>\n' % «name»_)
+			«ELSE-»
 			«name»_.export(outfile, level, name_='«name»')
+			«ENDIF-»
 		«IF !optional-»
 		if self.get«name.toFirstUpper()»() == []:
-			print "Warning! Non-optional list of elements «name» of type «typeName()» is empty!"
+			warnEmptyAttribute("«name»", "«typeName()»")
 		«ENDIF-»
 	«ELSE-»
-		if self.«name»:
+		if self.__«name»:
+			«IF typeName()=="boolean"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%d</«name»>\n' % self.__«name»)
+			«ELSEIF typeName()=="string"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%s</«name»>\n' % self.__«name»)
+			«ELSEIF typeName()=="double" || typeName()=="float"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%f</«name»>\n' % self.__«name»)
+			«ELSEIF typeName()=="integer"-»
+			showIndent(outfile, level)
+			outfile.write('<«name»>%d</«name»>\n' % self.__«name»)
+			«ELSE-»
 			self.«name».export(outfile, level, name_='«name»')
+			«ENDIF-»
 		«IF !optional-»
 		else:
-			print "Warning! Non-optional attribute «name» of type «typeName()» is None!"
+			warnEmptyAttribute("«name»", "«typeName()»")
 		«ENDIF-»
 	«ENDIF-»
 «ENDDEFINE»
