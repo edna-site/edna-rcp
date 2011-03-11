@@ -104,7 +104,9 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 
 					IResourceDescription resDesc = index.getResourceDescription(fileURI);
 					if (resDesc == null) {
-						throw new IllegalStateException("Resource "+fileURI.lastSegment()+" not found in Xtext index. Is the Xtext nature set and was the project built?");
+						final String message = "Resource "+fileURI.lastSegment()+" not found in Xtext index. Is the Xtext nature set and was the project built?";
+						Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, message));
+						return Status.CANCEL_STATUS;
 					}
 
 					Map<String, Object> slotContents = new HashMap<String, Object>();
