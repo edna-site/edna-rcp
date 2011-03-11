@@ -43,6 +43,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.mwe.core.WorkflowFacade;
 import org.eclipse.emf.mwe.core.issues.Issues;
@@ -56,7 +57,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.resource.containers.IAllContainersState;
 import org.edna.datamodel.datamodel.DatamodelPackage;
 import org.edna.datamodel.datamodel.Model;
@@ -64,6 +64,7 @@ import org.edna.datamodel.transformations.ui.Activator;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
  * Executes the transformation process.
@@ -79,7 +80,7 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 	protected IResourceDescriptions index;
 
 	@Inject
-	protected XtextResourceSet resourceSet;
+	protected Provider<ResourceSet> resourceSetProvider;
 
 	@Inject
 	protected IAllContainersState containerState;
@@ -88,7 +89,6 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 	 * @see ActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		// TODO
 		final IFile file = getFile();
 		final URI fileURI = URI.createPlatformResourceURI(file.getFullPath().toString(), false);
 		final URI targetFile = getTargetFileUri(fileURI);
@@ -96,6 +96,7 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
+				ResourceSet resourceSet = resourceSetProvider.get();
 				try {
 					HashMap<String, String> args = new HashMap<String, String>();
 					configureArguments(args);
