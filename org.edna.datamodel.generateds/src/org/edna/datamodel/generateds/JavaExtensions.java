@@ -77,9 +77,6 @@ public class JavaExtensions {
 				return t1.getName().compareTo(t2.getName());
 			}
 		});
-		for (ComplexType t : result) {
-			System.out.println(t.getName()+"\n");
-		}
 		return result;
 	}
 
