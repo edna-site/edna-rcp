@@ -4,20 +4,20 @@
 package org.edna.datamodel.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtext.resource.containers.IAllContainersState.Provider;
+import org.eclipse.xtext.resource.IContainer;
+import org.eclipse.xtext.resource.containers.StateBasedContainerManager;
 
 /**
  * Use this class to register components to be used within the IDE.
  */
-public class DatamodelUiModule extends org.edna.datamodel.ui.AbstractDatamodelUiModule {
+public class DatamodelUiModule extends
+		org.edna.datamodel.ui.AbstractDatamodelUiModule {
 	public DatamodelUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
 
-	@Override
-	public Class<? extends Provider> bindIAllContainersState$Provider() {
-//		return ExtendedContainerStateProvider.class;
-		return super.bindIAllContainersState$Provider();
+	public Class<? extends IContainer.Manager> bindIContainer$Manager() {
+		return StateBasedContainerManager.class;
 	}
 
 	@Override
