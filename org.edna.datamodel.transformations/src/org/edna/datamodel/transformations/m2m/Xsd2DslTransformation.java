@@ -153,6 +153,10 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 			target.setName(source.getName());
 			// test for extension of types
 			if (source.getBaseType()!=null && !"anyType".equals(source.getBaseType().getName())) {
+				Object _baseType = getType(source.getBaseType());
+				if (! (_baseType instanceof ComplexType)) {
+					throw new IllegalArgumentException("Base type of "+source.getName()+" is a Primitive Type, which is not supported!");
+				}
 				ComplexType baseType = (ComplexType) getType(source.getBaseType());
 				if (baseType!=null)
 				target.setBaseType(baseType);
