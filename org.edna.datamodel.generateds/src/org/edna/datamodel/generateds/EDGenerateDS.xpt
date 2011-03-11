@@ -187,13 +187,13 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	def __init__(self, «initAssignment()»):
 	«ELSE-»
 	«IF hasExtension()-»
-	def __init__(self, «initAssignment(getComplexType(baseType.name))», valueOf_=''):
+	def __init__(self, «initAssignment(baseType)», valueOf_=''):
 	«ELSE-»
 	def __init__(self, valueOf_=''):
 	«ENDIF-»
 	«ENDIF-»
 	«IF hasExtension()-»
-		«baseType.name».__init__(self, «initValues(getComplexType(baseType.name))»)
+		«baseType.name».__init__(self, «initValues(baseType)»)
 	«ENDIF-»
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
@@ -229,10 +229,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	# Properties
 	«e.name» = property(get«e.name.toFirstUpper()», set«e.name.toFirstUpper()», del«e.name.toFirstUpper()», "Property for «e.name»")
 	«IF e.multiple-»
-	def add«e.name.toFirstUpper()»(self, value): 
+	def add«e.name.toFirstUpper()»(self, value):
 		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
 		self.__«e.name».append(value)
-	def insert«e.name.toFirstUpper()»(self, index, value): 
+	def insert«e.name.toFirstUpper()»(self, index, value):
 		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
 		self.__«e.name»[index] = value
 	«ENDIF-»
@@ -275,7 +275,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 				«IF e.multiple-»
 				self.__«e.name».append(ival_)
 				«ELSE-»
-				self.__«e.name» = ival_	
+				self.__«e.name» = ival_
 				«ENDIF-»
 			«ELSEIF e.typeName()=="string"-»
 			value_ = ''
@@ -284,7 +284,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 			«IF e.multiple-»
 			self.__«e.name».append(value_)
 			«ELSE-»
-			self.__«e.name» = value_	
+			self.__«e.name» = value_
 			«ENDIF-»
 			«ELSEIF e.typeName()=="double" || e.typeName()=="float"-»
 			if child_.firstChild:
@@ -296,7 +296,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 				«IF e.multiple-»
 				self.__«e.name».append(fval_)
 				«ELSE-»
-				self.__«e.name» = fval_	
+				self.__«e.name» = fval_
 				«ENDIF-»
 			«ELSEIF e.typeName()=="integer"-»
 			if child_.firstChild:
@@ -308,7 +308,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 				«IF e.multiple-»
 				self.__«e.name».append(ival_)
 				«ELSE-»
-				self.__«e.name» = ival_	
+				self.__«e.name» = ival_
 				«ENDIF-»
 			«ELSE-»
 			obj_ = «e.typeName()».factory()
@@ -346,7 +346,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO.StringIO()
 		rootObj.export( oStreamString, 0, name_="«name»" )
-		oStreamString.close()		
+		oStreamString.close()
 		return rootObj
 	parseString = staticmethod( parseString )
 	#Static method for parsing a file

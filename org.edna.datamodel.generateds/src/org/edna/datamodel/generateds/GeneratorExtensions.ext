@@ -36,10 +36,6 @@ Boolean hasExtension(ComplexType ct):
 	ct.baseType != null;
 
 
-List[ElementDeclaration] getElementsInSequence(Void v): {};
-List[ElementDeclaration] getElementsInSequence(ComplexType ct):
-	ct.elements;
-
 String valueError(ElementDeclaration e):
 	switch (e.name) {
 		default : " ValueError('requires float (or double) -- %s' % child_.toxml())"
@@ -55,10 +51,10 @@ String initAssignment(ElementDeclaration e):
 	};
 
 String initAssignment(ComplexType ct):
-	getAllBaseDefinitions(ct, {}).getElementsInSequence().reverse().initAssignment().toString(", ");
+	getAllBaseDefinitions(ct, {}).elements.reverse().initAssignment().toString(", ");
 
 String initValues(ComplexType ct):
-	getAllBaseDefinitions(ct, {}).getElementsInSequence().reverse().name.toString(", ");
+	getAllBaseDefinitions(ct, {}).elements.reverse().name.toString(", ");
 
 /**
  * Returns the complete hierarchy of a type.
@@ -75,9 +71,6 @@ List[ComplexType] getAllBaseDefinitions(ComplexType ct, List[ComplexType] list):
 
 Model getModel(emf::EObject ctx):
 	(Model)ctx.eRootContainer;
-
-ComplexType getComplexType(emf::EObject ctx, String name):
-	ctx.getModel().eAllContents.typeSelect(ComplexType).selectFirst(e|e.name == name);
 
 String typeName (ElementDeclaration e) :
 	e.ref!=null ? e.ref.name : e.type.toString();
