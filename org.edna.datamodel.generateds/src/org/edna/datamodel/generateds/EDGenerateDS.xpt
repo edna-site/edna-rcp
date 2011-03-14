@@ -175,7 +175,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	def __init__(self, «initAssignment()»):
 	«ELSE-»
 	«IF hasExtension()-»
-	def __init__(self, «initAssignment(baseType)», valueOf_=''):
+	def __init__(self, «initAssignment(baseType)»):
 	«ELSE-»
 	def __init__(self):
 		pass
