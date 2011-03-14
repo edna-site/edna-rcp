@@ -97,7 +97,9 @@ def showIndent(outfile, level):
 def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 	if not _strExpectedType in ["float", "double", "string", "boolean", "integer"]:
 		if _value.__class__.__name__ != _strExpectedType:
-			print "Warning! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
+			strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
+			print strMessage
+			#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -151,22 +153,6 @@ class MixedContainer:
 			outfile.write('<%s>%f</%s>' % (self.name, self.value, self.name))
 		elif self.content_type == MixedContainer.TypeDouble:
 			outfile.write('<%s>%g</%s>' % (self.name, self.value, self.name))
-	def exportLiteral(self, outfile, level, name):
-		if self.category == MixedContainer.CategoryText:
-			showIndent(outfile, level)
-			outfile.write('MixedContainer(%d, %d, "%s", "%s"),\n' % \
-				(self.category, self.content_type, self.name, self.value))
-		elif self.category == MixedContainer.CategorySimple:
-			showIndent(outfile, level)
-			outfile.write('MixedContainer(%d, %d, "%s", "%s"),\n' % \
-				(self.category, self.content_type, self.name, self.value))
-		else:	 # category == MixedContainer.CategoryComplex
-			showIndent(outfile, level)
-			outfile.write('MixedContainer(%d, %d, "%s",\n' % \
-				(self.category, self.content_type, self.name,))
-			self.value.exportLiteral(outfile, level + 1)
-			showIndent(outfile, level)
-			outfile.write(')\n')
 
 #
 # Data representation classes.
@@ -182,14 +168,17 @@ class MixedContainer:
 
 «DEFINE complexTypDef FOR ComplexType»
 class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
-	subclass = None
+	«IF doc.length > 1-»
+	"""«doc»"""
+	«ENDIF-»
 	«IF !elements.isEmpty-»
 	def __init__(self, «initAssignment()»):
 	«ELSE-»
 	«IF hasExtension()-»
 	def __init__(self, «initAssignment(baseType)», valueOf_=''):
 	«ELSE-»
-	def __init__(self, valueOf_=''):
+	def __init__(self):
+		pass
 	«ENDIF-»
 	«ENDIF-»
 	«IF hasExtension()-»
@@ -206,15 +195,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		self.__«e.name» = «e.name»
 		«ENDIF-»
 	«ENDFOREACH-»
-	«ELSE-»
-		self.valueOf_ = valueOf_
 	«ENDIF-»
-	def factory(*args_, **kwargs_):
-		if «name».subclass:
-			return «name».subclass(*args_, **kwargs_)
-		else:
-			return «name»(*args_, **kwargs_)
-	factory = staticmethod(factory)
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
 	def get«e.name.toFirstUpper()»(self): return self.__«e.name»
@@ -237,9 +218,6 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		self.__«e.name»[index] = value
 	«ENDIF-»
 	«ENDFOREACH-»
-	«ELSE-»
-	def getValueOf_(self): return self.valueOf_
-	def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
 	«ENDIF-»
 	def export(self, outfile, level, name_='«name»'):
 		showIndent(outfile, level)
@@ -311,14 +289,13 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 				self.__«e.name» = ival_
 				«ENDIF-»
 			«ELSE-»
-			obj_ = «e.typeName()».factory()
+			obj_ = «e.typeName()»()
 			obj_.build(child_)
 			self.«IF e.multiple»«e.name».append«ELSE»set«e.name.toFirstUpper()»«ENDIF-»(obj_)
 			«ENDIF-»
 	«ENDFOREACH-»
 	«ELSE-»
-		if child_.nodeType == Node.TEXT_NODE:
-			self.valueOf_ += child_.nodeValue
+		pass
 	«ENDIF-»
 	«IF hasExtension()-»
 		«baseType.name».buildChildren(self, child_, nodeName_)
@@ -337,11 +314,14 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		outfile.write("<?xml version=\"1.0\" ?>\n")
 		self.export( outfile, 0, name_='«name»' )
 		outfile.close()
+	#Method for making a copy in a new instance
+	def copy( self ):
+		return «name».parseString(self.marshal())
 	#Static method for parsing a string
 	def parseString( _inString ):
 		doc = minidom.parseString(_inString)
 		rootNode = doc.documentElement
-		rootObj = «name».factory()
+		rootObj = «name»()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
 		oStreamString = StringIO.StringIO()
@@ -353,7 +333,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	def parseFile( _inFilePath ):
 		doc = minidom.parse(_inFilePath)
 		rootNode = doc.documentElement
-		rootObj = «name».factory()
+		rootObj = «name»()
 		rootObj.build(rootNode)
 		return rootObj
 	parseFile = staticmethod( parseFile )
