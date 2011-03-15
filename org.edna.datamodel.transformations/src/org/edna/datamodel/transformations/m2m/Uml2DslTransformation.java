@@ -240,7 +240,7 @@ public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.e
 		} catch (WrappedException e) {
 			if (e.getCause() instanceof XtextSerializationException) {
 				if (e.getCause().getMessage().contains("Could not serialize cross reference")) {
-					throw new RuntimeException ("Cross reference serialization problem. This indicates that the project containing a base model (e.g. XSDataCommon.edna_datamodel) is "
+					throw new RuntimeException ("Cross reference serialization problem. This indicates that the project containing a base model (e.g. XSDataCommon.edml) is "
 							+ "not referenced. Please check the project references settings.", e.getCause());
 				} else {
 					throw e;

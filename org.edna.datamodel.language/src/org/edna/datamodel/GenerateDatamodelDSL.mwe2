@@ -5,7 +5,7 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var grammarURI = "classpath:/org/edna/datamodel/Datamodel.xtext"
-var file.extensions = "edna_datamodel"
+var file.extensions = "edml"
 var projectName = "org.edna.datamodel.language"
 var runtimeProject = "../${projectName}"
 

@@ -281,17 +281,17 @@ public class Dsl2UmlTransformation extends AbstractDatamodelTransformation<org.e
 		final Resource sourceResource = super.loadSourceModel();
 		final Iterable<Resource> resources = Iterables.filter(sourceResource.getResourceSet().getResources(), new Predicate<Resource>() {
 			public boolean apply(Resource input) {
-				return !input.getURI().lastSegment().equals(sourceResource.getURI().lastSegment()) && input.getURI().lastSegment().endsWith("edna_datamodel");
+				return !input.getURI().lastSegment().equals(sourceResource.getURI().lastSegment()) && input.getURI().lastSegment().endsWith("edml");
 			}
 		});
 
-		// For each .edna_datamodel resource in the resource set put the respective .uml model resource into the
+		// For each .edml resource in the resource set put the respective .uml model resource into the
 		// ResourceSet.
 		// The given URIs will be file URIs (from PathTraverser of Reader component). It is necessary to map
 		// them to platform resources, otherwise the referenced files will have absolute paths. The can only
 		// be relative if we use platform resource URIs.
 		for (Resource r : Lists.newArrayList(resources)) {
-			URI uriToLoad = URI.createURI(r.getURI().toString().replace(".edna_datamodel", ".uml"));
+			URI uriToLoad = URI.createURI(r.getURI().toString().replace(".edml", ".uml"));
 			for (String projectName : EcorePlugin.getPlatformResourceMap().keySet()) {
 				URI projectUri = EcorePlugin.getPlatformResourceMap().get(projectName);
 				// Is the .uml resource relative to the given project?

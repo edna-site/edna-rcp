@@ -36,7 +36,7 @@
       <objectContribution
             adaptable="false"
             id="org.edna.datamodel.transformations.objectContribution.dslFile"
-            nameFilter="*.edna_datamodel"
+            nameFilter="*.edml"
             objectClass="org.eclipse.core.resources.IFile">
          <menu
          	label="EDNA"

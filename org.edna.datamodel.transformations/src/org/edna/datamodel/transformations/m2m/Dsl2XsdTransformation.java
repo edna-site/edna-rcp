@@ -249,13 +249,13 @@ public class Dsl2XsdTransformation extends AbstractDatamodelTransformation<Model
 		final Resource sourceResource = sourceModel.eResource();
 		final Iterable<Resource> resources = Iterables.filter(sourceResource.getResourceSet().getResources(), new Predicate<Resource>() {
 			public boolean apply(Resource input) {
-				return !input.getURI().lastSegment().equals(sourceResource.getURI().lastSegment()) && input.getURI().lastSegment().endsWith("edna_datamodel");
+				return !input.getURI().lastSegment().equals(sourceResource.getURI().lastSegment()) && input.getURI().lastSegment().endsWith("edml");
 			}
 		});
 
 		for (Resource r : resources) {
 			XSDInclude include = XSDFactory.eINSTANCE.createXSDInclude();
-			String path = r.getURI().lastSegment().replace(".edna_datamodel", ".xsd");
+			String path = r.getURI().lastSegment().replace(".edml", ".xsd");
 			include.setSchemaLocation(path);
 			targetModel.getContents().add(include);
 		}

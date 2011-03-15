@@ -32,7 +32,7 @@ import org.eclipse.xtext.mwe.UriFilter;
 
 /**
  * This filter is used to filter out the target model file when reading
- * .edna_datamodel files. This is necessary since the Index should not
+ * .edml files. This is necessary since the Index should not
  * contain the target elements. Otherwise this will lead to serialization
  * problems since there are ambigious elements when resolving cross
  * references.
@@ -50,7 +50,7 @@ public class TargetUriFilter implements UriFilter {
 			return false;
 		if (uriAsString.contains("/.svn/"))
 			return false;
-		if (!uri.lastSegment().endsWith(".edna_datamodel"))
+		if (!uri.lastSegment().endsWith(".edml"))
 			return false;
 
 		// When used within Eclipse determine if the project containing the

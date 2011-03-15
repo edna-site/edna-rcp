@@ -161,7 +161,7 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 	}
 
 	protected URI getTargetFileUri (URI sourceFile) {
-		return URI.createURI(sourceFile.toString().replaceFirst("\\.edna_datamodel", ".py"));
+		return URI.createURI(sourceFile.toString().replaceFirst("\\.edml", ".py"));
 	}
 
 	protected void configureArguments (HashMap<String, String> args) {
@@ -207,7 +207,7 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 	}
 
 	protected String getDslIncludePaths() {
-		// search for paths that contain .edna_datamodel files
+		// search for paths that contain .edml files
 		String projectPath = getFile().getProject().getFullPath().toString();
 		Set<IPath> includePaths = Sets.newHashSet();
 		for (String handle : containerState.getVisibleContainerHandles(projectPath)) {

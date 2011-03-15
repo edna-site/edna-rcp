@@ -254,8 +254,8 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 				if (f.exists()) {
 					URI uri = URI.createFileURI(f.getPath());
 					getResourceSet().getResource(uri, true);
-					// load also referenced .edna_datamodel
-					URI dslUri = URI.createURI(uri.toString().replace(".xsd", ".edna_datamodel"));
+					// load also referenced .edml
+					URI dslUri = URI.createURI(uri.toString().replace(".xsd", ".edml"));
 					getResourceSet().getResource(dslUri, true);
 				}
 			}

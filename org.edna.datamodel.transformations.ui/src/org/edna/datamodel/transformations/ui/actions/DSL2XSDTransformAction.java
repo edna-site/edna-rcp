@@ -34,7 +34,7 @@ public class DSL2XSDTransformAction extends TransformAction {
 
 	@Override
 	protected URI getTargetFileUri(URI sourceFile) {
-		return URI.createURI(sourceFile.toString().replaceFirst("\\.edna_datamodel", ".xsd"));
+		return URI.createURI(sourceFile.toString().replaceFirst("\\.edml", ".xsd"));
 	}
 
 	@Override

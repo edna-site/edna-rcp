@@ -31,7 +31,7 @@ public abstract class AbstractDatamodelRuntimeModule extends DefaultRuntimeModul
 	
 	public void configureFileExtensions(Binder binder) {
 		if (properties == null || properties.getProperty(Constants.FILE_EXTENSIONS) == null)
-			binder.bind(String.class).annotatedWith(Names.named(Constants.FILE_EXTENSIONS)).toInstance("edna_datamodel");
+			binder.bind(String.class).annotatedWith(Names.named(Constants.FILE_EXTENSIONS)).toInstance("edml");
 	}
 	
 	// contributed by org.eclipse.xtext.generator.grammarAccess.GrammarAccessFragment

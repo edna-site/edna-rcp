@@ -27,7 +27,7 @@
 -->
 <workflow>
 	<property name="standalone" value="true"/>
-	<!-- comma seperated list of file folders that are scanned for .edna_datamodel files to include -->
+	<!-- comma seperated list of file folders that are scanned for .edml files to include -->
 	<property name="includePaths" value=""/>
 
     <!-- initializes resourcemaps, urimaps, etc. -->

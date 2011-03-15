@@ -34,7 +34,7 @@ public class DSL2UMLTransformAction extends TransformAction {
 
 	@Override
 	protected URI getTargetFileUri(URI sourceFile) {
-		return URI.createURI(sourceFile.toString().replaceFirst("\\.edna_datamodel", ".uml"));
+		return URI.createURI(sourceFile.toString().replaceFirst("\\.edml", ".uml"));
 	}
 
 	@Override

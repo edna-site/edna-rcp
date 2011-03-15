@@ -181,7 +181,7 @@ public abstract class TransformAction extends ActionDelegate implements IObjectA
 	}
 
 	protected String getDslIncludePaths() {
-		// search for paths that contain .edna_datamodel files
+		// search for paths that contain .edml files
 		String projectPath = getFile().getProject().getFullPath().toString();
 		Set<IPath> includePaths = Sets.newHashSet();
 		for (String handle : containerState.getVisibleContainerHandles(projectPath)) {
