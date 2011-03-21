@@ -75,7 +75,8 @@
 # Generated «currentTime()» by EDGenerateDS.
 #
 
-import StringIO
+import sys
+from io import StringIO
 from xml.dom import minidom
 from xml.dom import Node
 
@@ -89,23 +90,28 @@ from xml.dom import Node
 # Support/utility functions.
 #
 
+# Compabiltity between Python 2 and 3:
+if sys.version.startswith('3'):
+	unicode = str
+
+
 def showIndent(outfile, level):
 	for idx in range(level):
-		outfile.write('    ')
+		outfile.write(unicode('    '))
 
 
 def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 	if not _strExpectedType in ["float", "double", "string", "boolean", "integer"]:
 		if _value.__class__.__name__ != _strExpectedType:
 			strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
-			print strMessage
+			print(strMessage)
 			#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
 	pass
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print "Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName)
+	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer:
 	# Constants for category:
@@ -144,15 +150,15 @@ class MixedContainer:
 			self.value.export(outfile, level, name)
 	def exportSimple(self, outfile, level, name):
 		if self.content_type == MixedContainer.TypeString:
-			outfile.write('<%s>%s</%s>' % (self.name, self.value, self.name))
+			outfile.write(unicode('<%s>%s</%s>' % (self.name, self.value, self.name)))
 		elif self.content_type == MixedContainer.TypeInteger or \
 				self.content_type == MixedContainer.TypeBoolean:
-			outfile.write('<%s>%d</%s>' % (self.name, self.value, self.name))
+			outfile.write(unicode('<%s>%d</%s>' % (self.name, self.value, self.name)))
 		elif self.content_type == MixedContainer.TypeFloat or \
 				self.content_type == MixedContainer.TypeDecimal:
-			outfile.write('<%s>%f</%s>' % (self.name, self.value, self.name))
+			outfile.write(unicode('<%s>%f</%s>' % (self.name, self.value, self.name)))
 		elif self.content_type == MixedContainer.TypeDouble:
-			outfile.write('<%s>%g</%s>' % (self.name, self.value, self.name))
+			outfile.write(unicode('<%s>%g</%s>' % (self.name, self.value, self.name)))
 
 #
 # Data representation classes.
@@ -221,10 +227,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«ENDIF-»
 	def export(self, outfile, level, name_='«name»'):
 		showIndent(outfile, level)
-		outfile.write('<%s>\n' % name_)
+		outfile.write(unicode('<%s>\n' % name_))
 		self.exportChildren(outfile, level + 1, name_)
 		showIndent(outfile, level)
-		outfile.write('</%s>\n' % name_)
+		outfile.write(unicode('</%s>\n' % name_))
 	def exportChildren(self, outfile, level, name_='«name»'):
 	«IF hasExtension()-»
 		«baseType.name».exportChildren(self, outfile, level, name_)
@@ -244,10 +250,10 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 			«IF e.typeName()=="boolean"-»
 			if child_.firstChild:
 				sval_ = child_.firstChild.nodeValue
-				if sval_ in ('true', '1'):
-					ival_ = 1
-				elif sval_ in ('false', '0'):
-					ival_ = 0
+				if sval_ in ('True', 'true', '1'):
+					ival_ = True
+				elif sval_ in ('False', 'false', '0'):
+					ival_ = False
 				else:
 					raise ValueError('requires boolean -- %s' % child_.toxml())
 				«IF e.multiple-»
@@ -258,7 +264,8 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 			«ELSEIF e.typeName()=="string"-»
 			value_ = ''
 			for text__content_ in child_.childNodes:
-				value_ += text__content_.nodeValue
+				if text__content_.nodeValue is not None:
+					value_ += text__content_.nodeValue
 			«IF e.multiple-»
 			self.__«e.name».append(value_)
 			«ELSE-»
@@ -302,8 +309,8 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	«ENDIF-»
 	#Method for marshalling an object
 	def marshal( self ):
-		oStreamString = StringIO.StringIO()
-		oStreamString.write('<?xml version="1.0" ?>\n')
+		oStreamString = StringIO()
+		oStreamString.write(unicode('<?xml version="1.0" ?>\n'))
 		self.export( oStreamString, 0, name_="«name»" )
 		oStringXML = oStreamString.getvalue()
 		oStreamString.close()
@@ -311,7 +318,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 	#Only to export the entire XML tree to a file stream on disk
 	def outputFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
-		outfile.write("<?xml version=\"1.0\" ?>\n")
+		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='«name»' )
 		outfile.close()
 	#Method for making a copy in a new instance
@@ -324,7 +331,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		rootObj = «name»()
 		rootObj.build(rootNode)
 		# Check that all minOccurs are obeyed by marshalling the created object
-		oStreamString = StringIO.StringIO()
+		oStreamString = StringIO()
 		rootObj.export( oStreamString, 0, name_="«name»" )
 		oStreamString.close()
 		return rootObj
@@ -345,16 +352,16 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		for «name»_ in self.get«name.toFirstUpper()»():
 			«IF typeName()=="boolean"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%d</«name»>\n' % «name»_)
+			outfile.write(unicode('<«name»>%d</«name»>\n' % «name»_))
 			«ELSEIF typeName()=="string"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%s</«name»>\n' % «name»_)
+			outfile.write(unicode('<«name»>%s</«name»>\n' % «name»_))
 			«ELSEIF typeName()=="double" || typeName()=="float"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%e</«name»>\n' % «name»_)
+			outfile.write(unicode('<«name»>%e</«name»>\n' % «name»_))
 			«ELSEIF typeName()=="integer"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%d</«name»>\n' % «name»_)
+			outfile.write(unicode('<«name»>%d</«name»>\n' % «name»_))
 			«ELSE-»
 			«name»_.export(outfile, level, name_='«name»')
 			«ENDIF-»
@@ -366,16 +373,19 @@ class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
 		if self.__«name» is not None:
 			«IF typeName()=="boolean"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%d</«name»>\n' % self.__«name»)
+			if self.__«name»:
+				outfile.write(unicode('<«name»>true</«name»>\n'))
+			else:
+				outfile.write(unicode('<«name»>false</«name»>\n'))
 			«ELSEIF typeName()=="string"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%s</«name»>\n' % self.__«name»)
+			outfile.write(unicode('<«name»>%s</«name»>\n' % self.__«name»))
 			«ELSEIF typeName()=="double" || typeName()=="float"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%e</«name»>\n' % self.__«name»)
+			outfile.write(unicode('<«name»>%e</«name»>\n' % self.__«name»))
 			«ELSEIF typeName()=="integer"-»
 			showIndent(outfile, level)
-			outfile.write('<«name»>%d</«name»>\n' % self.__«name»)
+			outfile.write(unicode('<«name»>%d</«name»>\n' % self.__«name»))
 			«ELSE-»
 			self.«name».export(outfile, level, name_='«name»')
 			«ENDIF-»
