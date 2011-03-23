@@ -76,7 +76,6 @@
 #
 
 import sys
-from io import StringIO
 from xml.dom import minidom
 from xml.dom import Node
 
@@ -93,6 +92,9 @@ from xml.dom import Node
 # Compabiltity between Python 2 and 3:
 if sys.version.startswith('3'):
 	unicode = str
+	from io import StringIO
+else:
+	from StringIO import StringIO
 
 
 def showIndent(outfile, level):
