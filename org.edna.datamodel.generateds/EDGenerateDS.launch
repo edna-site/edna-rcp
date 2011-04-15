@@ -7,5 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.edna.datamodel.generateds.EDGenerateDS"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-includepaths /Users/thoms/Documents/Kunden/ESRF/workspace/edna/kernel/datamodel/&#10;-source /Users/thoms/Documents/Kunden/ESRF/workspace/edna/mxPluginExec/plugins/EDPluginRaddose-v1.0/datamodel/XSDataRaddosev10.xsd &#10;-targetdir /Volumes/RAM_Disk/temp"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.edna.datamodel.generateds"/>
 </launchConfiguration>

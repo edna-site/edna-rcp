@@ -46,8 +46,14 @@ import org.eclipse.emf.mwe.core.WorkflowRunner;
 
 public class EDGenerateDS {
 	private static final Log LOG = LogFactory.getLog(EDGenerateDS.class);
-	@SuppressWarnings("static-access")
 	public static void main(String[] args) {
+		int retval = main_internal(args);
+		if (retval!=0) System.exit(retval);
+	}
+
+	@SuppressWarnings("static-access")
+	protected static int main_internal (String[] args) {
+		LOG.info(String.format("EDGenerateDS - EDNA Datasource Generator Copyright (C) 2008-%s European Synchrotron Radiation Facility", new SimpleDateFormat("yyyy").format(new Date())));
 		final Options options = new Options();
 
 		Option optSrcDir = OptionBuilder.withArgName("source")
@@ -59,7 +65,7 @@ public class EDGenerateDS {
 		.create("targetdir");
 
 		Option optIncludePaths = OptionBuilder.withArgName("dir,dir...")
-		.withDescription("Comma separated list of paths to search for referenced models").hasArg()
+		.withDescription("Comma separated list of directories to search for referenced .edml models").hasArg()
 		.create("includepaths");
 
 		options.addOption(optSrcDir);
@@ -73,20 +79,20 @@ public class EDGenerateDS {
 			line = parser.parse(options, args);
 		} catch (final ParseException exp) {
 			wrongCall(options);
-			return;
+			return -1;
 		}
 
 		List<String> launchArgs = new ArrayList<String>();
 		final File srcfile = new File(line.getOptionValue("source"));
 		if (!srcfile.exists()) {
-			System.err.println("Source file " + srcfile.getAbsolutePath()
+			LOG.error("Source file " + srcfile.getAbsolutePath()
 					+ " does not exist");
-			System.exit(-1);
+			return -1;
 		}
 		if (!srcfile.getName().endsWith(".xsd")
 				&& !srcfile.getName().endsWith(".edml")) {
-			System.err.println("Invalid source file extension");
-			System.exit(-1);
+			LOG.error("Invalid source file extension");
+			return -1;
 		}
 		if (srcfile.getName().endsWith(".xsd")) {
 			launchArgs.add("org/edna/datamodel/generateds/EDGenerateDS.mwe");
@@ -100,10 +106,24 @@ public class EDGenerateDS {
 		launchArgs.add("-ptargetFile=" + srcfile.getName().substring(0, srcfile.getName().lastIndexOf('.')) + ".py");
 		launchArgs.add("-pincludePaths=" + line.getOptionValue("includepaths", ""));
 
-		String year = new SimpleDateFormat("yyyy").format(new Date());
-		LOG.info(String.format("EDGenerateDS - EDNA Datasource Generator Copyright (C) 2008-%s European Synchrotron Radiation Facility", year));
+		if (line.hasOption("includepaths")) {
+			String[] paths = line.getOptionValue("includepaths").split(",");
+			for (String path : paths) {
+				File f = new File(path);
+				if (!f.exists()) {
+					LOG.error(String.format("Include path %s does not exist.", f.getAbsolutePath()));
+					return -1;
+				}
+				if (!f.isDirectory()) {
+					LOG.error(String.format("Include path %s is not a directory.", f.getAbsolutePath()));
+					return -1;
+				}
+			}
+		}
+
 		WorkflowRunner.main(launchArgs.toArray(new String[0]));
 		LOG.info("Finished.");
+		return 0;
 	}
 
 	/**
@@ -113,9 +133,8 @@ public class EDGenerateDS {
 	 */
 	private static void wrongCall(final Options options) {
 		final HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("java " + EDGenerateDS.class.getName() + " [OPTIONS]",
+		formatter.printHelp("java -jar EDGenerateDS.jar [OPTIONS]",
 				options);
-		System.exit(-1);
 	}
 
 	private static File getTargetDir(File sourceFile) {
