@@ -120,7 +120,7 @@ def warnEmptyAttribute(_strName, _strTypeName):
 	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
 	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
-class MixedContainer:
+class MixedContainer(object):
 	# Constants for category:
 	CategoryNone = 0
 	CategoryText = 1
@@ -180,7 +180,7 @@ class MixedContainer:
 «ENDDEFINE»
 
 «DEFINE complexTypDef FOR ComplexType»
-class «name»«IF hasExtension()»(«baseType.name»)«ENDIF»:
+class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 	«IF doc.length > 1-»
 	"""«doc»"""
 	«ENDIF-»
