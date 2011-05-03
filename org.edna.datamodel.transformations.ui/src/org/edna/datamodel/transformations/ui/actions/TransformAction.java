@@ -26,6 +26,7 @@
  */
 package org.edna.datamodel.transformations.ui.actions;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -108,6 +109,7 @@ public abstract class TransformAction extends ActionDelegate implements IObjectA
 
 					boolean executionResult = wfRunner.run(getWorkflowFile(), new ProgressMonitorAdapter(monitor), args, null);
 					if (executionResult == true) {
+						postTransform(targetFile, monitor);
 						final String message = "Transformed " + file.getName() + " to "+targetFile.lastSegment()+".";
 						Activator.getDefault().getLog()
 								.log(new Status(IStatus.OK, Activator.PLUGIN_ID, message));
@@ -143,6 +145,9 @@ public abstract class TransformAction extends ActionDelegate implements IObjectA
 			}
 		});
 		j.schedule();
+	}
+
+	protected void postTransform(URI targetFile, IProgressMonitor monitor) {
 	}
 
 	protected abstract String getWorkflowFile();

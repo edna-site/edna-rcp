@@ -26,11 +26,19 @@
  */
 package org.edna.datamodel.transformations.ui.actions;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.uml2.uml.Package;
+import org.topcased.modeler.tools.DiagramFileInitializer;
 
 public class DSL2UMLTransformAction extends TransformAction {
+	private static final String DIAGRAM_ID = "org.topcased.modeler.uml.classdiagram";
 
 	@Override
 	protected URI getTargetFileUri(URI sourceFile) {
@@ -48,5 +56,19 @@ public class DSL2UMLTransformAction extends TransformAction {
 
 		String includePathsValue = getDslIncludePaths();
 		args.put("includePaths", includePathsValue);
+	}
+
+	@Override
+	protected void postTransform(URI targetFile, IProgressMonitor monitor) {
+		ResourceSet rs = new ResourceSetImpl();
+		Resource umlModel = rs.getResource(targetFile, true);
+		Package umlPackage = (Package) umlModel.getContents().get(0);
+
+		DiagramFileInitializer initializer = new DiagramFileInitializer();
+		try {
+			initializer.createDiagram(umlPackage, DIAGRAM_ID, true, monitor);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
