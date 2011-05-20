@@ -46,6 +46,7 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.util.XSDSwitch;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.edna.datamodel.datamodel.ComplexType;
@@ -60,12 +61,16 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.inject.Inject;
 
 /**
  * Transformation of XSD EDNA Datamodel to EDNA Datamodel DSL.
  * @author Karsten Thoms (karsten.thoms@itemis.de)
  */
 public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSchema, Model>{
+	@Inject
+	private IQualifiedNameProvider nameProvider;
+
 	@Override
 	public Model transform (XSDSchema sourceModel) {
 		this.sourceModel = sourceModel;
@@ -137,14 +142,14 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 			EObject obj = i.next();
 			for (EObject referenced : obj.eCrossReferences()) {
 				if (referenced.eResource()!=null) {
-					importedNamespaces.add(referenced.eResource().getURI().lastSegment().replace(".edml", ""));
+					importedNamespaces.add(nameProvider.getQualifiedName(referenced));
 				}
 			}
 		}
 
-		for (String imports : importedNamespaces) {
+		for (String elem : importedNamespaces) {
 			Import imported = DatamodelFactory.eINSTANCE.createImport();
-			imported.setImportedNamespace(imports+".*");
+			imported.setImportedNamespace(elem);
 			targetModel.getImports().add(imported);
 		}
 		return targetModel;

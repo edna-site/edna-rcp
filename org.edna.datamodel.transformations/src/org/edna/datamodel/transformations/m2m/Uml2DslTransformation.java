@@ -28,8 +28,10 @@ package org.edna.datamodel.transformations.m2m;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.WrappedException;
@@ -42,6 +44,7 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
 import org.eclipse.xtext.parsetree.reconstr.XtextSerializationException;
 import org.eclipse.xtext.resource.IEObjectDescription;
 import org.eclipse.xtext.resource.IResourceDescription;
@@ -49,12 +52,15 @@ import org.edna.datamodel.datamodel.ComplexType;
 import org.edna.datamodel.datamodel.DatamodelFactory;
 import org.edna.datamodel.datamodel.DatamodelPackage;
 import org.edna.datamodel.datamodel.ElementDeclaration;
+import org.edna.datamodel.datamodel.Import;
 import org.edna.datamodel.transformations.util.JavaExtensions;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.inject.Inject;
 
 /**
  * Transforms an EDNA UML datamodel to EDNA DSL Datamodel.
@@ -62,6 +68,8 @@ import com.google.common.collect.Maps;
  * @author Karsten Thoms (karsten.thoms@itemis.de)
  */
 public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.eclipse.uml2.uml.Model, org.edna.datamodel.datamodel.Model>{
+	@Inject
+	private IQualifiedNameProvider nameProvider;
 
 	@Override
 	public org.edna.datamodel.datamodel.Model transform (org.eclipse.uml2.uml.Model sourceModel) {
@@ -114,6 +122,23 @@ public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.e
 			};
 		}.doSwitch(sourceModel);
 		if (monitor.isCanceled()) return null;
+
+		Set<String> importedNamespaces = Sets.newTreeSet();
+		for (Iterator<EObject> i = targetModel.eAllContents(); i.hasNext(); ) {
+			EObject obj = i.next();
+			for (EObject referenced : obj.eCrossReferences()) {
+				if (referenced.eResource()!=null) {
+					importedNamespaces.add(nameProvider.getQualifiedName(referenced));
+				}
+			}
+		}
+
+		for (String elem : importedNamespaces) {
+			Import imported = DatamodelFactory.eINSTANCE.createImport();
+			imported.setImportedNamespace(elem);
+			targetModel.getImports().add(imported);
+		}
+
 		return targetModel;
 	}
 
