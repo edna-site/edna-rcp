@@ -1607,8 +1607,8 @@ rule__ComplexType__BaseTypeAssignment_3_1
 (
 { before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0()); }
 (
-{ before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1()); }
-	RULE_ID{ after(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1()); }
+{ before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1()); }
+	ruleQualifiedName{ after(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1()); }
 )
 { after(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0()); }
 )
@@ -1671,8 +1671,8 @@ rule__ElementDeclaration__RefAssignment_2_0
 (
 { before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0()); }
 (
-{ before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeIDTerminalRuleCall_2_0_0_1()); }
-	RULE_ID{ after(grammarAccess.getElementDeclarationAccess().getRefComplexTypeIDTerminalRuleCall_2_0_0_1()); }
+{ before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1()); }
+	ruleQualifiedName{ after(grammarAccess.getElementDeclarationAccess().getRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1()); }
 )
 { after(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0()); }
 )

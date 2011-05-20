@@ -4,9 +4,14 @@
 package org.edna.datamodel.scoping;
 
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.edna.datamodel.datamodel.ComplexType;
+import org.edna.datamodel.datamodel.ElementDeclaration;
+import org.edna.datamodel.datamodel.Model;
 
 /**
  * This class contains custom scoping description.
@@ -18,5 +23,15 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 public class DatamodelScopeProvider extends AbstractDeclarativeScopeProvider {
 	IScope scope_Package_types (org.edna.datamodel.datamodel.Package p, EReference ref) {
 		return Scopes.scopeFor(p.getTypes());
+	}
+
+	IScope scope_ComplexType_baseType (ComplexType type, EReference ref) {
+		Model m = (Model) EcoreUtil.getRootContainer(type);
+		return Scopes.scopeFor(EcoreUtil2.getAllContentsOfType(m, ComplexType.class), delegateGetScope(type, ref));
+	}
+
+	IScope scope_ElementDeclaration_ref (ElementDeclaration elem, EReference ref) {
+		Model m = (Model) EcoreUtil.getRootContainer(elem);
+		return Scopes.scopeFor(EcoreUtil2.getAllContentsOfType(m, ComplexType.class), delegateGetScope(elem, ref));
 	}
 }

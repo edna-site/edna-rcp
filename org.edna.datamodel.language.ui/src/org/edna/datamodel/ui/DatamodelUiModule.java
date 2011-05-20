@@ -16,9 +16,9 @@ public class DatamodelUiModule extends
 		super(plugin);
 	}
 
-	public Class<? extends IContainer.Manager> bindIContainer$Manager() {
-		return StateBasedContainerManager.class;
-	}
+//	public Class<? extends IContainer.Manager> bindIContainer$Manager() {
+//		return StateBasedContainerManager.class;
+//	}
 
 	@Override
 	public com.google.inject.Provider<org.eclipse.xtext.resource.containers.IAllContainersState> provideIAllContainersState() {

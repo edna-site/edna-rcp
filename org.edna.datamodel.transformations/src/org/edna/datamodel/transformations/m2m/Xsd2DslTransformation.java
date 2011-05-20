@@ -28,8 +28,10 @@ package org.edna.datamodel.transformations.m2m;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.URI;
@@ -50,12 +52,14 @@ import org.edna.datamodel.datamodel.ComplexType;
 import org.edna.datamodel.datamodel.DatamodelFactory;
 import org.edna.datamodel.datamodel.DatamodelPackage;
 import org.edna.datamodel.datamodel.ElementDeclaration;
+import org.edna.datamodel.datamodel.Import;
 import org.edna.datamodel.datamodel.Model;
 import org.edna.datamodel.datamodel.PrimitiveType;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Transformation of XSD EDNA Datamodel to EDNA Datamodel DSL.
@@ -128,6 +132,21 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 
 		}.doSwitch(sourceModel);
 
+		Set<String> importedNamespaces = Sets.newTreeSet();
+		for (Iterator<EObject> i = targetModel.eAllContents(); i.hasNext(); ) {
+			EObject obj = i.next();
+			for (EObject referenced : obj.eCrossReferences()) {
+				if (referenced.eResource()!=null) {
+					importedNamespaces.add(referenced.eResource().getURI().lastSegment().replace(".edml", ""));
+				}
+			}
+		}
+
+		for (String imports : importedNamespaces) {
+			Import imported = DatamodelFactory.eINSTANCE.createImport();
+			imported.setImportedNamespace(imports+".*");
+			targetModel.getImports().add(imported);
+		}
 		return targetModel;
 	}
 

@@ -19,13 +19,13 @@ Package:
 	"}";
 
 ComplexType:
-	"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{"
+	"complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{"
 		doc=STRING?
 		elements+=ElementDeclaration*
 	"}";
 
 ElementDeclaration:
-	name=ID ":" (ref=[ComplexType] | type=PrimitiveType) (multiple?="[]")? (optional?="optional")? (doc=STRING)?;
+	name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) (multiple?="[]")? (optional?="optional")? (doc=STRING)?;
 
 enum PrimitiveType:
 	undefined|string|integer|boolean|float|double;

@@ -12,33 +12,33 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 public class InternalDatamodelLexer extends Lexer {
-    public static final int T21=21;
-    public static final int RULE_ML_COMMENT=7;
-    public static final int T14=14;
-    public static final int T29=29;
     public static final int RULE_ID=4;
-    public static final int T22=22;
-    public static final int T11=11;
-    public static final int RULE_STRING=5;
-    public static final int T12=12;
-    public static final int T28=28;
-    public static final int T23=23;
-    public static final int T13=13;
-    public static final int T20=20;
-    public static final int T25=25;
-    public static final int T18=18;
-    public static final int RULE_WS=9;
-    public static final int T26=26;
-    public static final int T15=15;
-    public static final int RULE_INT=6;
-    public static final int EOF=-1;
-    public static final int T17=17;
-    public static final int Tokens=30;
     public static final int RULE_ANY_OTHER=10;
-    public static final int T16=16;
+    public static final int T29=29;
+    public static final int T28=28;
     public static final int T27=27;
-    public static final int RULE_SL_COMMENT=8;
+    public static final int T26=26;
+    public static final int T25=25;
+    public static final int Tokens=30;
     public static final int T24=24;
+    public static final int EOF=-1;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int T23=23;
+    public static final int T22=22;
+    public static final int T21=21;
+    public static final int T20=20;
+    public static final int RULE_ML_COMMENT=7;
+    public static final int RULE_STRING=5;
+    public static final int RULE_INT=6;
+    public static final int T11=11;
+    public static final int T12=12;
+    public static final int T13=13;
+    public static final int T14=14;
+    public static final int RULE_WS=9;
+    public static final int T15=15;
+    public static final int T16=16;
+    public static final int T17=17;
+    public static final int T18=18;
     public static final int T19=19;
     public InternalDatamodelLexer() {;} 
     public InternalDatamodelLexer(CharStream input) {
@@ -1014,27 +1014,33 @@ public class InternalDatamodelLexer extends Lexer {
         }
         else if ( (LA12_0=='i') ) {
             switch ( input.LA(2) ) {
-            case 'm':
+            case 'n':
                 {
                 int LA12_28 = input.LA(3);
 
-                if ( (LA12_28=='p') ) {
+                if ( (LA12_28=='t') ) {
                     int LA12_52 = input.LA(4);
 
-                    if ( (LA12_52=='o') ) {
+                    if ( (LA12_52=='e') ) {
                         int LA12_65 = input.LA(5);
 
-                        if ( (LA12_65=='r') ) {
+                        if ( (LA12_65=='g') ) {
                             int LA12_78 = input.LA(6);
 
-                            if ( (LA12_78=='t') ) {
+                            if ( (LA12_78=='e') ) {
                                 int LA12_91 = input.LA(7);
 
-                                if ( ((LA12_91>='0' && LA12_91<='9')||(LA12_91>='A' && LA12_91<='Z')||LA12_91=='_'||(LA12_91>='a' && LA12_91<='z')) ) {
-                                    alt12=20;
+                                if ( (LA12_91=='r') ) {
+                                    int LA12_103 = input.LA(8);
+
+                                    if ( ((LA12_103>='0' && LA12_103<='9')||(LA12_103>='A' && LA12_103<='Z')||LA12_103=='_'||(LA12_103>='a' && LA12_103<='z')) ) {
+                                        alt12=20;
+                                    }
+                                    else {
+                                        alt12=3;}
                                 }
                                 else {
-                                    alt12=8;}
+                                    alt12=20;}
                             }
                             else {
                                 alt12=20;}
@@ -1049,33 +1055,27 @@ public class InternalDatamodelLexer extends Lexer {
                     alt12=20;}
                 }
                 break;
-            case 'n':
+            case 'm':
                 {
                 int LA12_29 = input.LA(3);
 
-                if ( (LA12_29=='t') ) {
+                if ( (LA12_29=='p') ) {
                     int LA12_53 = input.LA(4);
 
-                    if ( (LA12_53=='e') ) {
+                    if ( (LA12_53=='o') ) {
                         int LA12_66 = input.LA(5);
 
-                        if ( (LA12_66=='g') ) {
+                        if ( (LA12_66=='r') ) {
                             int LA12_79 = input.LA(6);
 
-                            if ( (LA12_79=='e') ) {
+                            if ( (LA12_79=='t') ) {
                                 int LA12_92 = input.LA(7);
 
-                                if ( (LA12_92=='r') ) {
-                                    int LA12_104 = input.LA(8);
-
-                                    if ( ((LA12_104>='0' && LA12_104<='9')||(LA12_104>='A' && LA12_104<='Z')||LA12_104=='_'||(LA12_104>='a' && LA12_104<='z')) ) {
-                                        alt12=20;
-                                    }
-                                    else {
-                                        alt12=3;}
+                                if ( ((LA12_92>='0' && LA12_92<='9')||(LA12_92>='A' && LA12_92<='Z')||LA12_92=='_'||(LA12_92>='a' && LA12_92<='z')) ) {
+                                    alt12=20;
                                 }
                                 else {
-                                    alt12=20;}
+                                    alt12=8;}
                             }
                             else {
                                 alt12=20;}
@@ -1213,43 +1213,20 @@ public class InternalDatamodelLexer extends Lexer {
         }
         else if ( (LA12_0=='t') ) {
             switch ( input.LA(2) ) {
-            case 'y':
+            case 'a':
                 {
                 int LA12_33 = input.LA(3);
 
-                if ( (LA12_33=='p') ) {
+                if ( (LA12_33=='r') ) {
                     int LA12_57 = input.LA(4);
 
-                    if ( (LA12_57=='e') ) {
+                    if ( (LA12_57=='g') ) {
                         int LA12_70 = input.LA(5);
 
-                        if ( ((LA12_70>='0' && LA12_70<='9')||(LA12_70>='A' && LA12_70<='Z')||LA12_70=='_'||(LA12_70>='a' && LA12_70<='z')) ) {
-                            alt12=20;
-                        }
-                        else {
-                            alt12=13;}
-                    }
-                    else {
-                        alt12=20;}
-                }
-                else {
-                    alt12=20;}
-                }
-                break;
-            case 'a':
-                {
-                int LA12_34 = input.LA(3);
+                        if ( (LA12_70=='e') ) {
+                            int LA12_83 = input.LA(6);
 
-                if ( (LA12_34=='r') ) {
-                    int LA12_58 = input.LA(4);
-
-                    if ( (LA12_58=='g') ) {
-                        int LA12_71 = input.LA(5);
-
-                        if ( (LA12_71=='e') ) {
-                            int LA12_84 = input.LA(6);
-
-                            if ( (LA12_84=='t') ) {
+                            if ( (LA12_83=='t') ) {
                                 int LA12_96 = input.LA(7);
 
                                 if ( (LA12_96=='N') ) {
@@ -1317,6 +1294,29 @@ public class InternalDatamodelLexer extends Lexer {
                         }
                         else {
                             alt12=20;}
+                    }
+                    else {
+                        alt12=20;}
+                }
+                else {
+                    alt12=20;}
+                }
+                break;
+            case 'y':
+                {
+                int LA12_34 = input.LA(3);
+
+                if ( (LA12_34=='p') ) {
+                    int LA12_58 = input.LA(4);
+
+                    if ( (LA12_58=='e') ) {
+                        int LA12_71 = input.LA(5);
+
+                        if ( ((LA12_71>='0' && LA12_71<='9')||(LA12_71>='A' && LA12_71<='Z')||LA12_71=='_'||(LA12_71>='a' && LA12_71<='z')) ) {
+                            alt12=20;
+                        }
+                        else {
+                            alt12=13;}
                     }
                     else {
                         alt12=20;}

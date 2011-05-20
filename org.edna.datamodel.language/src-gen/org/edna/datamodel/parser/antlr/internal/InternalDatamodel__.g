@@ -27,25 +27,25 @@ T27 : 'boolean' ;
 T28 : 'float' ;
 T29 : 'double' ;
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 773
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 777
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 775
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 779
 RULE_INT : ('0'..'9')+;
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 777
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 781
 RULE_STRING : ('"' ('\\' ('b'|'t'|'n'|'f'|'r'|'"'|'\''|'\\')|~(('\\'|'"')))* '"'|'\'' ('\\' ('b'|'t'|'n'|'f'|'r'|'"'|'\''|'\\')|~(('\\'|'\'')))* '\'');
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 779
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 783
 RULE_ML_COMMENT : '/*' ( options {greedy=false;} : . )*'*/';
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 781
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 785
 RULE_SL_COMMENT : '//' ~(('\n'|'\r'))* ('\r'? '\n')?;
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 783
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 787
 RULE_WS : (' '|'\t'|'\r'|'\n')+;
 
-// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 785
+// $ANTLR src "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g" 789
 RULE_ANY_OTHER : .;
 
 

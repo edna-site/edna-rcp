@@ -417,10 +417,12 @@ ruleComplexType returns [EObject current=null]
 	            associateNodeWithAstElement(currentNode, $current);
 	        }
         }
-	RULE_ID
-	{
-		createLeafNode(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0(), "baseType"); 
-	}
+		{ 
+	        currentNode=createCompositeNode(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0(), currentNode); 
+	    }
+		ruleQualifiedName		{ 
+	        currentNode = currentNode.getParent();
+	    }
 
 )
 ))?	'{' 
@@ -538,10 +540,12 @@ ruleElementDeclaration returns [EObject current=null]
 	            associateNodeWithAstElement(currentNode, $current);
 	        }
         }
-	RULE_ID
-	{
-		createLeafNode(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0(), "ref"); 
-	}
+		{ 
+	        currentNode=createCompositeNode(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0(), currentNode); 
+	    }
+		ruleQualifiedName		{ 
+	        currentNode = currentNode.getParent();
+	    }
 
 )
 )

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <workflow>
-	<property name="model" />
+	<property name="sourceDir"/>
+	<property name="sourceFile"/>
 	<property name="targetDir"/>
 	<property name="targetFile"/>
 	<property name="standalone" value="true"/>
@@ -12,12 +13,12 @@
 
 	<component file="org/edna/datamodel/transformations/workflow/xsd2dsl.mwe" inheritAll="true">
 		<serializeTransformedModel value="false"/>
-		<modelFile value="${model}"/>
+		<modelFile value="${sourceDir}/${sourceFile}"/>
 		<targetModelSlot value="transformedModel"/>
 	</component>
 
 	<!--  generate code -->
-	<component class="org.eclipse.xpand2.Generator">
+	<component class="org.eclipse.xpand2.Generator" skipOnErrors="true">
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
 		<globalVarDef name="targetFile" value="'${targetFile}'"/>
 		<expand

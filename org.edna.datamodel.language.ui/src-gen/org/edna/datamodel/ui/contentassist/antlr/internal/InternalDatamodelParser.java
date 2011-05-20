@@ -25,14 +25,14 @@ public class InternalDatamodelParser extends AbstractInternalContentAssistParser
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'undefined'", "'string'", "'integer'", "'boolean'", "'float'", "'double'", "'targetNamespace'", "'import'", "'package'", "'{'", "'}'", "'complex'", "'type'", "'extends'", "':'", "'.'", "'.*'", "'[]'", "'optional'"
     };
-    public static final int RULE_ML_COMMENT=7;
     public static final int RULE_ID=4;
-    public static final int RULE_WS=9;
-    public static final int EOF=-1;
-    public static final int RULE_INT=6;
     public static final int RULE_STRING=5;
     public static final int RULE_ANY_OTHER=10;
+    public static final int RULE_INT=6;
+    public static final int RULE_WS=9;
     public static final int RULE_SL_COMMENT=8;
+    public static final int EOF=-1;
+    public static final int RULE_ML_COMMENT=7;
 
         public InternalDatamodelParser(TokenStream input) {
             super(input);
@@ -4213,25 +4213,28 @@ public class InternalDatamodelParser extends AbstractInternalContentAssistParser
 
 
     // $ANTLR start rule__ComplexType__BaseTypeAssignment_3_1
-    // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1602:1: rule__ComplexType__BaseTypeAssignment_3_1 : ( ( RULE_ID ) ) ;
+    // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1602:1: rule__ComplexType__BaseTypeAssignment_3_1 : ( ( ruleQualifiedName ) ) ;
     public final void rule__ComplexType__BaseTypeAssignment_3_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1606:1: ( ( ( RULE_ID ) ) )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1607:1: ( ( RULE_ID ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1606:1: ( ( ( ruleQualifiedName ) ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1607:1: ( ( ruleQualifiedName ) )
             {
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1607:1: ( ( RULE_ID ) )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1608:1: ( RULE_ID )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1607:1: ( ( ruleQualifiedName ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1608:1: ( ruleQualifiedName )
             {
              before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0()); 
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1609:1: ( RULE_ID )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1610:1: RULE_ID
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1609:1: ( ruleQualifiedName )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1610:1: ruleQualifiedName
             {
-             before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1()); 
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ComplexType__BaseTypeAssignment_3_13220); 
-             after(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1()); 
+             before(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1()); 
+            pushFollow(FOLLOW_ruleQualifiedName_in_rule__ComplexType__BaseTypeAssignment_3_13220);
+            ruleQualifiedName();
+            _fsp--;
+
+             after(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1()); 
 
             }
 
@@ -4372,25 +4375,28 @@ public class InternalDatamodelParser extends AbstractInternalContentAssistParser
 
 
     // $ANTLR start rule__ElementDeclaration__RefAssignment_2_0
-    // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1666:1: rule__ElementDeclaration__RefAssignment_2_0 : ( ( RULE_ID ) ) ;
+    // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1666:1: rule__ElementDeclaration__RefAssignment_2_0 : ( ( ruleQualifiedName ) ) ;
     public final void rule__ElementDeclaration__RefAssignment_2_0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
             
         try {
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1670:1: ( ( ( RULE_ID ) ) )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1671:1: ( ( RULE_ID ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1670:1: ( ( ( ruleQualifiedName ) ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1671:1: ( ( ruleQualifiedName ) )
             {
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1671:1: ( ( RULE_ID ) )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1672:1: ( RULE_ID )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1671:1: ( ( ruleQualifiedName ) )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1672:1: ( ruleQualifiedName )
             {
              before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0()); 
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1673:1: ( RULE_ID )
-            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1674:1: RULE_ID
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1673:1: ( ruleQualifiedName )
+            // ../org.edna.datamodel.language.ui/src-gen/org/edna/datamodel/ui/contentassist/antlr/internal/InternalDatamodel.g:1674:1: ruleQualifiedName
             {
-             before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeIDTerminalRuleCall_2_0_0_1()); 
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rule__ElementDeclaration__RefAssignment_2_03352); 
-             after(grammarAccess.getElementDeclarationAccess().getRefComplexTypeIDTerminalRuleCall_2_0_0_1()); 
+             before(grammarAccess.getElementDeclarationAccess().getRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1()); 
+            pushFollow(FOLLOW_ruleQualifiedName_in_rule__ElementDeclaration__RefAssignment_2_03352);
+            ruleQualifiedName();
+            _fsp--;
+
+             after(grammarAccess.getElementDeclarationAccess().getRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1()); 
 
             }
 
@@ -4720,11 +4726,11 @@ public class InternalDatamodelParser extends AbstractInternalContentAssistParser
     public static final BitSet FOLLOW_ruleComplexType_in_rule__Package__TypesAssignment_3_03123 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rulePackage_in_rule__Package__PackagesAssignment_3_13154 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_ID_in_rule__ComplexType__NameAssignment_23185 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__ComplexType__BaseTypeAssignment_3_13220 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_rule__ComplexType__BaseTypeAssignment_3_13220 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_STRING_in_rule__ComplexType__DocAssignment_53255 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleElementDeclaration_in_rule__ComplexType__ElementsAssignment_63286 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_RULE_ID_in_rule__ElementDeclaration__NameAssignment_03317 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_rule__ElementDeclaration__RefAssignment_2_03352 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_rule__ElementDeclaration__RefAssignment_2_03352 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rulePrimitiveType_in_rule__ElementDeclaration__TypeAssignment_2_13387 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_28_in_rule__ElementDeclaration__MultipleAssignment_33423 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_29_in_rule__ElementDeclaration__OptionalAssignment_43467 = new BitSet(new long[]{0x0000000000000002L});

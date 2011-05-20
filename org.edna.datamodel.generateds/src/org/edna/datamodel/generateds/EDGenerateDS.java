@@ -56,9 +56,13 @@ public class EDGenerateDS {
 		LOG.info(String.format("EDGenerateDS - EDNA Datasource Generator Copyright (C) 2008-%s European Synchrotron Radiation Facility", new SimpleDateFormat("yyyy").format(new Date())));
 		final Options options = new Options();
 
-		Option optSrcDir = OptionBuilder.withArgName("source")
-				.withDescription("Datamodel source file (.edml or .xsd)").hasArg().isRequired()
-				.withValueSeparator(' ').create("source");
+		Option optSrcDir = OptionBuilder.withArgName("sourceDir")
+		.withDescription("Directory where the source file is located").hasArg().isRequired()
+		.withValueSeparator(' ').create("sourceDir");
+
+		Option optSrcFile = OptionBuilder.withArgName("sourceFile")
+		.withDescription("Datamodel source file (.edml or .xsd)").hasArg().isRequired()
+		.withValueSeparator(' ').create("sourceFile");
 
 		Option optTargetDir = OptionBuilder.withArgName("targetdir")
 		.withDescription("Target directory").hasArg()
@@ -69,6 +73,7 @@ public class EDGenerateDS {
 		.create("includepaths");
 
 		options.addOption(optSrcDir);
+		options.addOption(optSrcFile);
 		options.addOption(optTargetDir);
 		options.addOption(optIncludePaths);
 
@@ -83,7 +88,13 @@ public class EDGenerateDS {
 		}
 
 		List<String> launchArgs = new ArrayList<String>();
-		final File srcfile = new File(line.getOptionValue("source"));
+		final File srcdir = new File(line.getOptionValue("sourceDir"));
+		if (!srcdir.exists()) {
+			LOG.error("Source directory " + srcdir.getAbsolutePath()
+					+ " does not exist");
+			return -1;
+		}
+		final File srcfile = new File(srcdir, line.getOptionValue("sourceFile"));
 		if (!srcfile.exists()) {
 			LOG.error("Source file " + srcfile.getAbsolutePath()
 					+ " does not exist");
@@ -101,7 +112,8 @@ public class EDGenerateDS {
 					.add("org/edna/datamodel/generateds/EDGenerateDS_dsl.mwe");
 		}
 
-		launchArgs.add("-pmodel=" + srcfile.getAbsolutePath());
+		launchArgs.add("-psourceDir=" + srcdir.getAbsolutePath());
+		launchArgs.add("-psourceFile=" + srcfile.getName());
 		launchArgs.add("-ptargetDir=" + line.getOptionValue("targetdir", getTargetDir(srcfile).getAbsolutePath()));
 		launchArgs.add("-ptargetFile=" + srcfile.getName().substring(0, srcfile.getName().lastIndexOf('.')) + ".py");
 		launchArgs.add("-pincludePaths=" + line.getOptionValue("includepaths", ""));

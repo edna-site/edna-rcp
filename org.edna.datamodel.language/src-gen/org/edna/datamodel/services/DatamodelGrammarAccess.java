@@ -160,7 +160,7 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cExtendsKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
 		private final Assignment cBaseTypeAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
 		private final CrossReference cBaseTypeComplexTypeCrossReference_3_1_0 = (CrossReference)cBaseTypeAssignment_3_1.eContents().get(0);
-		private final RuleCall cBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1 = (RuleCall)cBaseTypeComplexTypeCrossReference_3_1_0.eContents().get(1);
+		private final RuleCall cBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1 = (RuleCall)cBaseTypeComplexTypeCrossReference_3_1_0.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		private final Assignment cDocAssignment_5 = (Assignment)cGroup.eContents().get(5);
 		private final RuleCall cDocSTRINGTerminalRuleCall_5_0 = (RuleCall)cDocAssignment_5.eContents().get(0);
@@ -169,10 +169,12 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
 		//ComplexType:
-		//	"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{" doc=STRING? elements+=ElementDeclaration* "}";
+		//	"complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{" doc=STRING?
+		//	elements+=ElementDeclaration* "}";
 		public ParserRule getRule() { return rule; }
 
-		//"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{" doc=STRING? elements+=ElementDeclaration* "}"
+		//"complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{" doc=STRING? elements+=ElementDeclaration*
+		//"}"
 		public Group getGroup() { return cGroup; }
 
 		//"complex"
@@ -187,20 +189,20 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_2_0() { return cNameIDTerminalRuleCall_2_0; }
 
-		//("extends" baseType=[ComplexType])?
+		//("extends" baseType=[ComplexType|QualifiedName])?
 		public Group getGroup_3() { return cGroup_3; }
 
 		//"extends"
 		public Keyword getExtendsKeyword_3_0() { return cExtendsKeyword_3_0; }
 
-		//baseType=[ComplexType]
+		//baseType=[ComplexType|QualifiedName]
 		public Assignment getBaseTypeAssignment_3_1() { return cBaseTypeAssignment_3_1; }
 
-		//[ComplexType]
+		//[ComplexType|QualifiedName]
 		public CrossReference getBaseTypeComplexTypeCrossReference_3_1_0() { return cBaseTypeComplexTypeCrossReference_3_1_0; }
 
-		//ID
-		public RuleCall getBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1() { return cBaseTypeComplexTypeIDTerminalRuleCall_3_1_0_1; }
+		//QualifiedName
+		public RuleCall getBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1() { return cBaseTypeComplexTypeQualifiedNameParserRuleCall_3_1_0_1; }
 
 		//"{"
 		public Keyword getLeftCurlyBracketKeyword_4() { return cLeftCurlyBracketKeyword_4; }
@@ -230,7 +232,7 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
 		private final Assignment cRefAssignment_2_0 = (Assignment)cAlternatives_2.eContents().get(0);
 		private final CrossReference cRefComplexTypeCrossReference_2_0_0 = (CrossReference)cRefAssignment_2_0.eContents().get(0);
-		private final RuleCall cRefComplexTypeIDTerminalRuleCall_2_0_0_1 = (RuleCall)cRefComplexTypeCrossReference_2_0_0.eContents().get(1);
+		private final RuleCall cRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1 = (RuleCall)cRefComplexTypeCrossReference_2_0_0.eContents().get(1);
 		private final Assignment cTypeAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
 		private final RuleCall cTypePrimitiveTypeEnumRuleCall_2_1_0 = (RuleCall)cTypeAssignment_2_1.eContents().get(0);
 		private final Assignment cMultipleAssignment_3 = (Assignment)cGroup.eContents().get(3);
@@ -241,10 +243,10 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cDocSTRINGTerminalRuleCall_5_0 = (RuleCall)cDocAssignment_5.eContents().get(0);
 		
 		//ElementDeclaration:
-		//	name=ID ":" (ref=[ComplexType] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
+		//	name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
 		public ParserRule getRule() { return rule; }
 
-		//name=ID ":" (ref=[ComplexType] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?
+		//name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?
 		public Group getGroup() { return cGroup; }
 
 		//name=ID
@@ -256,17 +258,17 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 		//":"
 		public Keyword getColonKeyword_1() { return cColonKeyword_1; }
 
-		//ref=[ComplexType] | type=PrimitiveType
+		//ref=[ComplexType|QualifiedName] | type=PrimitiveType
 		public Alternatives getAlternatives_2() { return cAlternatives_2; }
 
-		//ref=[ComplexType]
+		//ref=[ComplexType|QualifiedName]
 		public Assignment getRefAssignment_2_0() { return cRefAssignment_2_0; }
 
-		//[ComplexType]
+		//[ComplexType|QualifiedName]
 		public CrossReference getRefComplexTypeCrossReference_2_0_0() { return cRefComplexTypeCrossReference_2_0_0; }
 
-		//ID
-		public RuleCall getRefComplexTypeIDTerminalRuleCall_2_0_0_1() { return cRefComplexTypeIDTerminalRuleCall_2_0_0_1; }
+		//QualifiedName
+		public RuleCall getRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1() { return cRefComplexTypeQualifiedNameParserRuleCall_2_0_0_1; }
 
 		//type=PrimitiveType
 		public Assignment getTypeAssignment_2_1() { return cTypeAssignment_2_1; }
@@ -466,7 +468,8 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ComplexType:
-	//	"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{" doc=STRING? elements+=ElementDeclaration* "}";
+	//	"complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{" doc=STRING?
+	//	elements+=ElementDeclaration* "}";
 	public ComplexTypeElements getComplexTypeAccess() {
 		return (pComplexType != null) ? pComplexType : (pComplexType = new ComplexTypeElements());
 	}
@@ -476,7 +479,7 @@ public class DatamodelGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ElementDeclaration:
-	//	name=ID ":" (ref=[ComplexType] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
+	//	name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
 	public ElementDeclarationElements getElementDeclarationAccess() {
 		return (pElementDeclaration != null) ? pElementDeclaration : (pElementDeclaration = new ElementDeclarationElements());
 	}

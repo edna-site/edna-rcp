@@ -685,11 +685,13 @@ protected class Package_RightCurlyBracketKeyword_4 extends KeywordToken  {
 /************ begin Rule ComplexType ****************
  *
  * ComplexType:
- * 	"complex" "type" name=ID ("extends" baseType=[ComplexType])? "{" doc=STRING? elements+=ElementDeclaration* "}";
+ * 	"complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{" doc=STRING?
+ * 	elements+=ElementDeclaration* "}";
  *
  **/
 
-// "complex" "type" name=ID ("extends" baseType=[ComplexType])? "{" doc=STRING? elements+=ElementDeclaration* "}"
+// "complex" "type" name=ID ("extends" baseType=[ComplexType|QualifiedName])? "{" doc=STRING? elements+=ElementDeclaration*
+// "}"
 protected class ComplexType_Group extends GroupToken {
 	
 	public ComplexType_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -795,7 +797,7 @@ protected class ComplexType_NameAssignment_2 extends AssignmentToken  {
 
 }
 
-// ("extends" baseType=[ComplexType])?
+// ("extends" baseType=[ComplexType|QualifiedName])?
 protected class ComplexType_Group_3 extends GroupToken {
 	
 	public ComplexType_Group_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -839,7 +841,7 @@ protected class ComplexType_ExtendsKeyword_3_0 extends KeywordToken  {
 
 }
 
-// baseType=[ComplexType]
+// baseType=[ComplexType|QualifiedName]
 protected class ComplexType_BaseTypeAssignment_3_1 extends AssignmentToken  {
 	
 	public ComplexType_BaseTypeAssignment_3_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1013,11 +1015,11 @@ protected class ComplexType_RightCurlyBracketKeyword_7 extends KeywordToken  {
 /************ begin Rule ElementDeclaration ****************
  *
  * ElementDeclaration:
- * 	name=ID ":" (ref=[ComplexType] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
+ * 	name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?;
  *
  **/
 
-// name=ID ":" (ref=[ComplexType] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?
+// name=ID ":" (ref=[ComplexType|QualifiedName] | type=PrimitiveType) multiple?="[]"? optional?="optional"? doc=STRING?
 protected class ElementDeclaration_Group extends GroupToken {
 	
 	public ElementDeclaration_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1104,7 +1106,7 @@ protected class ElementDeclaration_ColonKeyword_1 extends KeywordToken  {
 
 }
 
-// ref=[ComplexType] | type=PrimitiveType
+// ref=[ComplexType|QualifiedName] | type=PrimitiveType
 protected class ElementDeclaration_Alternatives_2 extends AlternativesToken {
 
 	public ElementDeclaration_Alternatives_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1127,7 +1129,7 @@ protected class ElementDeclaration_Alternatives_2 extends AlternativesToken {
 
 }
 
-// ref=[ComplexType]
+// ref=[ComplexType|QualifiedName]
 protected class ElementDeclaration_RefAssignment_2_0 extends AssignmentToken  {
 	
 	public ElementDeclaration_RefAssignment_2_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {

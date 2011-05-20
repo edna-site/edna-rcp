@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <workflow>
-	<property name="model" />
+	<property name="sourceDir"/>
+	<property name="sourceFile"/>
 	<property name="targetDir"/>
 	<property name="targetFile"/>
 	<property name="standalone" value="true"/>
@@ -17,22 +18,25 @@
     <component class="org.edna.datamodel.transformations.workflow.ReaderExt">
 		<register idRef="datamodelStandaloneSetup"/>
 		<load class="org.eclipse.xtext.mwe.SlotEntry">
-			<slot value="complexTypes"/>
-			<type value="ComplexType"/>
+			<slot value="models"/>
+			<type value="Model"/>
 		</load>
-		<validate class="org.eclipse.xtext.mwe.Validator$Disabled"/>
-		<includePaths value="${includePaths}"/>
+		<!--validate class="org.eclipse.xtext.mwe.Validator$Disabled" /-->
+		<includePaths value="${includePaths},${sourceDir}"/>
 		<!-- The target file must not be loaded, since this results into scoping problems -->
+		<!--
 		<uriFilter class="org.edna.datamodel.transformations.workflow.TargetUriFilter" uri="${targetFile}"/>
+		-->
     </component>
 
-    <component class="org.eclipse.emf.mwe.utils.Reader">
-    	<uri value="${model}"/>
-    	<modelSlot value="sourceModel"/>
+    <component class="org.edna.datamodel.generateds.ModelSelector">
+    	<modelUri value="${sourceFile}"/>
+    	<inputSlot value="models"/>
+    	<outputSlot value="sourceModel"/>
     </component>
 
 	<!--  generate code -->
-	<component class="org.eclipse.xpand2.Generator">
+	<component class="org.eclipse.xpand2.Generator" skipOnErrors="true">
 		<metaModel class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
 		<globalVarDef name="targetFile" value="'${targetFile}'"/>
 		<expand
