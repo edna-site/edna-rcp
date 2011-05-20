@@ -109,10 +109,10 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 				strMessage = "ERROR! %s.%s argument is not %s but %s" % (_strClassName, _strMethodName, _strExpectedType, _value.__class__.__name__)
 				print(strMessage)
 				#raise BaseException(strMessage)
-	elif _value is None:
-		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
-		print(strMessage)
-		#raise BaseException(strMessage)
+#	elif _value is None:
+#		strMessage = "ERROR! %s.%s argument which should be %s is None" % (_strClassName, _strMethodName, _strExpectedType)
+#		print(strMessage)
+#		#raise BaseException(strMessage)
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
@@ -179,6 +179,9 @@ class MixedContainer(object):
 
 «ENDDEFINE»
 
+
+
+
 «DEFINE complexTypDef FOR ComplexType»
 class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 	«IF doc.length > 1-»
@@ -199,12 +202,20 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 	«ENDIF-»
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
+		«FOREACH {"outputFile", "export", "exportChildren", "marshal", "copy", "parseString", "parseFile", "build", "buildChildren", "exportToFile"} AS methodname-»
+		«IF e.name.matches(methodname)-»
+		strMessage = "FATAL ERROR! Attribute name «e.name» is reserved for EDGenerateDS data binding code, please use another attribute name."
+		raise BaseException(strMessage)
+		«ENDIF-»
+		«ENDFOREACH-»
 		«IF e.multiple-»
 		if «e.name» is None:
 			self.__«e.name» = []
 		else:
+			checkType("«name»", "Constructor of «name»", «e.name», "«e.typeName()»")
 			self.__«e.name» = «e.name»
 		«ELSE-»
+		checkType("«name»", "Constructor of «name»", «e.name», "«e.typeName()»")
 		self.__«e.name» = «e.name»
 		«ENDIF-»
 	«ENDFOREACH-»
@@ -323,11 +334,15 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 		oStreamString.close()
 		return oStringXML
 	#Only to export the entire XML tree to a file stream on disk
-	def outputFile( self, _outfileName ):
+	def exportToFile( self, _outfileName ):
 		outfile = open( _outfileName, "w" )
 		outfile.write(unicode('<?xml version=\"1.0\" ?>\n'))
 		self.export( outfile, 0, name_='«name»' )
 		outfile.close()
+	#Deprecated method, replaced by exportToFile
+	def outputFile( self, _outfileName ):
+		print("WARING: Method outputFile in class «name» is deprecated, please use instead exportToFile!")
+		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
 		return «name».parseString(self.marshal())
