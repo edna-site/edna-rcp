@@ -59,6 +59,9 @@ public class DatamodelFormatter extends AbstractDeclarativeFormatter {
 		// Suppress line break after the colon of an element declaration
 		c.setLinewrap(0).around(f.getElementDeclarationAccess().getColonKeyword_1());
 
+		c.setLinewrap().after(f.getImportRule());
+		c.setLinewrap(2).before(f.getComplexTypeRule());
+
 	}
 
 
