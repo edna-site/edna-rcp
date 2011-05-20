@@ -115,6 +115,7 @@ public abstract class TransformAction extends ActionDelegate implements IObjectA
 								.log(new Status(IStatus.OK, Activator.PLUGIN_ID, message));
 						// refresh the folder containing the UML and XSD model
 						file.getParent().refreshLocal(IResource.DEPTH_ONE, null);
+						file.getProject().build(BUILD, monitor);
 						return Status.OK_STATUS;
 					} else {
 						final String message = "Transformation of " + file.getName() + " failed.";
