@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <category-def name="uml2xsd" label="UML 2 XSD">
-      <description>
-         The UML 2 XSD generator
-      </description>
-   </category-def>
-   <category-def name="edna_datamodel_language" label="EDNA Datamodel DSL">
-      <description>
-         The Datamodel Editor for working with EDNA datamodel DSL files.
-      </description>
-   </category-def>
+   <description name="The EDNA Eclipse Update Site" url="http://www.edna-site.org/eclipse/updates">
+      
+   </description>
+   <category-def name="edna_datamodel_transformations" label="EDNA Datamodel Transformations"/>
+   <category-def name="uml2xsd" label="UML 2 XSD transformation (deprecated)"/>
 </site>
