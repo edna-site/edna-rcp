@@ -341,7 +341,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 		outfile.close()
 	#Deprecated method, replaced by exportToFile
 	def outputFile( self, _outfileName ):
-		print("WARING: Method outputFile in class «name» is deprecated, please use instead exportToFile!")
+		print("WARNING: Method outputFile in class «name» is deprecated, please use instead exportToFile!")
 		self.exportToFile(_outfileName)
 	#Method for making a copy in a new instance
 	def copy( self ):
