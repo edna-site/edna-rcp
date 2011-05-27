@@ -28,6 +28,7 @@ package org.edna.datamodel.transformations.ui.actions;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,7 +44,10 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.mwe.core.WorkflowFacade;
 import org.eclipse.emf.mwe.core.issues.Issues;
@@ -117,6 +121,22 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 					}
 					model = (Model) EcoreUtil.resolve(model, resourceSet);
 
+					// Check for unresolved cross references
+					for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
+						EObject obj = it.next();
+						for (EContentsEList.FeatureIterator featureIterator = (EContentsEList.FeatureIterator) obj
+								.eCrossReferences().iterator(); featureIterator.hasNext();) {
+							EObject eObject = (EObject) featureIterator.next();
+							EReference eReference = (EReference) featureIterator.feature();
+							if (eObject.eIsProxy()) {
+
+								final String message = String.format("Resource %s has unresolved cross-references.", fileURI.lastSegment());
+								Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, message));
+								return Status.CANCEL_STATUS;
+							}
+						}
+					}
+
 					slotContents.put("sourceModel", model);
 					// boolean executionResult = wfRunner.run(getWorkflowFile(), new ProgressMonitorAdapter(monitor), args, null);
 					Issues issues = wfFacade.run(slotContents);
@@ -150,9 +170,9 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 							final String message = "Generated Data Bindings for " + file.getName() + " to "+targetFile.lastSegment()+".";
 							MessageDialog.openInformation(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "EDNA Datamodel Transformation", message);
 						} else {
-							final String message = "Transformation of " + file.getName() + " failed.";
+							final String message = String.format("Transformation of %s failed. Please check the Error Log view (Window -> Show view -> Other... -> Error Log).", file.getName());
 							MessageDialog.openWarning(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
-									"EDNA Data Bindings", message + "Please check the Error Log view (Window -> Show view -> Other... -> Error Log).");
+									"EDNA Data Bindings", message);
 						}
 					}});
 			}
