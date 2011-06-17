@@ -212,7 +212,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 		if «e.name» is None:
 			self.__«e.name» = []
 		else:
-			checkType("«name»", "Constructor of «name»", «e.name», "«e.typeName()»")
+			checkType("«name»", "Constructor of «name»", «e.name», "list")
 			self.__«e.name» = «e.name»
 		«ELSE-»
 		checkType("«name»", "Constructor of «name»", «e.name», "«e.typeName()»")
