@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.edna.plugingenerator.ednacategory"
+            name="EDNA">
+      </category>
+      <wizard
+            category="org.edna.plugingenerator.ednacategory"
+            class="org.edna.plugingenerator.wizards.NewEDNAPluginWizard"
+            id="org.edna.plugingenerator.EDNApluginwizard"
+            name="Plugin"
+            project="false">
+      </wizard>
+   </extension>
+
+
+</plugin>
