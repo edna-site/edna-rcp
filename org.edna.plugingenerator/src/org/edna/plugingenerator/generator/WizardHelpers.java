@@ -129,6 +129,31 @@ public class WizardHelpers {
 
 		return xsDataClasses.toArray(new String[0]);		
 	}
+	
+	
+	static public String[] getXSDataClassFromEDML(IFile EDMLFile, String xsDataClassName) throws Exception {
+		
+		// Storage for the result
+		ArrayList<String> xsDataClasses = new ArrayList<String>();
+
+		// Load in the file 
+		Scanner scanner = new Scanner(EDMLFile.getContents());
+		scanner.useDelimiter("\n");
+		while (scanner.hasNext()) {
+			String line = scanner.next();
+			if (line.trim().contains("extends "+xsDataClassName)) {
+				// get the XSData name out of this
+				String xsName = line;
+				xsName = xsName.replace("complex", "");
+				xsName = xsName.replace("type", "");
+				xsName = xsName.replace("extends "+xsDataClassName, "");
+				xsName = xsName.replace("{", "");
+				xsDataClasses.add(xsName.trim());
+			}
+		}
+
+		return xsDataClasses.toArray(new String[0]);		
+	}
 
 
 }

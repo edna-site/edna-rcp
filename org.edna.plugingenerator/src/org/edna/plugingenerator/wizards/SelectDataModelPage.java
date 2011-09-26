@@ -53,7 +53,7 @@ public class SelectDataModelPage extends WizardPage {
 		lblNewLabel.setText("Select which .py file contains the plugins datamodel");
 
 		Label lblNewLabel_1 = new Label(composite, SWT.NONE);
-		lblNewLabel_1.setText(".py File");
+		lblNewLabel_1.setText(".edml File");
 
 		pyFilePath = new Text(composite, SWT.BORDER);
 		pyFilePath.setEditable(false);
@@ -66,7 +66,7 @@ public class SelectDataModelPage extends WizardPage {
 
 				ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
 				dialog.setTitle("Data Model Selection");
-				dialog.setMessage("Select the .py file which contains the datamodel:");
+				dialog.setMessage("Select the .edml file which contains the datamodel:");
 				dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
 				dialog.addFilter(new ViewerFilter() {
 
@@ -74,7 +74,7 @@ public class SelectDataModelPage extends WizardPage {
 					public boolean select(Viewer viewer, Object parentElement, Object element) {
 						try {
 							IFile file = (IFile) element;
-							if (file.getFileExtension().equals("py")) {
+							if (file.getFileExtension().equals("edml")) {
 								return true;
 							} else {
 								return false;
@@ -93,20 +93,20 @@ public class SelectDataModelPage extends WizardPage {
 							return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
 						}
 
-						return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an UML file!", null);
+						return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an EDML file!", null);
 					}
 				});
 
 				dialog.open();
 
 				//int result = dialog.open();
-				IFile umlFile = (IFile)dialog.getResult()[0];
-				pyFilePath.setText(umlFile.getLocation().toString());
-				((NewEDNAPluginWizard)getWizard()).getModel().setUmlFileName(umlFile);
+				IFile EDMLFile = (IFile)dialog.getResult()[0];
+				pyFilePath.setText(EDMLFile.getLocation().toString());
+				((NewEDNAPluginWizard)getWizard()).getModel().setUmlFileName(EDMLFile);
 
 				try {
-					xsDataInput.setItems(WizardHelpers.getXSDataClassFromPy(umlFile, "XSDataInput"));
-					xsDataResult.setItems(WizardHelpers.getXSDataClassFromPy(umlFile, "XSDataResult"));
+					xsDataInput.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataInput"));
+					xsDataResult.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataResult"));
 				} catch (Exception e1) {
 					//TODO Flag this to the user
 				}

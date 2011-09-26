@@ -39,7 +39,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 	private EDNAPluginGeneratorModel model;
 	private IProject project;
 	private String[] pathSegments;
-	
+
 	private IContainer edna_home;
 	private IContainer edna_project;
 
@@ -104,7 +104,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 
 
 	protected void generatePlugin(IProgressMonitor monitor) throws Exception {
-		
+
 		// get the plugins folder or create it if required
 		IFolder pluginHome = null;
 		if(edna_project instanceof IFolder) {
@@ -112,35 +112,71 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		} else {
 			throw new Exception("project is not a folder");
 		}
-		
+
 		// now create the plugin folder itself plus all its sub folders
 		String pluginName = String.format("%s-v%s", model.getName(), model.getVersion() );
-		IFolder plugin = makeFolder(pluginHome,pluginName,monitor);
+		IFolder plugin = makeFolder(pluginHome,"EDPlugin"+pluginName,monitor);
 		IFolder plugins = makeFolder(plugin,"plugins",monitor);
 		IFolder tests = makeFolder(plugin,"tests",monitor);
 		IFolder data = makeFolder(tests,"data",monitor);		
 		IFolder testsuite = makeFolder(tests,"testsuite",monitor);
+
+		// get the template prefix
+		String templatePrefix = model.getTemplateFileName().getName();
+		templatePrefix = templatePrefix.replace("EDPlugin", "");
+		templatePrefix = templatePrefix.replace(".py.template", "").trim();
 		
 		// now populate the appropriate files
 		EDNAPluginTemplateFiller eptf = new EDNAPluginTemplateFiller();
 		eptf.put(EDNAPluginTemplateFiller.AUTHOR, model.getAuthor());
 		eptf.put(EDNAPluginTemplateFiller.CONTROLEDPLUGINNAME, "NotImplemented");
 		eptf.put(EDNAPluginTemplateFiller.COPYRIGHT, model.getCopyright());
+		eptf.put(EDNAPluginTemplateFiller.BASEPLUGINNAME, model.getName());
 		eptf.put(EDNAPluginTemplateFiller.PLUGINNAME, model.getName());
-		eptf.put(EDNAPluginTemplateFiller.XSDATABASENAME, model.getUmlFileName().getName().replace(".py", ""));
+		String split = model.getUmlFileName().getName();
+		String[] parts = split.split("\\.");
+		eptf.put(EDNAPluginTemplateFiller.XSDATABASENAME, parts[0]);
 		eptf.put(EDNAPluginTemplateFiller.XSDATAINPUTNAME, model.getXsDataInput());
 		eptf.put(EDNAPluginTemplateFiller.XSDATARESULTNAME, model.getXsDataResult());
+		eptf.put(EDNAPluginTemplateFiller.BASENAME, templatePrefix);
 		
-		// first generate and populate the main plugin file
-		IFile pluginFile = plugins.getFile(model.getName()+".py");
-		eptf.ProcessTemplate(model.getTemplateFileName(), pluginFile, monitor);
 		
-		// first generate and populate the main plugin file
-		IFile ConfigTemplateFile = data.getFile(model.getName()+".py");
+		// generate and populate the main plugin file
+		IFile pluginFile = plugins.getFile("EDPlugin"+templatePrefix+model.getName()+".py");
 		eptf.ProcessTemplate(model.getTemplateFileName(), pluginFile, monitor);
+
+		// generate the test files including test suite.
+		IFile executeTestFile = testsuite.getFile("EDTestCasePluginExecute"+model.getName()+".py");
+		IFile executeTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/testsuite/EDTestCasePluginExecute"+templatePrefix+".py.template"));
+		eptf.ProcessTemplate(executeTemplate, executeTestFile, monitor);
+
+		IFile unitTestFile = testsuite.getFile("EDTestCasePluginUnit"+model.getName()+".py");
+		IFile unitTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/testsuite/EDTestCasePluginUnit"+templatePrefix+".py.template"));
+		eptf.ProcessTemplate(unitTemplate, unitTestFile, monitor);
+
+		IFile testSuiteFile = testsuite.getFile("EDTestCaseSuitePlugin"+model.getName()+".py");
+		IFile suiteTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/testsuite/EDTestSuitePlugin.py.template"));
+		eptf.ProcessTemplate(suiteTemplate, testSuiteFile, monitor);
+
+		// generate the test data which will be used
+		IFile inputDataFile = data.getFile("XSDataInput"+model.getName()+"_reference.xml");
+		IFile inputDataTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSDataInputTemplate_reference.xml"));
+		eptf.ProcessTemplate(inputDataTemplate, inputDataFile, monitor);
+
+		IFile resultDataFile = data.getFile("XSDataResult"+model.getName()+"_reference.xml");
+		IFile resultDataTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSDataResultTemplate_reference.xml"));
+		eptf.ProcessTemplate(resultDataTemplate, resultDataFile, monitor);
+		
+		// generate the test configuration file
+		IFile configFile = data.getFile("XSConfiguration_"+model.getName()+".xml");
+		IFile configTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSConfigTemplate.xml"));
+		eptf.ProcessTemplate(configTemplate, configFile, monitor);
+		
+		
+		//TODO add in the additions to the config file
 		
 	}
-	
+
 	private IFolder makeFolder(IFolder perant, String name, IProgressMonitor monitor) throws CoreException {
 		IFolder folder = perant.getFolder(name);
 		if (folder.exists() == false) {
@@ -149,8 +185,8 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		return folder;
 	}
 
-	
-	
+
+
 
 	@Override
 	public boolean performFinish() {
@@ -160,7 +196,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 				@Override
 				public void run(IProgressMonitor monitor) throws InvocationTargetException,
 				InterruptedException {
-					
+
 					try {
 						generatePlugin(monitor);
 					} catch (Exception e) {
@@ -231,16 +267,15 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 	}
 
 	public void checkPluginName() {
-		String name = model.getTemplateFileName().getName();
-		String[] parts = name.split(".py.");
-		String prefix = parts[0];
-		if (pluginBrandingPage.pluginName.getText().startsWith(prefix) == false) {
-			pluginBrandingPage.pluginName.setText(prefix+pluginBrandingPage.pluginName.getText());
-		}
-		model.setName(pluginBrandingPage.pluginName.getText());
+		//		String name = model.getTemplateFileName().getName();
+		//		String[] parts = name.split(".py.");
+		//		String prefix = parts[0];
+		if(pluginBrandingPage.pluginName != null) {
+			model.setName(pluginBrandingPage.pluginName.getText());
+		}		
 	}
 
-	
+
 	@Override
 	public boolean canFinish() {
 		return model.isComplete();
