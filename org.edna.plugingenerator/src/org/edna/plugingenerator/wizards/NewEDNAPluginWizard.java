@@ -42,8 +42,8 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 
 	private IContainer edna_home;
 	private IContainer edna_project;
-
-
+	private IFile edmlFile;
+	private IFile pythonFile;
 
 
 	public NewEDNAPluginWizard() {
@@ -55,15 +55,33 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		this.workbench = workbench;
 		this.selection = selection;
 		if (selection.getFirstElement() instanceof IFolder) {
-			this.folder = (IFolder) selection.getFirstElement();
-			this.project = this.folder.getProject();
-			this.pathSegments = this.folder.getFullPath().segments();
+			registerFolder((IFolder) selection.getFirstElement());
 		}
+		if (selection.getFirstElement() instanceof IFile) {
+			IFile file = (IFile) selection.getFirstElement();
+			registerFolder((IFolder) file.getParent());
+			
+			if(file.getFileExtension().equals("edml")) {
+				this.edmlFile = file;
+			}
+			if(file.getFileExtension().equals("py")) {
+				this.pythonFile = file;
+			}
+			
+			
+		}
+		
 		this.model = new EDNAPluginGeneratorModel();
 		initialiseModel();
 		this.setNeedsProgressMonitor(true);
 	}
 
+	private void registerFolder(IFolder folderToRegister) {
+		this.folder =  folderToRegister;
+		this.project = folderToRegister.getProject();
+		this.pathSegments = folderToRegister.getFullPath().segments();
+	}
+	
 	private void getEdnaHome() {
 
 		IContainer temp = this.folder;
@@ -87,6 +105,9 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		this.model.setVersion("0.1");	
 		IFolder location = edna_home.getFolder(new Path("template/plugins/"));
 		this.model.setTemplateDirectory(location);
+		if(this.edmlFile != null) this.model.setUmlFileName(this.edmlFile);
+		
+		//TODO should look at this point to see if this should be a duplicate of an exisiting file.
 	}
 
 	@Override

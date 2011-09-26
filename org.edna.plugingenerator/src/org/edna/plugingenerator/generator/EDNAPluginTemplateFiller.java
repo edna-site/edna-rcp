@@ -46,14 +46,16 @@ public class EDNAPluginTemplateFiller {
 	}
 
 	public String Substitute(String line, boolean xmlTags) {
+		String newLine = line;
 		for (String key : templateMap.keySet()) {
 			if (xmlTags) {
-				line = line.replaceAll(key.replace("<", "[").replace(">", "]"), templateMap.get(key));
+				String xmlkey = key.replace("<", "\\[").replace(">", "\\]");
+				newLine = newLine.replaceAll(xmlkey, templateMap.get(key));
 			} else {
-				line = line.replaceAll(key, templateMap.get(key));
+				newLine = newLine.replaceAll(key, templateMap.get(key));
 			}
 		}
-		return line;
+		return newLine;
 	}
 
 

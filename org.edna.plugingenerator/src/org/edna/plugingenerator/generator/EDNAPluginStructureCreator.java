@@ -28,38 +28,4 @@ public class EDNAPluginStructureCreator {
 			}
 		}
 	}
-
-	
-	public void GenerateDirectoryStructure(File directoryStructureTemplate) throws IOException {
-		// Load in the whole file as a single string
-	    byte[] buffer = new byte[(int) directoryStructureTemplate.length()];
-	    BufferedInputStream bis = null;
-	    try {
-	        bis = new BufferedInputStream(new FileInputStream(directoryStructureTemplate));
-	        bis.read(buffer);
-	    } finally {
-	        if (bis != null) try { bis.close(); } catch (IOException ignored) { }
-	    }
-
-	    GenerateDirectoryStructure(new String(buffer));
-	}
-	
-	public void GenerateDirectoryStructure(String directoryStructureTemplate) {
-
-		EDNAPluginTemplateFiller templater = new EDNAPluginTemplateFiller();
-		templater.put(EDNAPluginTemplateFiller.EDNAHOME, ednaHome);
-		templater.put(EDNAPluginTemplateFiller.PROJECTNAME, projectName);
-		
-		String[] remapped = templater.Substitute(directoryStructureTemplate).split("\n");
-		
-		for (String line : remapped) {
-			String[] parts = line.split("\t");
-			File temp = new File(parts[0]);
-			GenerateDirectory(temp);
-			if(parts.length > 1) {
-				// there is a tagword for this directory, so store it
-				directorys.put(parts[1], temp);				
-			}
-		}
-	}
 }

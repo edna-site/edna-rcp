@@ -50,7 +50,7 @@ public class SelectDataModelPage extends WizardPage {
 
 		Label lblNewLabel = new Label(composite, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-		lblNewLabel.setText("Select which .py file contains the plugins datamodel");
+		lblNewLabel.setText("Select which .edml file contains the plugins datamodel");
 
 		Label lblNewLabel_1 = new Label(composite, SWT.NONE);
 		lblNewLabel_1.setText(".edml File");
@@ -59,6 +59,7 @@ public class SelectDataModelPage extends WizardPage {
 		pyFilePath.setEditable(false);
 		pyFilePath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
+		
 		Button btnNewButton = new Button(composite, SWT.NONE);
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -104,13 +105,8 @@ public class SelectDataModelPage extends WizardPage {
 				pyFilePath.setText(EDMLFile.getLocation().toString());
 				((NewEDNAPluginWizard)getWizard()).getModel().setUmlFileName(EDMLFile);
 
-				try {
-					xsDataInput.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataInput"));
-					xsDataResult.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataResult"));
-				} catch (Exception e1) {
-					//TODO Flag this to the user
-				}
-
+				populatePullDowns(EDMLFile);
+				
 			}
 		});
 		btnNewButton.setText("Browse...");
@@ -164,9 +160,27 @@ public class SelectDataModelPage extends WizardPage {
 		xsDataResult.addModifyListener((NewEDNAPluginWizard) getWizard());
 		xsDataInput.addModifyListener((NewEDNAPluginWizard) getWizard());
 
+		
+		// Populate this if there has been some infomation provided
+		EDNAPluginGeneratorModel model = ((NewEDNAPluginWizard) getWizard()).getModel();
+		if(model.getUmlFileName() != null) {
+			pyFilePath.setText(model.getUmlFileName().getFullPath().toString());
+			populatePullDowns(model.getUmlFileName());
+		}
+		
 	}
 
+	private void populatePullDowns(IFile EDMLFile){
+		try {
+			xsDataInput.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataInput"));
+			xsDataResult.setItems(WizardHelpers.getXSDataClassFromEDML(EDMLFile, "XSDataResult"));
+		} catch (Exception e1) {
+			//TODO Flag this to the user
+		}
 
+	}
+	
+	
 	@Override
 	public boolean canFlipToNextPage() {
 		if (xsDataInput.getText().isEmpty()) return false;
