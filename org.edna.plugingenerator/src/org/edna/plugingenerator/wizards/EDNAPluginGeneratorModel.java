@@ -18,6 +18,7 @@ public class EDNAPluginGeneratorModel {
 	private String configuration;
 	private IResource project;
 	private IResource ednaHome;
+	private IFile pythonFile;
 
 	public IFile getUmlFileName() {
 		return umlFileName;
@@ -115,6 +116,16 @@ public class EDNAPluginGeneratorModel {
 		this.ednaHome = ednaHome;
 	}
 
+	public void setEmulatedFile(IFile pythonFile) {
+		this.pythonFile = pythonFile;
+		
+	}
+	
+	public IFile getEmulatedFile() {
+		return this.pythonFile;
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "EDNAPluginGeneratorModel ["

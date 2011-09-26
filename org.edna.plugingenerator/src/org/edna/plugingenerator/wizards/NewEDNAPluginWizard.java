@@ -3,6 +3,7 @@ package org.edna.plugingenerator.wizards;
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Scanner;
 
 import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.internal.resources.Workspace;
@@ -60,17 +61,17 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		if (selection.getFirstElement() instanceof IFile) {
 			IFile file = (IFile) selection.getFirstElement();
 			registerFolder((IFolder) file.getParent());
-			
+
 			if(file.getFileExtension().equals("edml")) {
 				this.edmlFile = file;
 			}
 			if(file.getFileExtension().equals("py")) {
 				this.pythonFile = file;
 			}
-			
-			
+
+
 		}
-		
+
 		this.model = new EDNAPluginGeneratorModel();
 		initialiseModel();
 		this.setNeedsProgressMonitor(true);
@@ -81,7 +82,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		this.project = folderToRegister.getProject();
 		this.pathSegments = folderToRegister.getFullPath().segments();
 	}
-	
+
 	private void getEdnaHome() {
 
 		IContainer temp = this.folder;
@@ -106,8 +107,102 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		IFolder location = edna_home.getFolder(new Path("template/plugins/"));
 		this.model.setTemplateDirectory(location);
 		if(this.edmlFile != null) this.model.setUmlFileName(this.edmlFile);
+
+		// Set up some intial information if the file is set.
+		if(this.pythonFile != null) {
+			this.setupFromFile(this.pythonFile);
+		}
+
+	}
+	
+	public void setupFromFile(IFile pythonFile) {
+		model.setEmulatedFile(pythonFile);
+		try {
+			IFile dataModel = extractDataModelFromPython(pythonFile);
+			model.setEmulatedFile(pythonFile);
+			model.setUmlFileName(dataModel);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private IFile extractDataModelFromPython(IFile pythonFile) throws CoreException {
+		String inputClass = null;
+		String resultClass = null;
+		String edmlFile = null;
+		String datamodel = null;
+
+		// Load in the file 
+		Scanner scanner = new Scanner(pythonFile.getContents());
+		scanner.useDelimiter("\n");
+		while (scanner.hasNext()) {
+			String line = scanner.next().trim();
+			if (line.contains("setXSDataInputClass") && (!line.startsWith("#"))) {
+				String[] parts = line.split("[\\(\\)\\,]");	
+				if(parts.length == 2) {
+					inputClass = parts[1].trim();
+					break;
+				}
+			}
+		}
+
+		if(inputClass != null) {
+
+			// now search through to find the appropriate import
+			scanner = new Scanner(pythonFile.getContents());
+			scanner.useDelimiter("\n");
+			while (scanner.hasNext()) {
+				String line = scanner.next();
+				System.out.println(line);
+				if (line.contains(inputClass)) {
+					String[] parts = line.split("\\s+");	
+					if(parts.length >= 2) {
+						datamodel = parts[1].trim();
+						break;
+					}
+				}
+			}
+			
+			// finally do a last scan to see if the output can be picked up as well
+			scanner = new Scanner(pythonFile.getContents());
+			scanner.useDelimiter("\n");
+			while (scanner.hasNext()) {
+				String line = scanner.next();
+				System.out.println(line);
+				if (line.contains(datamodel)) {
+					String[] parts = line.split("\\s+");
+					for (String part : parts) {
+						if(part.contains("XSDataResult")) {
+							resultClass = part;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		// now we have the name, we need to find the .edml file which contains it.
+		String modelName = datamodel+".edml";
+
+		IFolder localDataModel = pythonFile.getParent().getFolder(new Path("../datamodel"));
+		IFolder globalDataModel = pythonFile.getParent().getFolder(new Path("../../../datamodel"));
+
+		model.setXsDataInput(inputClass);
+		model.setXsDataResult(resultClass);
 		
-		//TODO should look at this point to see if this should be a duplicate of an exisiting file.
+		IFile result = null;
+
+		// try the local location first.
+		result = localDataModel.getFile(modelName);
+		if (result.exists()) return result;
+
+		result = globalDataModel.getFile(modelName);
+		if (result.exists()) return result;
+
+		System.out.println(result);
+		
+		return result;
+
 	}
 
 	@Override
@@ -146,7 +241,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		String templatePrefix = model.getTemplateFileName().getName();
 		templatePrefix = templatePrefix.replace("EDPlugin", "");
 		templatePrefix = templatePrefix.replace(".py.template", "").trim();
-		
+
 		// now populate the appropriate files
 		EDNAPluginTemplateFiller eptf = new EDNAPluginTemplateFiller();
 		eptf.put(EDNAPluginTemplateFiller.AUTHOR, model.getAuthor());
@@ -160,8 +255,8 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		eptf.put(EDNAPluginTemplateFiller.XSDATAINPUTNAME, model.getXsDataInput());
 		eptf.put(EDNAPluginTemplateFiller.XSDATARESULTNAME, model.getXsDataResult());
 		eptf.put(EDNAPluginTemplateFiller.BASENAME, templatePrefix);
-		
-		
+
+
 		// generate and populate the main plugin file
 		IFile pluginFile = plugins.getFile("EDPlugin"+templatePrefix+model.getName()+".py");
 		eptf.ProcessTemplate(model.getTemplateFileName(), pluginFile, monitor);
@@ -187,15 +282,15 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		IFile resultDataFile = data.getFile("XSDataResult"+model.getName()+"_reference.xml");
 		IFile resultDataTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSDataResultTemplate_reference.xml"));
 		eptf.ProcessTemplate(resultDataTemplate, resultDataFile, monitor);
-		
+
 		// generate the test configuration file
 		IFile configFile = data.getFile("XSConfiguration_"+model.getName()+".xml");
 		IFile configTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSConfigTemplate.xml"));
 		eptf.ProcessTemplate(configTemplate, configFile, monitor);
-		
-		
+
+
 		//TODO add in the additions to the config file
-		
+
 	}
 
 	private IFolder makeFolder(IFolder perant, String name, IProgressMonitor monitor) throws CoreException {
