@@ -7,9 +7,7 @@ Bundle-Activator: org.edna.kernel.Activator
 Bundle-Vendor: EDNA
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.console,
- org.dawb.common.util,
- jep
+ org.eclipse.ui.console
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
@@ -96,5 +94,5 @@ Bundle-ClassPath: .,
  lib/castor-1.3-xml-schema.jar,
  lib/castor-1.3-anttasks.jar,
  lib/commons-logging-1.1.1.jar,
- castor.properties
-Import-Package: org.edna.pydev.extensions.utils
+ castor.properties,
+ lib/jep.jar
