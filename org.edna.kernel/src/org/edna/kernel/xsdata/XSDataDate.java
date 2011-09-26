@@ -13,19 +13,9 @@ package org.edna.kernel.xsdata;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataDate extends org.edna.kernel.xsdata.XSData 
+public class XSDataDate extends org.edna.kernel.xsdata.XSDataString 
 implements java.io.Serializable
 {
-
-
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
-
-    /**
-     * Field _value.
-     */
-    private org.edna.kernel.xsdata.XSDataString _value;
 
 
       //----------------/
@@ -40,16 +30,6 @@ implements java.io.Serializable
       //-----------/
      //- Methods -/
     //-----------/
-
-    /**
-     * Returns the value of field 'value'.
-     * 
-     * @return the value of field 'Value'.
-     */
-    public org.edna.kernel.xsdata.XSDataString getValue(
-    ) {
-        return this._value;
-    }
 
     /**
      * Method isValid.
@@ -96,16 +76,6 @@ implements java.io.Serializable
             final org.xml.sax.ContentHandler handler)
     throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Marshaller.marshal(this, handler);
-    }
-
-    /**
-     * Sets the value of field 'value'.
-     * 
-     * @param value the value of field 'value'.
-     */
-    public void setValue(
-            final org.edna.kernel.xsdata.XSDataString value) {
-        this._value = value;
     }
 
     /**

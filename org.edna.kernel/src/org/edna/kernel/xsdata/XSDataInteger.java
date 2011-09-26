@@ -25,7 +25,7 @@ implements java.io.Serializable
     /**
      * Field _value.
      */
-    private int _value;
+    private long _value;
 
     /**
      * keeps track of state for field: _value
@@ -58,7 +58,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'Value'.
      */
-    public int getValue(
+    public long getValue(
     ) {
         return this._value;
     }
@@ -126,7 +126,7 @@ implements java.io.Serializable
      * @param value the value of field 'value'.
      */
     public void setValue(
-            final int value) {
+            final long value) {
         this._value = value;
         this._has_value = true;
     }

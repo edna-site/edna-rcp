@@ -38,9 +38,9 @@ implements java.io.Serializable
     private org.edna.kernel.xsdata.XSDataBoolean _isSuccess;
 
     /**
-     * Field _messageList.
+     * Field _message.
      */
-    private java.util.List<org.edna.kernel.xsdata.XSDataMessage> _messageList;
+    private org.edna.kernel.xsdata.XSDataMessage _message;
 
 
       //----------------/
@@ -49,52 +49,12 @@ implements java.io.Serializable
 
     public XSDataStatus() {
         super();
-        this._messageList = new java.util.ArrayList<org.edna.kernel.xsdata.XSDataMessage>();
     }
 
 
       //-----------/
      //- Methods -/
     //-----------/
-
-    /**
-     * 
-     * 
-     * @param vMessage
-     * @throws java.lang.IndexOutOfBoundsException if the index
-     * given is outside the bounds of the collection
-     */
-    public void addMessage(
-            final org.edna.kernel.xsdata.XSDataMessage vMessage)
-    throws java.lang.IndexOutOfBoundsException {
-        this._messageList.add(vMessage);
-    }
-
-    /**
-     * 
-     * 
-     * @param index
-     * @param vMessage
-     * @throws java.lang.IndexOutOfBoundsException if the index
-     * given is outside the bounds of the collection
-     */
-    public void addMessage(
-            final int index,
-            final org.edna.kernel.xsdata.XSDataMessage vMessage)
-    throws java.lang.IndexOutOfBoundsException {
-        this._messageList.add(index, vMessage);
-    }
-
-    /**
-     * Method enumerateMessage.
-     * 
-     * @return an Enumeration over all possible elements of this
-     * collection
-     */
-    public java.util.Enumeration<? extends org.edna.kernel.xsdata.XSDataMessage> enumerateMessage(
-    ) {
-        return java.util.Collections.enumeration(this._messageList);
-    }
 
     /**
      * Returns the value of field 'executionInfo'.
@@ -127,48 +87,13 @@ implements java.io.Serializable
     }
 
     /**
-     * Method getMessage.
+     * Returns the value of field 'message'.
      * 
-     * @param index
-     * @throws java.lang.IndexOutOfBoundsException if the index
-     * given is outside the bounds of the collection
-     * @return the value of the
-     * org.edna.kernel.xsdata.XSDataMessage at the given index
+     * @return the value of field 'Message'.
      */
     public org.edna.kernel.xsdata.XSDataMessage getMessage(
-            final int index)
-    throws java.lang.IndexOutOfBoundsException {
-        // check bounds for index
-        if (index < 0 || index >= this._messageList.size()) {
-            throw new IndexOutOfBoundsException("getMessage: Index value '" + index + "' not in range [0.." + (this._messageList.size() - 1) + "]");
-        }
-
-        return (org.edna.kernel.xsdata.XSDataMessage) _messageList.get(index);
-    }
-
-    /**
-     * Method getMessage.Returns the contents of the collection in
-     * an Array.  <p>Note:  Just in case the collection contents
-     * are changing in another thread, we pass a 0-length Array of
-     * the correct type into the API call.  This way we <i>know</i>
-     * that the Array returned is of exactly the correct length.
-     * 
-     * @return this collection as an Array
-     */
-    public org.edna.kernel.xsdata.XSDataMessage[] getMessage(
     ) {
-        org.edna.kernel.xsdata.XSDataMessage[] array = new org.edna.kernel.xsdata.XSDataMessage[0];
-        return (org.edna.kernel.xsdata.XSDataMessage[]) this._messageList.toArray(array);
-    }
-
-    /**
-     * Method getMessageCount.
-     * 
-     * @return the size of this collection
-     */
-    public int getMessageCount(
-    ) {
-        return this._messageList.size();
+        return this._message;
     }
 
     /**
@@ -184,17 +109,6 @@ implements java.io.Serializable
             return false;
         }
         return true;
-    }
-
-    /**
-     * Method iterateMessage.
-     * 
-     * @return an Iterator over all possible elements in this
-     * collection
-     */
-    public java.util.Iterator<? extends org.edna.kernel.xsdata.XSDataMessage> iterateMessage(
-    ) {
-        return this._messageList.iterator();
     }
 
     /**
@@ -230,37 +144,6 @@ implements java.io.Serializable
     }
 
     /**
-     */
-    public void removeAllMessage(
-    ) {
-        this._messageList.clear();
-    }
-
-    /**
-     * Method removeMessage.
-     * 
-     * @param vMessage
-     * @return true if the object was removed from the collection.
-     */
-    public boolean removeMessage(
-            final org.edna.kernel.xsdata.XSDataMessage vMessage) {
-        boolean removed = _messageList.remove(vMessage);
-        return removed;
-    }
-
-    /**
-     * Method removeMessageAt.
-     * 
-     * @param index
-     * @return the element removed from the collection
-     */
-    public org.edna.kernel.xsdata.XSDataMessage removeMessageAt(
-            final int index) {
-        java.lang.Object obj = this._messageList.remove(index);
-        return (org.edna.kernel.xsdata.XSDataMessage) obj;
-    }
-
-    /**
      * Sets the value of field 'executionInfo'.
      * 
      * @param executionInfo the value of field 'executionInfo'.
@@ -291,38 +174,13 @@ implements java.io.Serializable
     }
 
     /**
+     * Sets the value of field 'message'.
      * 
-     * 
-     * @param index
-     * @param vMessage
-     * @throws java.lang.IndexOutOfBoundsException if the index
-     * given is outside the bounds of the collection
+     * @param message the value of field 'message'.
      */
     public void setMessage(
-            final int index,
-            final org.edna.kernel.xsdata.XSDataMessage vMessage)
-    throws java.lang.IndexOutOfBoundsException {
-        // check bounds for index
-        if (index < 0 || index >= this._messageList.size()) {
-            throw new IndexOutOfBoundsException("setMessage: Index value '" + index + "' not in range [0.." + (this._messageList.size() - 1) + "]");
-        }
-
-        this._messageList.set(index, vMessage);
-    }
-
-    /**
-     * 
-     * 
-     * @param vMessageArray
-     */
-    public void setMessage(
-            final org.edna.kernel.xsdata.XSDataMessage[] vMessageArray) {
-        //-- copy array
-        _messageList.clear();
-
-        for (int i = 0; i < vMessageArray.length; i++) {
-                this._messageList.add(vMessageArray[i]);
-        }
+            final org.edna.kernel.xsdata.XSDataMessage message) {
+        this._message = message;
     }
 
     /**

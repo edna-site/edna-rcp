@@ -8,21 +8,41 @@
 package org.edna.kernel.xsdata;
 
 /**
- * Class XSDataAngularSpeed.
+ * Class XSDataImageExt.
  * 
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataAngularSpeed extends org.edna.kernel.xsdata.XSDataDoubleWithUnit 
+public class XSDataImageExt extends org.edna.kernel.xsdata.XSDataImage 
 implements java.io.Serializable
 {
+
+
+      //--------------------------/
+     //- Class/Member Variables -/
+    //--------------------------/
+
+    /**
+     * Field _array.
+     */
+    private org.edna.kernel.xsdata.XSDataArray _array;
+
+    /**
+     * Field _shared.
+     */
+    private org.edna.kernel.xsdata.XSDataString _shared;
+
+    /**
+     * Field _exposureTime.
+     */
+    private org.edna.kernel.xsdata.XSDataTime _exposureTime;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public XSDataAngularSpeed() {
+    public XSDataImageExt() {
         super();
     }
 
@@ -30,6 +50,36 @@ implements java.io.Serializable
       //-----------/
      //- Methods -/
     //-----------/
+
+    /**
+     * Returns the value of field 'array'.
+     * 
+     * @return the value of field 'Array'.
+     */
+    public org.edna.kernel.xsdata.XSDataArray getArray(
+    ) {
+        return this._array;
+    }
+
+    /**
+     * Returns the value of field 'exposureTime'.
+     * 
+     * @return the value of field 'ExposureTime'.
+     */
+    public org.edna.kernel.xsdata.XSDataTime getExposureTime(
+    ) {
+        return this._exposureTime;
+    }
+
+    /**
+     * Returns the value of field 'shared'.
+     * 
+     * @return the value of field 'Shared'.
+     */
+    public org.edna.kernel.xsdata.XSDataString getShared(
+    ) {
+        return this._shared;
+    }
 
     /**
      * Method isValid.
@@ -79,20 +129,49 @@ implements java.io.Serializable
     }
 
     /**
-     * Method unmarshalXSDataAngularSpeed.
+     * Sets the value of field 'array'.
+     * 
+     * @param array the value of field 'array'.
+     */
+    public void setArray(
+            final org.edna.kernel.xsdata.XSDataArray array) {
+        this._array = array;
+    }
+
+    /**
+     * Sets the value of field 'exposureTime'.
+     * 
+     * @param exposureTime the value of field 'exposureTime'.
+     */
+    public void setExposureTime(
+            final org.edna.kernel.xsdata.XSDataTime exposureTime) {
+        this._exposureTime = exposureTime;
+    }
+
+    /**
+     * Sets the value of field 'shared'.
+     * 
+     * @param shared the value of field 'shared'.
+     */
+    public void setShared(
+            final org.edna.kernel.xsdata.XSDataString shared) {
+        this._shared = shared;
+    }
+
+    /**
+     * Method unmarshalXSDataImageExt.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
-     * @return the unmarshaled
-     * org.edna.kernel.xsdata.XSDataAngularSpeed
+     * @return the unmarshaled org.edna.kernel.xsdata.XSDataImageExt
      */
-    public static org.edna.kernel.xsdata.XSDataAngularSpeed unmarshalXSDataAngularSpeed(
+    public static org.edna.kernel.xsdata.XSDataImageExt unmarshalXSDataImageExt(
             final java.io.Reader reader)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.edna.kernel.xsdata.XSDataAngularSpeed) org.exolab.castor.xml.Unmarshaller.unmarshal(org.edna.kernel.xsdata.XSDataAngularSpeed.class, reader);
+        return (org.edna.kernel.xsdata.XSDataImageExt) org.exolab.castor.xml.Unmarshaller.unmarshal(org.edna.kernel.xsdata.XSDataImageExt.class, reader);
     }
 
     /**

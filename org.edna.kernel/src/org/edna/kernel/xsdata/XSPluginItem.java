@@ -21,11 +21,6 @@ public class XSPluginItem implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _name.
-     */
-    private java.lang.String _name;
-
-    /**
      * Field _XSOptionList.
      */
     private org.edna.kernel.xsdata.XSOptionList _XSOptionList;
@@ -34,6 +29,11 @@ public class XSPluginItem implements java.io.Serializable {
      * Field _XSParamList.
      */
     private org.edna.kernel.xsdata.XSParamList _XSParamList;
+
+    /**
+     * Field _name.
+     */
+    private java.lang.String _name;
 
 
       //----------------/

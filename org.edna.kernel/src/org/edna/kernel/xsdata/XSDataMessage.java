@@ -23,9 +23,9 @@ implements java.io.Serializable
     //--------------------------/
 
     /**
-     * Field _debugInfo.
+     * Field _debuginfo.
      */
-    private org.edna.kernel.xsdata.XSDataString _debugInfo;
+    private org.edna.kernel.xsdata.XSDataString _debuginfo;
 
     /**
      * Field _level.
@@ -57,13 +57,13 @@ implements java.io.Serializable
     //-----------/
 
     /**
-     * Returns the value of field 'debugInfo'.
+     * Returns the value of field 'debuginfo'.
      * 
-     * @return the value of field 'DebugInfo'.
+     * @return the value of field 'Debuginfo'.
      */
-    public org.edna.kernel.xsdata.XSDataString getDebugInfo(
+    public org.edna.kernel.xsdata.XSDataString getDebuginfo(
     ) {
-        return this._debugInfo;
+        return this._debuginfo;
     }
 
     /**
@@ -144,13 +144,13 @@ implements java.io.Serializable
     }
 
     /**
-     * Sets the value of field 'debugInfo'.
+     * Sets the value of field 'debuginfo'.
      * 
-     * @param debugInfo the value of field 'debugInfo'.
+     * @param debuginfo the value of field 'debuginfo'.
      */
-    public void setDebugInfo(
-            final org.edna.kernel.xsdata.XSDataString debugInfo) {
-        this._debugInfo = debugInfo;
+    public void setDebuginfo(
+            final org.edna.kernel.xsdata.XSDataString debuginfo) {
+        this._debuginfo = debuginfo;
     }
 
     /**

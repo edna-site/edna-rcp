@@ -8,21 +8,36 @@
 package org.edna.kernel.xsdata;
 
 /**
- * Class XSDataAngularSpeed.
+ * Class XSDataDoubleWithUnit.
  * 
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataAngularSpeed extends org.edna.kernel.xsdata.XSDataDoubleWithUnit 
+public class XSDataDoubleWithUnit extends org.edna.kernel.xsdata.XSDataDouble 
 implements java.io.Serializable
 {
+
+
+      //--------------------------/
+     //- Class/Member Variables -/
+    //--------------------------/
+
+    /**
+     * Field _error.
+     */
+    private org.edna.kernel.xsdata.XSDataDouble _error;
+
+    /**
+     * Field _unit.
+     */
+    private org.edna.kernel.xsdata.XSDataString _unit;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public XSDataAngularSpeed() {
+    public XSDataDoubleWithUnit() {
         super();
     }
 
@@ -30,6 +45,26 @@ implements java.io.Serializable
       //-----------/
      //- Methods -/
     //-----------/
+
+    /**
+     * Returns the value of field 'error'.
+     * 
+     * @return the value of field 'Error'.
+     */
+    public org.edna.kernel.xsdata.XSDataDouble getError(
+    ) {
+        return this._error;
+    }
+
+    /**
+     * Returns the value of field 'unit'.
+     * 
+     * @return the value of field 'Unit'.
+     */
+    public org.edna.kernel.xsdata.XSDataString getUnit(
+    ) {
+        return this._unit;
+    }
 
     /**
      * Method isValid.
@@ -79,7 +114,27 @@ implements java.io.Serializable
     }
 
     /**
-     * Method unmarshalXSDataAngularSpeed.
+     * Sets the value of field 'error'.
+     * 
+     * @param error the value of field 'error'.
+     */
+    public void setError(
+            final org.edna.kernel.xsdata.XSDataDouble error) {
+        this._error = error;
+    }
+
+    /**
+     * Sets the value of field 'unit'.
+     * 
+     * @param unit the value of field 'unit'.
+     */
+    public void setUnit(
+            final org.edna.kernel.xsdata.XSDataString unit) {
+        this._unit = unit;
+    }
+
+    /**
+     * Method unmarshalXSDataDoubleWithUnit.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
@@ -87,12 +142,12 @@ implements java.io.Serializable
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.edna.kernel.xsdata.XSDataAngularSpeed
+     * org.edna.kernel.xsdata.XSDataDoubleWithUnit
      */
-    public static org.edna.kernel.xsdata.XSDataAngularSpeed unmarshalXSDataAngularSpeed(
+    public static org.edna.kernel.xsdata.XSDataDoubleWithUnit unmarshalXSDataDoubleWithUnit(
             final java.io.Reader reader)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.edna.kernel.xsdata.XSDataAngularSpeed) org.exolab.castor.xml.Unmarshaller.unmarshal(org.edna.kernel.xsdata.XSDataAngularSpeed.class, reader);
+        return (org.edna.kernel.xsdata.XSDataDoubleWithUnit) org.exolab.castor.xml.Unmarshaller.unmarshal(org.edna.kernel.xsdata.XSDataDoubleWithUnit.class, reader);
     }
 
     /**

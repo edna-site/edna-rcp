@@ -13,9 +13,7 @@ package org.edna.kernel.xsdata;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataKeyValuePair extends org.edna.kernel.xsdata.XSData 
-implements java.io.Serializable
-{
+public class XSDataKeyValuePair implements java.io.Serializable {
 
 
       //--------------------------/
@@ -23,14 +21,14 @@ implements java.io.Serializable
     //--------------------------/
 
     /**
-     * Field _value.
-     */
-    private org.edna.kernel.xsdata.XSDataString _value;
-
-    /**
      * Field _key.
      */
     private org.edna.kernel.xsdata.XSDataString _key;
+
+    /**
+     * Field _value.
+     */
+    private org.edna.kernel.xsdata.XSDataString _value;
 
 
       //----------------/

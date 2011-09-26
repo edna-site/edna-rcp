@@ -13,14 +13,22 @@ package org.edna.kernel.xsdata;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataDisplacement extends org.edna.kernel.xsdata.XSData 
-implements java.io.Serializable
-{
+public class XSDataDisplacement implements java.io.Serializable {
 
 
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field _error.
+     */
+    private org.edna.kernel.xsdata.XSDataDouble _error;
+
+    /**
+     * Field _unit.
+     */
+    private org.edna.kernel.xsdata.XSDataString _unit;
 
     /**
      * Field _value.
@@ -31,16 +39,6 @@ implements java.io.Serializable
      * keeps track of state for field: _value
      */
     private boolean _has_value;
-
-    /**
-     * Field _unit.
-     */
-    private org.edna.kernel.xsdata.XSDataString _unit;
-
-    /**
-     * Field _error.
-     */
-    private org.edna.kernel.xsdata.XSDataDouble _error;
 
 
       //----------------/

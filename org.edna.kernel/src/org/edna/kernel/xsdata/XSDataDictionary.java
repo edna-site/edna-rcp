@@ -13,9 +13,7 @@ package org.edna.kernel.xsdata;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataDictionary extends org.edna.kernel.xsdata.XSData 
-implements java.io.Serializable
-{
+public class XSDataDictionary implements java.io.Serializable {
 
 
       //--------------------------/

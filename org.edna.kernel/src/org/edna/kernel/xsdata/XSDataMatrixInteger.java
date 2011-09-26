@@ -25,7 +25,7 @@ implements java.io.Serializable
     /**
      * Field _m11.
      */
-    private int _m11;
+    private long _m11;
 
     /**
      * keeps track of state for field: _m11
@@ -35,7 +35,7 @@ implements java.io.Serializable
     /**
      * Field _m12.
      */
-    private int _m12;
+    private long _m12;
 
     /**
      * keeps track of state for field: _m12
@@ -45,7 +45,7 @@ implements java.io.Serializable
     /**
      * Field _m13.
      */
-    private int _m13;
+    private long _m13;
 
     /**
      * keeps track of state for field: _m13
@@ -55,7 +55,7 @@ implements java.io.Serializable
     /**
      * Field _m21.
      */
-    private int _m21;
+    private long _m21;
 
     /**
      * keeps track of state for field: _m21
@@ -65,7 +65,7 @@ implements java.io.Serializable
     /**
      * Field _m22.
      */
-    private int _m22;
+    private long _m22;
 
     /**
      * keeps track of state for field: _m22
@@ -75,7 +75,7 @@ implements java.io.Serializable
     /**
      * Field _m23.
      */
-    private int _m23;
+    private long _m23;
 
     /**
      * keeps track of state for field: _m23
@@ -85,7 +85,7 @@ implements java.io.Serializable
     /**
      * Field _m31.
      */
-    private int _m31;
+    private long _m31;
 
     /**
      * keeps track of state for field: _m31
@@ -95,7 +95,7 @@ implements java.io.Serializable
     /**
      * Field _m32.
      */
-    private int _m32;
+    private long _m32;
 
     /**
      * keeps track of state for field: _m32
@@ -105,7 +105,7 @@ implements java.io.Serializable
     /**
      * Field _m33.
      */
-    private int _m33;
+    private long _m33;
 
     /**
      * keeps track of state for field: _m33
@@ -194,7 +194,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M11'.
      */
-    public int getM11(
+    public long getM11(
     ) {
         return this._m11;
     }
@@ -204,7 +204,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M12'.
      */
-    public int getM12(
+    public long getM12(
     ) {
         return this._m12;
     }
@@ -214,7 +214,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M13'.
      */
-    public int getM13(
+    public long getM13(
     ) {
         return this._m13;
     }
@@ -224,7 +224,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M21'.
      */
-    public int getM21(
+    public long getM21(
     ) {
         return this._m21;
     }
@@ -234,7 +234,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M22'.
      */
-    public int getM22(
+    public long getM22(
     ) {
         return this._m22;
     }
@@ -244,7 +244,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M23'.
      */
-    public int getM23(
+    public long getM23(
     ) {
         return this._m23;
     }
@@ -254,7 +254,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M31'.
      */
-    public int getM31(
+    public long getM31(
     ) {
         return this._m31;
     }
@@ -264,7 +264,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M32'.
      */
-    public int getM32(
+    public long getM32(
     ) {
         return this._m32;
     }
@@ -274,7 +274,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'M33'.
      */
-    public int getM33(
+    public long getM33(
     ) {
         return this._m33;
     }
@@ -422,7 +422,7 @@ implements java.io.Serializable
      * @param m11 the value of field 'm11'.
      */
     public void setM11(
-            final int m11) {
+            final long m11) {
         this._m11 = m11;
         this._has_m11 = true;
     }
@@ -433,7 +433,7 @@ implements java.io.Serializable
      * @param m12 the value of field 'm12'.
      */
     public void setM12(
-            final int m12) {
+            final long m12) {
         this._m12 = m12;
         this._has_m12 = true;
     }
@@ -444,7 +444,7 @@ implements java.io.Serializable
      * @param m13 the value of field 'm13'.
      */
     public void setM13(
-            final int m13) {
+            final long m13) {
         this._m13 = m13;
         this._has_m13 = true;
     }
@@ -455,7 +455,7 @@ implements java.io.Serializable
      * @param m21 the value of field 'm21'.
      */
     public void setM21(
-            final int m21) {
+            final long m21) {
         this._m21 = m21;
         this._has_m21 = true;
     }
@@ -466,7 +466,7 @@ implements java.io.Serializable
      * @param m22 the value of field 'm22'.
      */
     public void setM22(
-            final int m22) {
+            final long m22) {
         this._m22 = m22;
         this._has_m22 = true;
     }
@@ -477,7 +477,7 @@ implements java.io.Serializable
      * @param m23 the value of field 'm23'.
      */
     public void setM23(
-            final int m23) {
+            final long m23) {
         this._m23 = m23;
         this._has_m23 = true;
     }
@@ -488,7 +488,7 @@ implements java.io.Serializable
      * @param m31 the value of field 'm31'.
      */
     public void setM31(
-            final int m31) {
+            final long m31) {
         this._m31 = m31;
         this._has_m31 = true;
     }
@@ -499,7 +499,7 @@ implements java.io.Serializable
      * @param m32 the value of field 'm32'.
      */
     public void setM32(
-            final int m32) {
+            final long m32) {
         this._m32 = m32;
         this._has_m32 = true;
     }
@@ -510,7 +510,7 @@ implements java.io.Serializable
      * @param m33 the value of field 'm33'.
      */
     public void setM33(
-            final int m33) {
+            final long m33) {
         this._m33 = m33;
         this._has_m33 = true;
     }

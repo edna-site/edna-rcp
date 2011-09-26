@@ -25,7 +25,7 @@ implements java.io.Serializable
     /**
      * Field _v1.
      */
-    private int _v1;
+    private long _v1;
 
     /**
      * keeps track of state for field: _v1
@@ -35,7 +35,7 @@ implements java.io.Serializable
     /**
      * Field _v2.
      */
-    private int _v2;
+    private long _v2;
 
     /**
      * keeps track of state for field: _v2
@@ -45,7 +45,7 @@ implements java.io.Serializable
     /**
      * Field _v3.
      */
-    private int _v3;
+    private long _v3;
 
     /**
      * keeps track of state for field: _v3
@@ -92,7 +92,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'V1'.
      */
-    public int getV1(
+    public long getV1(
     ) {
         return this._v1;
     }
@@ -102,7 +102,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'V2'.
      */
-    public int getV2(
+    public long getV2(
     ) {
         return this._v2;
     }
@@ -112,7 +112,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'V3'.
      */
-    public int getV3(
+    public long getV3(
     ) {
         return this._v3;
     }
@@ -200,7 +200,7 @@ implements java.io.Serializable
      * @param v1 the value of field 'v1'.
      */
     public void setV1(
-            final int v1) {
+            final long v1) {
         this._v1 = v1;
         this._has_v1 = true;
     }
@@ -211,7 +211,7 @@ implements java.io.Serializable
      * @param v2 the value of field 'v2'.
      */
     public void setV2(
-            final int v2) {
+            final long v2) {
         this._v2 = v2;
         this._has_v2 = true;
     }
@@ -222,7 +222,7 @@ implements java.io.Serializable
      * @param v3 the value of field 'v3'.
      */
     public void setV3(
-            final int v3) {
+            final long v3) {
         this._v3 = v3;
         this._has_v3 = true;
     }

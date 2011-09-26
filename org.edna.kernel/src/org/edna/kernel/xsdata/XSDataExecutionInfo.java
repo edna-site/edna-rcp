@@ -13,9 +13,7 @@ package org.edna.kernel.xsdata;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("serial")
-public class XSDataExecutionInfo extends org.edna.kernel.xsdata.XSData 
-implements java.io.Serializable
-{
+public class XSDataExecutionInfo implements java.io.Serializable {
 
 
       //--------------------------/
@@ -26,6 +24,11 @@ implements java.io.Serializable
      * Field _baseDirectory.
      */
     private org.edna.kernel.xsdata.XSDataFile _baseDirectory;
+
+    /**
+     * Field _configuration.
+     */
+    private org.edna.kernel.xsdata.XSConfiguration _configuration;
 
     /**
      * Field _executionTime.
@@ -43,19 +46,14 @@ implements java.io.Serializable
     private org.edna.kernel.xsdata.XSDataDate _startOfExecution;
 
     /**
-     * Field _systemInfo.
+     * Field _systeminfo.
      */
-    private org.edna.kernel.xsdata.XSDataSystemInfo _systemInfo;
+    private org.edna.kernel.xsdata.XSDataSysteminfo _systeminfo;
 
     /**
      * Field _workingDirectory.
      */
     private org.edna.kernel.xsdata.XSDataFile _workingDirectory;
-
-    /**
-     * Field _configuration.
-     */
-    private org.edna.kernel.xsdata.XSConfiguration _configuration;
 
 
       //----------------/
@@ -122,13 +120,13 @@ implements java.io.Serializable
     }
 
     /**
-     * Returns the value of field 'systemInfo'.
+     * Returns the value of field 'systeminfo'.
      * 
-     * @return the value of field 'SystemInfo'.
+     * @return the value of field 'Systeminfo'.
      */
-    public org.edna.kernel.xsdata.XSDataSystemInfo getSystemInfo(
+    public org.edna.kernel.xsdata.XSDataSysteminfo getSysteminfo(
     ) {
-        return this._systemInfo;
+        return this._systeminfo;
     }
 
     /**
@@ -239,13 +237,13 @@ implements java.io.Serializable
     }
 
     /**
-     * Sets the value of field 'systemInfo'.
+     * Sets the value of field 'systeminfo'.
      * 
-     * @param systemInfo the value of field 'systemInfo'.
+     * @param systeminfo the value of field 'systeminfo'.
      */
-    public void setSystemInfo(
-            final org.edna.kernel.xsdata.XSDataSystemInfo systemInfo) {
-        this._systemInfo = systemInfo;
+    public void setSysteminfo(
+            final org.edna.kernel.xsdata.XSDataSysteminfo systeminfo) {
+        this._systeminfo = systeminfo;
     }
 
     /**

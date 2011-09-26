@@ -23,24 +23,9 @@ implements java.io.Serializable
     //--------------------------/
 
     /**
-     * Field _shapeList.
+     * Field _coding.
      */
-    private java.util.List<java.lang.Integer> _shapeList;
-
-    /**
-     * Field _size.
-     */
-    private int _size;
-
-    /**
-     * keeps track of state for field: _size
-     */
-    private boolean _has_size;
-
-    /**
-     * Field _dtype.
-     */
-    private java.lang.String _dtype;
+    private org.edna.kernel.xsdata.XSDataString _coding;
 
     /**
      * Field _data.
@@ -48,14 +33,29 @@ implements java.io.Serializable
     private java.lang.String _data;
 
     /**
-     * Field _coding.
+     * Field _dtype.
      */
-    private org.edna.kernel.xsdata.XSDataString _coding;
+    private java.lang.String _dtype;
 
     /**
      * Field _md5sum.
      */
     private org.edna.kernel.xsdata.XSDataString _md5sum;
+
+    /**
+     * Field _shapeList.
+     */
+    private java.util.List<java.lang.Long> _shapeList;
+
+    /**
+     * Field _size.
+     */
+    private long _size;
+
+    /**
+     * keeps track of state for field: _size
+     */
+    private boolean _has_size;
 
 
       //----------------/
@@ -64,7 +64,7 @@ implements java.io.Serializable
 
     public XSDataArray() {
         super();
-        this._shapeList = new java.util.ArrayList<java.lang.Integer>();
+        this._shapeList = new java.util.ArrayList<java.lang.Long>();
     }
 
 
@@ -80,9 +80,9 @@ implements java.io.Serializable
      * given is outside the bounds of the collection
      */
     public void addShape(
-            final int vShape)
+            final long vShape)
     throws java.lang.IndexOutOfBoundsException {
-        this._shapeList.add(new java.lang.Integer(vShape));
+        this._shapeList.add(new java.lang.Long(vShape));
     }
 
     /**
@@ -95,9 +95,9 @@ implements java.io.Serializable
      */
     public void addShape(
             final int index,
-            final int vShape)
+            final long vShape)
     throws java.lang.IndexOutOfBoundsException {
-        this._shapeList.add(index, new java.lang.Integer(vShape));
+        this._shapeList.add(index, new java.lang.Long(vShape));
     }
 
     /**
@@ -113,7 +113,7 @@ implements java.io.Serializable
      * @return an Enumeration over all possible elements of this
      * collection
      */
-    public java.util.Enumeration<java.lang.Integer> enumerateShape(
+    public java.util.Enumeration<java.lang.Long> enumerateShape(
     ) {
         return java.util.Collections.enumeration(this._shapeList);
     }
@@ -164,9 +164,9 @@ implements java.io.Serializable
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
-     * @return the value of the int at the given index
+     * @return the value of the long at the given index
      */
-    public int getShape(
+    public long getShape(
             final int index)
     throws java.lang.IndexOutOfBoundsException {
         // check bounds for index
@@ -174,7 +174,7 @@ implements java.io.Serializable
             throw new IndexOutOfBoundsException("getShape: Index value '" + index + "' not in range [0.." + (this._shapeList.size() - 1) + "]");
         }
 
-        return ((java.lang.Integer) _shapeList.get(index)).intValue();
+        return ((java.lang.Long) _shapeList.get(index)).longValue();
     }
 
     /**
@@ -183,13 +183,13 @@ implements java.io.Serializable
      * 
      * @return this collection as an Array
      */
-    public int[] getShape(
+    public long[] getShape(
     ) {
         int size = this._shapeList.size();
-        int[] array = new int[size];
+        long[] array = new long[size];
         java.util.Iterator iter = _shapeList.iterator();
         for (int index = 0; index < size; index++) {
-            array[index] = ((java.lang.Integer) iter.next()).intValue();
+            array[index] = ((java.lang.Long) iter.next()).longValue();
         }
         return array;
     }
@@ -209,7 +209,7 @@ implements java.io.Serializable
      * 
      * @return the value of field 'Size'.
      */
-    public int getSize(
+    public long getSize(
     ) {
         return this._size;
     }
@@ -245,7 +245,7 @@ implements java.io.Serializable
      * @return an Iterator over all possible elements in this
      * collection
      */
-    public java.util.Iterator<java.lang.Integer> iterateShape(
+    public java.util.Iterator<java.lang.Long> iterateShape(
     ) {
         return this._shapeList.iterator();
     }
@@ -296,8 +296,8 @@ implements java.io.Serializable
      * @return true if the object was removed from the collection.
      */
     public boolean removeShape(
-            final int vShape) {
-        boolean removed = _shapeList.remove(new java.lang.Integer(vShape));
+            final long vShape) {
+        boolean removed = _shapeList.remove(new java.lang.Long(vShape));
         return removed;
     }
 
@@ -307,10 +307,10 @@ implements java.io.Serializable
      * @param index
      * @return the element removed from the collection
      */
-    public int removeShapeAt(
+    public long removeShapeAt(
             final int index) {
         java.lang.Object obj = this._shapeList.remove(index);
-        return ((java.lang.Integer) obj).intValue();
+        return ((java.lang.Long) obj).longValue();
     }
 
     /**
@@ -363,14 +363,14 @@ implements java.io.Serializable
      */
     public void setShape(
             final int index,
-            final int vShape)
+            final long vShape)
     throws java.lang.IndexOutOfBoundsException {
         // check bounds for index
         if (index < 0 || index >= this._shapeList.size()) {
             throw new IndexOutOfBoundsException("setShape: Index value '" + index + "' not in range [0.." + (this._shapeList.size() - 1) + "]");
         }
 
-        this._shapeList.set(index, new java.lang.Integer(vShape));
+        this._shapeList.set(index, new java.lang.Long(vShape));
     }
 
     /**
@@ -379,12 +379,12 @@ implements java.io.Serializable
      * @param vShapeArray
      */
     public void setShape(
-            final int[] vShapeArray) {
+            final long[] vShapeArray) {
         //-- copy array
         _shapeList.clear();
 
         for (int i = 0; i < vShapeArray.length; i++) {
-                this._shapeList.add(new java.lang.Integer(vShapeArray[i]));
+                this._shapeList.add(new java.lang.Long(vShapeArray[i]));
         }
     }
 
@@ -394,7 +394,7 @@ implements java.io.Serializable
      * @param size the value of field 'size'.
      */
     public void setSize(
-            final int size) {
+            final long size) {
         this._size = size;
         this._has_size = true;
     }
