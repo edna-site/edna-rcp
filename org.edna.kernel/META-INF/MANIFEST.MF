@@ -88,11 +88,11 @@ Export-Package: org.apache.commons.logging,
  org.exolab.castor.xml.wls8,
  org.exolab.javasource
 Bundle-ClassPath: .,
- lib/castor-1.3.jar,
- lib/castor-1.3-core.jar,
- lib/castor-1.3-codegen.jar,
- lib/castor-1.3-xml-schema.jar,
  lib/castor-1.3-anttasks.jar,
+ lib/castor-1.3-codegen.jar,
+ lib/castor-1.3-core.jar,
+ lib/castor-1.3-xml-schema.jar,
+ lib/castor-1.3.jar,
  lib/commons-logging-1.1.1.jar,
- castor.properties,
- lib/jep.jar
+ lib/jep.jar,
+ lib/
