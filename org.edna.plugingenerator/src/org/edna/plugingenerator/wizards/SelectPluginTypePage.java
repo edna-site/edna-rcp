@@ -9,12 +9,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -55,10 +56,10 @@ public class SelectPluginTypePage extends WizardPage {
 
 
 		Button browseButton = new Button(container, SWT.NONE);
-		browseButton.addMouseListener(new MouseAdapter() {
+		browseButton.addSelectionListener( new SelectionListener() {
+			
 			@Override
-			public void mouseUp(MouseEvent e) {
-
+			public void widgetSelected(SelectionEvent e) {
 				ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
 				dialog.setTitle("Tree Selection");
 				dialog.setMessage("Select the elements from the tree:");
@@ -90,10 +91,15 @@ public class SelectPluginTypePage extends WizardPage {
 				try {
 					updateTemplateFiles();
 				} catch (CoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					new ErrorDialog(getShell(), "Failed to update Template Files", 
+							"The Template directory selection has failed because of the following error \n" + e1.getLocalizedMessage(), 
+							Status.CANCEL_STATUS, 0);
 				}
+			
+			}
 
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 		browseButton.setText("Browse...");

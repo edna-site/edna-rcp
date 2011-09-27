@@ -9,11 +9,12 @@ import java.util.Scanner;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -27,16 +28,12 @@ import org.edna.plugingenerator.generator.WizardHelpers;
 
 public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyListener {
 
-	private IWorkbench workbench;
-	private IStructuredSelection selection;
 	private IFolder folder;
 	private SelectDataModelPage selectDataModelPage;
 	private SelectPluginTypePage selectPluginTypePage;
 	private PluginBrandingPage pluginBrandingPage;
 
 	private EDNAPluginGeneratorModel model;
-	private IProject project;
-	private String[] pathSegments;
 
 	private IContainer edna_home;
 	private IContainer edna_project;
@@ -59,13 +56,10 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 	}
 
 	public NewEDNAPluginWizard() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		this.workbench = workbench;
-		this.selection = selection;
 		if (selection.getFirstElement() instanceof IFolder) {
 			registerFolder((IFolder) selection.getFirstElement());
 		}
@@ -89,8 +83,6 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 
 	private void registerFolder(IFolder folderToRegister) {
 		this.folder =  folderToRegister;
-		this.project = folderToRegister.getProject();
-		this.pathSegments = folderToRegister.getFullPath().segments();
 	}
 
 	private void getEdnaHome() {
@@ -133,14 +125,13 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 			model.setEmulatedFile(pythonFile);
 			model.setUmlFileName(dataModel);
 		} catch (Exception e) {
-			// TODO: handle exception
+			// not a problem if this fails
 		}
 	}
 
 	private IFile extractDataModelFromPython(IFile pythonFile) throws CoreException {
 		String inputClass = null;
 		String resultClass = null;
-		String edmlFile = null;
 		String datamodel = null;
 
 		// Load in the file 
@@ -230,10 +221,6 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 	}
 
 
-	//TODO this should have a check to see if this is a copy, and if so make the changes required.
-	//TODO add in the appropriate methods to allow the state of the copied from file to be recorded so that the find replace map can be constructed.
-	//TODO work out how this will work for tests and test cases as well, and how the applied name should change		
-
 	protected void copyPlugin(IProgressMonitor monitor) throws CoreException {		
 		// copy the plugin
 		IFile input = model.getEmulatedFile();
@@ -310,7 +297,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		// now populate the appropriate files
 		EDNAPluginTemplateFiller eptf = new EDNAPluginTemplateFiller();
 		eptf.put(EDNAPluginTemplateFiller.AUTHOR, model.getAuthor());
-		eptf.put(EDNAPluginTemplateFiller.CONTROLEDPLUGINNAME, "NotImplemented");
+		eptf.put(EDNAPluginTemplateFiller.CONTROLEDPLUGINNAME, "EDPluginToDrivev10");
 		eptf.put(EDNAPluginTemplateFiller.COPYRIGHT, model.getCopyright());
 		eptf.put(EDNAPluginTemplateFiller.BASEPLUGINNAME, model.getName());
 		eptf.put(EDNAPluginTemplateFiller.PLUGINNAME, model.getName());
@@ -353,9 +340,7 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		IFile configTemplate = model.getTemplateFileName().getParent().getParent().getFile(new Path("tests/data/XSConfigTemplate.xml"));
 		eptf.ProcessTemplate(configTemplate, configFile, monitor);
 
-
-		//TODO add in the additions to the config file.
-
+		//TODO add in the additions to the EDNA config file.
 	}
 
 	private IFolder makeFolder(IFolder perant, String name, IProgressMonitor monitor) throws CoreException {
@@ -365,8 +350,6 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		}
 		return folder;
 	}
-
-
 
 
 	@Override
@@ -387,8 +370,9 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 						// otherwise generate this like a standard plugin.
 						generatePlugin(monitor);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						new ErrorDialog(getShell(), "Plugin Generation Failed", 
+								"The plugin generation has failed because of the following error \n" + e.getLocalizedMessage(), 
+								Status.CANCEL_STATUS, 0);
 					}
 
 				}
@@ -463,12 +447,9 @@ public class NewEDNAPluginWizard extends Wizard implements INewWizard, ModifyLis
 		}		
 	}
 
-
 	@Override
 	public boolean canFinish() {
 		return model.isComplete();
 	}
-
-
 
 }

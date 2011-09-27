@@ -17,10 +17,20 @@ import javax.xml.xpath.XPathFactory;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
+import org.eclipse.ui.model.BaseWorkbenchContentProvider;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.edna.plugingenerator.Activator;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -209,6 +219,46 @@ public class WizardHelpers {
 			}
 		}
 		return files; 
+	}
+	
+	static public IFile getFilename(Shell parent, String title, String messgage, final String extention) {
+
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(parent, new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
+		dialog.setTitle(title);
+		dialog.setMessage(messgage);
+		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		dialog.addFilter(new ViewerFilter() {
+
+			@Override
+			public boolean select(Viewer viewer, Object parentElement, Object element) {
+				try {
+					IFile file = (IFile) element;
+					if (file.getFileExtension().equals(extention)) {
+						return true;
+					} else {
+						return false;
+					}
+				} catch (Exception e) {
+					return true;
+				}
+
+			}
+		});
+		dialog.setValidator(new ISelectionStatusValidator() {
+
+			@Override
+			public IStatus validate(Object[] selection) {
+				if (selection.length == 1 && selection[0] instanceof IFile) {
+					return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
+				}
+
+				return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an "+extention+" file!", null);
+			}
+		});
+
+		dialog.open();
+
+		return (IFile)dialog.getResult()[0];
 	}
 
 }

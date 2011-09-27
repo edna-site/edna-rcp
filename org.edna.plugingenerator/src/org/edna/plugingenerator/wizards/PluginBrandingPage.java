@@ -107,8 +107,7 @@ public class PluginBrandingPage extends WizardPage {
 			try {
 				model.populateFromFile(model.getEmulatedFile());
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// if this dosen't work its ok.
 			}
 			
 			if(copyMode.equals(EDNAPluginGeneratorModel.COPY)) {

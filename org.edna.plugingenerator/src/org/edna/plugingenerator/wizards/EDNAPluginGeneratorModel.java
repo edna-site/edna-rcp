@@ -6,6 +6,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.ui.PlatformUI;
 
 public class EDNAPluginGeneratorModel {
 
@@ -245,7 +248,10 @@ public class EDNAPluginGeneratorModel {
 			name = parts[0];
 			version = Double.toString((Double.parseDouble(parts[1].replaceAll("['.py'_]", ""))/10.0));
 		} catch (Exception e) {
-			// TODO: handle exception
+			new ErrorDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					"An error occured while trying to unserstand a file", 
+					"The file parsing has failed because of the following error \n" + e.getLocalizedMessage(), 
+					Status.CANCEL_STATUS, 0);
 		}
 	}
 }

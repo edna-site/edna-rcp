@@ -1,11 +1,8 @@
 package org.edna.plugingenerator.wizards;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -19,11 +16,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.eclipse.ui.dialogs.ISelectionStatusValidator;
-import org.eclipse.ui.model.BaseWorkbenchContentProvider;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.edna.plugingenerator.Activator;
 import org.edna.plugingenerator.generator.WizardHelpers;
 
 public class SelectDataModelPage extends WizardPage {
@@ -68,7 +60,7 @@ public class SelectDataModelPage extends WizardPage {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				IFile EDMLFile = getFilename("Data Model Selection", "Select the .edml file which contains the datamodel:", "edml");
+				IFile EDMLFile = WizardHelpers.getFilename(getShell(), "Data Model Selection", "Select the .edml file which contains the datamodel:", "edml");
 				pyFilePath.setText(EDMLFile.getLocation().toString());
 				((NewEDNAPluginWizard)getWizard()).getModel().setUmlFileName(EDMLFile);
 				populatePullDowns();				
@@ -76,7 +68,6 @@ public class SelectDataModelPage extends WizardPage {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
 			}
 		});
 		
@@ -98,7 +89,7 @@ public class SelectDataModelPage extends WizardPage {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				IFile pyFile = getFilename("File duplication selection", "Select the .py file which you wish to emulate:", "py");
+				IFile pyFile = WizardHelpers.getFilename(getShell(), "File duplication selection", "Select the .py file which you wish to emulate:", "py");
 				pluginFileName.setText(pyFile.getLocation().toString());
 				((NewEDNAPluginWizard)getWizard()).setupFromFile(pyFile);
 				pyFilePath.setText(((NewEDNAPluginWizard)getWizard()).getModel().getUmlFileName().getLocation().toString());
@@ -107,7 +98,6 @@ public class SelectDataModelPage extends WizardPage {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// TODO Auto-generated method stub
 			}
 		});
 		pythonFileSelectionButton.setText("Browse...");
@@ -199,47 +189,6 @@ public class SelectDataModelPage extends WizardPage {
 		}
 	
 	}
-
-	
-	private IFile getFilename(String title, String messgage, final String extention) {
-
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
-		dialog.setTitle(title);
-		dialog.setMessage(messgage);
-		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.addFilter(new ViewerFilter() {
-
-			@Override
-			public boolean select(Viewer viewer, Object parentElement, Object element) {
-				try {
-					IFile file = (IFile) element;
-					if (file.getFileExtension().equals(extention)) {
-						return true;
-					} else {
-						return false;
-					}
-				} catch (Exception e) {
-					return true;
-				}
-
-			}
-		});
-		dialog.setValidator(new ISelectionStatusValidator() {
-
-			@Override
-			public IStatus validate(Object[] selection) {
-				if (selection.length == 1 && selection[0] instanceof IFile) {
-					return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
-				}
-
-				return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an "+extention+" file!", null);
-			}
-		});
-
-		dialog.open();
-
-		return (IFile)dialog.getResult()[0];
-	}
 	
 	private void populatePullDowns(){
 		try {
@@ -268,7 +217,9 @@ public class SelectDataModelPage extends WizardPage {
 			}
 			
 		} catch (Exception e1) {
-			//TODO Flag this to the user
+			new ErrorDialog(getShell(), "Failed to populate the XSData secector lists", 
+					"The selection population has failed because of the following error \n" + e1.getLocalizedMessage(), 
+					Status.CANCEL_STATUS, 0);
 		}
 
 	}
