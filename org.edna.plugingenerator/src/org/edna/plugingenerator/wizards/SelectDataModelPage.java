@@ -1,6 +1,5 @@
 package org.edna.plugingenerator.wizards;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
@@ -10,14 +9,14 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
@@ -32,6 +31,9 @@ public class SelectDataModelPage extends WizardPage {
 	protected Text pluginFileName;
 	protected Combo xsDataInput;
 	protected Combo xsDataResult;
+	private Button copyPluginButton;
+	private Button newVersionButton;
+	private Button repliceteInterfaceButton;
 
 	public SelectDataModelPage() {
 		super("selectDataModel");
@@ -61,56 +63,24 @@ public class SelectDataModelPage extends WizardPage {
 		pyFilePath.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		
-		Button btnNewButton = new Button(composite, SWT.NONE);
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		Button edmlFileSelectButton = new Button(composite, SWT.NONE);
+		edmlFileSelectButton.addSelectionListener( new SelectionListener() {
+			
 			@Override
-			public void mouseUp(MouseEvent e) {
-
-				ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
-				dialog.setTitle("Data Model Selection");
-				dialog.setMessage("Select the .edml file which contains the datamodel:");
-				dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-				dialog.addFilter(new ViewerFilter() {
-
-					@Override
-					public boolean select(Viewer viewer, Object parentElement, Object element) {
-						try {
-							IFile file = (IFile) element;
-							if (file.getFileExtension().equals("edml")) {
-								return true;
-							} else {
-								return false;
-							}
-						} catch (Exception e) {
-							return true;
-						}
-
-					}
-				});
-				dialog.setValidator(new ISelectionStatusValidator() {
-
-					@Override
-					public IStatus validate(Object[] selection) {
-						if (selection.length == 1 && selection[0] instanceof IFile) {
-							return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
-						}
-
-						return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an EDML file!", null);
-					}
-				});
-
-				dialog.open();
-
-				//int result = dialog.open();
-				IFile EDMLFile = (IFile)dialog.getResult()[0];
+			public void widgetSelected(SelectionEvent e) {
+				IFile EDMLFile = getFilename("Data Model Selection", "Select the .edml file which contains the datamodel:", "edml");
 				pyFilePath.setText(EDMLFile.getLocation().toString());
 				((NewEDNAPluginWizard)getWizard()).getModel().setUmlFileName(EDMLFile);
-				
-				populatePullDowns();
-				
+				populatePullDowns();				
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
 			}
 		});
-		btnNewButton.setText("Browse...");
+		
+		edmlFileSelectButton.setText("Browse...");
 
 		Label lblOrSelectWhich = new Label(composite, SWT.NONE);
 		lblOrSelectWhich.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
@@ -123,56 +93,71 @@ public class SelectDataModelPage extends WizardPage {
 		pluginFileName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		pluginFileName.setEditable(false);
 		
-		Button button = new Button(composite, SWT.NONE);
-		button.addMouseListener(new MouseAdapter() {
+		Button pythonFileSelectionButton = new Button(composite, SWT.NONE);
+		pythonFileSelectionButton.addSelectionListener( new SelectionListener() {
+			
 			@Override
-			public void mouseUp(MouseEvent e) {
-
-				ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
-				dialog.setTitle("File duplication selection");
-				dialog.setMessage("Select the .py file which you wish to emulate:");
-				dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-				dialog.addFilter(new ViewerFilter() {
-
-					@Override
-					public boolean select(Viewer viewer, Object parentElement, Object element) {
-						try {
-							IFile file = (IFile) element;
-							if (file.getFileExtension().equals("py")) {
-								return true;
-							} else {
-								return false;
-							}
-						} catch (Exception e) {
-							return true;
-						}
-
-					}
-				});
-				dialog.setValidator(new ISelectionStatusValidator() {
-
-					@Override
-					public IStatus validate(Object[] selection) {
-						if (selection.length == 1 && selection[0] instanceof IFile) {
-							return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
-						}
-
-						return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an .py file!", null);
-					}
-				});
-
-				dialog.open();
-
-				//int result = dialog.open();
-				IFile pyFile = (IFile)dialog.getResult()[0];
+			public void widgetSelected(SelectionEvent e) {
+				IFile pyFile = getFilename("File duplication selection", "Select the .py file which you wish to emulate:", "py");
 				pluginFileName.setText(pyFile.getLocation().toString());
 				((NewEDNAPluginWizard)getWizard()).setupFromFile(pyFile);
 				pyFilePath.setText(((NewEDNAPluginWizard)getWizard()).getModel().getUmlFileName().getLocation().toString());
-				populatePullDowns();
-				
+				populatePullDowns();				
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
 			}
 		});
-		button.setText("Browse...");
+		pythonFileSelectionButton.setText("Browse...");
+
+		// Add in a section to deal with choosing the type of file copying to do
+		Composite fileChoiceComposite = new Composite(composite, SWT.NULL);
+		fileChoiceComposite.setLayout(new RowLayout());
+		
+	    repliceteInterfaceButton = new Button(fileChoiceComposite, SWT.RADIO);
+	    repliceteInterfaceButton.setText("Replicete Interface");
+	    repliceteInterfaceButton.setSelection(true);
+	    repliceteInterfaceButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				((NewEDNAPluginWizard)getWizard()).getModel().setPluginCopyMode(EDNAPluginGeneratorModel.REPLICATE);
+				getWizard().getContainer().updateButtons();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+	    copyPluginButton = new Button(fileChoiceComposite, SWT.RADIO);
+	    copyPluginButton.setText("Copy Plugin");
+	    copyPluginButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				((NewEDNAPluginWizard)getWizard()).getModel().setName("");
+				((NewEDNAPluginWizard)getWizard()).getModel().setPluginCopyMode(EDNAPluginGeneratorModel.COPY);
+				getWizard().getContainer().updateButtons();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+	    newVersionButton = new Button(fileChoiceComposite, SWT.RADIO);
+	    newVersionButton.setText("New Version");
+	    newVersionButton.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				((NewEDNAPluginWizard)getWizard()).getModel().setVersion("");
+				((NewEDNAPluginWizard)getWizard()).getModel().setPluginCopyMode(EDNAPluginGeneratorModel.NEW_VERSION);
+				getWizard().getContainer().updateButtons();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 
 		Composite composite_1 = new Composite(container, SWT.BORDER);
 		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -215,6 +200,47 @@ public class SelectDataModelPage extends WizardPage {
 	
 	}
 
+	
+	private IFile getFilename(String title, String messgage, final String extention) {
+
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
+		dialog.setTitle(title);
+		dialog.setMessage(messgage);
+		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		dialog.addFilter(new ViewerFilter() {
+
+			@Override
+			public boolean select(Viewer viewer, Object parentElement, Object element) {
+				try {
+					IFile file = (IFile) element;
+					if (file.getFileExtension().equals(extention)) {
+						return true;
+					} else {
+						return false;
+					}
+				} catch (Exception e) {
+					return true;
+				}
+
+			}
+		});
+		dialog.setValidator(new ISelectionStatusValidator() {
+
+			@Override
+			public IStatus validate(Object[] selection) {
+				if (selection.length == 1 && selection[0] instanceof IFile) {
+					return new Status(IStatus.OK, Activator.PLUGIN_ID, 0, "", null);
+				}
+
+				return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0, "Please select an "+extention+" file!", null);
+			}
+		});
+
+		dialog.open();
+
+		return (IFile)dialog.getResult()[0];
+	}
+	
 	private void populatePullDowns(){
 		try {
 			EDNAPluginGeneratorModel model = ((NewEDNAPluginWizard)getWizard()).getModel();
@@ -249,16 +275,22 @@ public class SelectDataModelPage extends WizardPage {
 	
 	@Override
 	public IWizardPage getNextPage() {		
-		// TODO Auto-generated method stub
+		if(this.copyPluginButton.getSelection()) {
+			((NewEDNAPluginWizard) getWizard()).getPluginBrandingPage().setupStartValues();
+			return ((NewEDNAPluginWizard) getWizard()).getPluginBrandingPage();
+		}
 		return super.getNextPage();
 	}
 
 	@Override
 	public boolean canFlipToNextPage() {
-		if (xsDataInput.getText().isEmpty()) return false;
-		if (xsDataResult.getText().isEmpty()) return false;
-		return true;
+		if(repliceteInterfaceButton.getSelection()) {
+			if (xsDataInput.getText().isEmpty()) return false;
+			if (xsDataResult.getText().isEmpty()) return false;
+			return true;
+		}
+		if (((NewEDNAPluginWizard) getWizard()).getModel().getEmulatedFile().exists()) return true;
+		return false;
 	}
-
 
 }

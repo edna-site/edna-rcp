@@ -1,11 +1,17 @@
 package org.edna.plugingenerator.wizards;
 
+import java.util.Scanner;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 
 public class EDNAPluginGeneratorModel {
 
+	protected static final String REPLICATE = "replicate";
+	protected static final String COPY = "copy";
+	protected static final String NEW_VERSION = "newVersion";
 	private IFile umlFileName;
 	private String xsDataInput;
 	private String xsDataResult;
@@ -19,6 +25,7 @@ public class EDNAPluginGeneratorModel {
 	private IResource project;
 	private IResource ednaHome;
 	private IFile pythonFile;
+	private String PluginCopyMode = REPLICATE;
 
 	public IFile getUmlFileName() {
 		return umlFileName;
@@ -118,38 +125,63 @@ public class EDNAPluginGeneratorModel {
 
 	public void setEmulatedFile(IFile pythonFile) {
 		this.pythonFile = pythonFile;
-		
+
 	}
-	
+
 	public IFile getEmulatedFile() {
 		return this.pythonFile;
-		
+
 	}
-	
+
+	public String getPluginCopyMode() {
+		return PluginCopyMode;
+	}
+
+	public void setPluginCopyMode(String pluginCopyMode) {
+		PluginCopyMode = pluginCopyMode;
+	}
+
 	@Override
 	public String toString() {
 		return "EDNAPluginGeneratorModel ["
 				+ (umlFileName != null ? "umlFileName=" + umlFileName + ", "
 						: "")
-				+ (xsDataInput != null ? "xsDataInput=" + xsDataInput + ", "
-						: "")
-				+ (xsDataResult != null ? "xsDataResult=" + xsDataResult + ", "
-						: "")
-				+ (templateDirectory != null ? "templateDirectory="
-						+ templateDirectory + ", " : "")
-				+ (templateFileName != null ? "templateFileName="
-						+ templateFileName + ", " : "")
-				+ (name != null ? "name=" + name + ", " : "")
-				+ (author != null ? "author=" + author + ", " : "")
-				+ (copyright != null ? "copyright=" + copyright + ", " : "")
-				+ (version != null ? "version=" + version + ", " : "")
-				+ (configuration != null ? "configuration=" + configuration
-						+ ", " : "")
-				+ (project != null ? "project=" + project + ", " : "")
-				+ (ednaHome != null ? "ednaHome=" + ednaHome : "") + "]";
+						+ (xsDataInput != null ? "xsDataInput=" + xsDataInput + ", "
+								: "")
+								+ (xsDataResult != null ? "xsDataResult=" + xsDataResult + ", "
+										: "")
+										+ (templateDirectory != null ? "templateDirectory="
+												+ templateDirectory + ", " : "")
+												+ (templateFileName != null ? "templateFileName="
+														+ templateFileName + ", " : "")
+														+ (name != null ? "name=" + name + ", " : "")
+														+ (author != null ? "author=" + author + ", " : "")
+														+ (copyright != null ? "copyright=" + copyright + ", " : "")
+														+ (version != null ? "version=" + version + ", " : "")
+														+ (configuration != null ? "configuration=" + configuration
+																+ ", " : "")
+																+ (project != null ? "project=" + project + ", " : "")
+																+ (ednaHome != null ? "ednaHome=" + ednaHome : "") + "]";
 	}
 
 	public boolean isComplete() {
+		if(PluginCopyMode.equals(COPY)) {
+			if (pythonFile == null)
+				return false;
+			if (name == null)
+				return false;
+			return true;
+		}
+
+		if(PluginCopyMode.equals(NEW_VERSION)) {
+			if (pythonFile == null)
+				return false;
+			if (version == null)
+				return false;
+			return true;
+		}
+
+
 		if (umlFileName == null)
 			return false;
 		if (xsDataInput == null)
@@ -177,4 +209,43 @@ public class EDNAPluginGeneratorModel {
 		return true;
 	}
 
+	public void populateFromFile(IFile emulatedFile) throws CoreException {
+
+		// Load in the file 
+		Scanner scanner = new Scanner(emulatedFile.getContents());
+		scanner.useDelimiter("\n");
+		while (scanner.hasNext()) {
+			String line = scanner.next().trim();
+			if(!line.startsWith("#")) {
+				if (line.contains("__author__")) {
+					String[] parts = line.split("\\=");	
+					if(parts.length == 2) {
+						author = parts[1].trim().replaceAll("\"", "");
+					}
+				}
+				if (line.contains("__authors__")) {
+					String[] parts = line.split("\\=");	
+					if(parts.length == 2) {
+						String part = parts[1].trim();
+						String[] authors = part.split(",");
+						author = authors[0].replaceAll("[\\[\\]\"]", "").trim();
+					}
+				}
+				if (line.contains("__copyright__")) {
+					String[] parts = line.split("\\=");	
+					if(parts.length == 2) {
+						copyright = parts[1].trim().replaceAll("\"", "");
+					}
+				}
+			}
+		}
+
+		try {
+			String[] parts = emulatedFile.getName().split("v");
+			name = parts[0];
+			version = Double.toString((Double.parseDouble(parts[1].replaceAll("['.py'_]", ""))/10.0));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }

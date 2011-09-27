@@ -59,12 +59,13 @@ public class EDNAPluginTemplateFiller {
 	}
 
 
-	public void put(String key, String author) {
-		templateMap.put(key, author);		
+	public void put(String key, String value) {
+		templateMap.put(key, value);		
 	}
 
 	public String get(String key) {
 		return templateMap.get(key);
 	}
-
+	
+	
 }

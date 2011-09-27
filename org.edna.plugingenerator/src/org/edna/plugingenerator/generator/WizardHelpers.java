@@ -1,7 +1,10 @@
 package org.edna.plugingenerator.generator;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -13,6 +16,10 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -89,9 +96,9 @@ public class WizardHelpers {
 
 		return xsDataClasses;
 	}	
-	
+
 	static public String[] getXSDataClass(IFile uml, String xsDataClassName) throws Exception {
-		
+
 		// Storage for the result
 		ArrayList<String> xsDataClasses = new ArrayList<String>();
 
@@ -105,11 +112,11 @@ public class WizardHelpers {
 
 		return xsDataClasses.toArray(new String[0]);		
 	}
-	
-	
-	
+
+
+
 	static public String[] getXSDataClassFromPy(IFile pyFile, String xsDataClassName) throws Exception {
-		
+
 		// Storage for the result
 		ArrayList<String> xsDataClasses = new ArrayList<String>();
 
@@ -129,10 +136,10 @@ public class WizardHelpers {
 
 		return xsDataClasses.toArray(new String[0]);		
 	}
-	
-	
+
+
 	static public String[] getXSDataClassFromEDML(IFile EDMLFile, String xsDataClassName) throws Exception {
-		
+
 		// Storage for the result
 		ArrayList<String> xsDataClasses = new ArrayList<String>();
 
@@ -155,5 +162,53 @@ public class WizardHelpers {
 		return xsDataClasses.toArray(new String[0]);		
 	}
 
+	public static void copyAndUpdateFile(IFile input, IFile copy, Map<String, String> substitutionMap, IProgressMonitor monitor ) throws CoreException {
+
+		// Load in the file 
+		Scanner scanner = new Scanner(input.getContents());
+		scanner.useDelimiter("\\A");
+		String fileContents = scanner.next();
+		for (String key : substitutionMap.keySet()) {
+			fileContents = fileContents.replaceAll(key, substitutionMap.get(key));
+		}
+		InputStream is = new ByteArrayInputStream(fileContents.getBytes());		
+		copy.create(is, true, monitor);
+	}
+
+	public static IFile generateFileName(IFile input, IFolder copyLocation, String oldName, String name) {
+		String copyFileName = input.getName();
+		oldName = oldName.replace("EDPlugin", "");
+		name = name.replace("EDPlugin","");
+		copyFileName = copyFileName.replace(oldName, name);
+		while (copyFileName.equals(input.getName())) {
+			// name mangaling failed, need to try again, remove the first letter from the match string
+			oldName = oldName.substring(1);
+			copyFileName = copyFileName.replace(oldName, name);
+		}
+		IFile location = copyLocation.getFile(copyFileName);
+		return location;
+	}
+
+
+	public static boolean containsString(IFile file, String searchString) throws CoreException {
+		// Load in the file 
+		Scanner scanner = new Scanner(file.getContents());
+		scanner.useDelimiter("\\A");
+		String fileContents = scanner.next();
+		return fileContents.contains(searchString);
+	}
+	
+	public static List<String> allReferencedFilesinFile(IFile file, String extention) throws CoreException {
+		ArrayList<String> files = new ArrayList<String>();
+		// Load in the file 
+		Scanner scanner = new Scanner(file.getContents());
+		while (scanner.hasNext()) {
+			String word = scanner.next();
+			if(word.contains(extention)) {
+				files.add(word.replaceAll("[\"\\(\\)\\[\\]\\,]", ""));
+			}
+		}
+		return files; 
+	}
 
 }
