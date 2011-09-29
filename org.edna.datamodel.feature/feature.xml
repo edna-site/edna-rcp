@@ -3,7 +3,7 @@
       id="org.edna.datamodel.feature"
       label="EDNA Data Model Feature"
       version="1.0.0.qualifier"
-      provider-name="EDNA">
+      provider-name="ESRF">
 
    <description>
       Set of transformation tools for working with EDNA datamodels:

@@ -14,10 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.ui;bundle-version="1.0.1",
  org.edna.datamodel.language.ui;bundle-version="1.0.0",
  org.edna.datamodel.generateds;bundle-version="1.0.0",
- org.eclipse.xtext.ui.shared;bundle-version="1.0.1",
- org.topcased.modeler;bundle-version="3.1.0",
- org.eclipse.uml2.uml;bundle-version="3.0.0"
+ org.eclipse.xtext.ui.shared;bundle-version="1.0.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-Vendor: EDNA
+Bundle-Vendor: ESRF
 Import-Package: org.apache.commons.logging

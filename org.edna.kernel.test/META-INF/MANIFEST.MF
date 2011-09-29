@@ -4,7 +4,7 @@ Bundle-Name: Test of the EDNA kernel plugin
 Bundle-SymbolicName: org.edna.kernel.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.edna.kernel.test.Activator
-Bundle-Vendor: EDNA
+Bundle-Vendor: ESRF
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.edna.kernel;bundle-version="1.0.0",

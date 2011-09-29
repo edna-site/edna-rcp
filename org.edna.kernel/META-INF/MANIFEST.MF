@@ -4,7 +4,7 @@ Bundle-Name: Kernel plugin
 Bundle-SymbolicName: org.edna.kernel;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.edna.kernel.Activator
-Bundle-Vendor: EDNA
+Bundle-Vendor: ESRF
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.console
@@ -96,3 +96,5 @@ Bundle-ClassPath: .,
  lib/commons-logging-1.1.1.jar,
  lib/jep.jar,
  lib/
+Import-Package: org.eclipse.core.resources,
+ org.eclipse.emf.common.util
