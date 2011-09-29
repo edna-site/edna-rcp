@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 import org.edna.kernel.xsdata.XSConfiguration;
 import org.edna.kernel.xsdata.XSDataDouble;
-import org.edna.kernel.xsdata.XSDataMessageError;
+//import org.edna.kernel.xsdata.XSDataMessageError;
 import org.edna.kernel.xsdata.XSDataString;
 import org.edna.kernel.xsdata.XSDataTime;
 import org.junit.After;
@@ -78,23 +78,23 @@ public class TestCaseXSDataCommon extends TestCase {
 		System.out.println( xml );
 	}
 
-	public void testMarshalXSDataMessageError() throws Exception {
-		XSDataString debugMessage = new XSDataString();
-		debugMessage.setValue( "Test string value" );
-		XSDataString errorType = new XSDataString();
-		errorType.setValue( "Test string value" );
-		XSDataMessageError xsDataMessageError = new XSDataMessageError();
-		xsDataMessageError.setDebugInfo(debugMessage);
-		xsDataMessageError.setErrorType(errorType);
-		StringWriter stringWriter = new StringWriter();
-		XMLContext context = new XMLContext();
-		context.addPackage("org.edna_site.eclipse.kernel.xsdata");
-		Marshaller marshaller = context.createMarshaller();
-		marshaller.setWriter(stringWriter);
-		marshaller.marshal(xsDataMessageError);
-		String xml = stringWriter.toString();
-		System.out.println( xml );
-	}
+//	public void testMarshalXSDataMessageError() throws Exception {
+//		XSDataString debugMessage = new XSDataString();
+//		debugMessage.setValue( "Test string value" );
+//		XSDataString errorType = new XSDataString();
+//		errorType.setValue( "Test string value" );
+//		XSDataMessageError xsDataMessageError = new XSDataMessageError();
+//		xsDataMessageError.setDebugInfo(debugMessage);
+//		xsDataMessageError.setErrorType(errorType);
+//		StringWriter stringWriter = new StringWriter();
+//		XMLContext context = new XMLContext();
+//		context.addPackage("org.edna_site.eclipse.kernel.xsdata");
+//		Marshaller marshaller = context.createMarshaller();
+//		marshaller.setWriter(stringWriter);
+//		marshaller.marshal(xsDataMessageError);
+//		String xml = stringWriter.toString();
+//		System.out.println( xml );
+//	}
 
 	public void testUnMarshalXSDataString() throws Exception {
 		String stringCurrentDirectory = System.getProperty("user.dir");
