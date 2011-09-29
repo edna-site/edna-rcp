@@ -49,5 +49,19 @@
             class="org.edna.kernel.preferences.LauncherPreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.edna.kernel.objectContribution1"
+            nameFilter="*.py"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.edna.kernel.RunTestAction"
+               id="org.edna.kernel.action1"
+               label="Run with test launcher">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
