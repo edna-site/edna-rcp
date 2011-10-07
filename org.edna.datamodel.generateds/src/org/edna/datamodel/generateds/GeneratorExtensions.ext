@@ -101,6 +101,8 @@ String currentTime () : JAVA org.edna.datamodel.generateds.JavaExtensions.getTim
 
 String resourceName (emf::EObject t) :  JAVA org.edna.datamodel.generateds.JavaExtensions.getResourceName(org.eclipse.emf.ecore.EObject);
 
+String resourceLocation (emf::EObject t) :  JAVA org.edna.datamodel.generateds.JavaExtensions.getResourceLocation(org.eclipse.emf.ecore.EObject);
+
 List[ComplexType] sortComplexTypes (List[ComplexType] types) :  JAVA org.edna.datamodel.generateds.JavaExtensions.sortComplexTypes(java.util.List);
 
 Void resolveAllInResource (emf::EObject ctx) : JAVA org.edna.datamodel.generateds.JavaExtensions.resolveAllInResource (org.eclipse.emf.ecore.EObject);

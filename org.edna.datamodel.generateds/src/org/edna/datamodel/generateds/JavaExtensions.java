@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.edna.datamodel.datamodel.ComplexType;
@@ -53,6 +54,18 @@ public class JavaExtensions {
 			return null;
 		final String resource = obj.eResource().getURI().lastSegment();
 		return resource.substring(0, resource.lastIndexOf('.'));
+	}
+
+	public static String getResourceLocation (EObject obj) {
+		if (obj.eResource()==null)
+			return null;
+		final URI resourceURI = obj.eResource().getURI();
+		final String[] resourceList = resourceURI.segments();
+		String resource = resourceList[2];
+		for (int i=3; i < resourceList.length-1; i++) {
+			resource += "/"+resourceList[i];
+		}
+		return resource;
 	}
 
 	public static List<ComplexType> sortComplexTypes (List<ComplexType> types) {
