@@ -420,6 +420,7 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 
 «DEFINE imports FOR Model-»
 
+«IF !sortComplexTypes(allImportedTypes()).isEmpty-»
 strEdnaHome = os.environ.get("EDNA_HOME", None)
 
 dictLocation = { \
@@ -445,4 +446,5 @@ except ImportError as error:
 «FOREACH sortComplexTypes(allImportedTypes()) AS t-»
 from «t.resourceName()» import «t.name»
 «ENDFOREACH»
+«ENDIF-»
 «ENDDEFINE»
