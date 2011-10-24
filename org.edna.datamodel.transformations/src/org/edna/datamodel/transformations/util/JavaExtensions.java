@@ -259,7 +259,7 @@ public class JavaExtensions {
 	public List<ComplexType> getComplexTypes () {
 		ArrayList<ComplexType> types = Lists.newArrayList();
 		for (IResourceDescription resourceDescription : index.getAllResourceDescriptions()) {
-			for (IEObjectDescription objDesc : resourceDescription.getExportedObjects(DatamodelPackage.eINSTANCE.getComplexType())) {
+			for (IEObjectDescription objDesc : resourceDescription.getExportedObjectsByType(DatamodelPackage.eINSTANCE.getComplexType())) {
 				types.add((ComplexType) objDesc.getEObjectOrProxy());
 			}
 		}

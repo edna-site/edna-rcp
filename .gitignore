@@ -1,1 +1,3 @@
 bin
+org.edna.datamodel.language/plugin.xml_gen
+org.edna.datamodel.language.ui/plugin.xml_gen

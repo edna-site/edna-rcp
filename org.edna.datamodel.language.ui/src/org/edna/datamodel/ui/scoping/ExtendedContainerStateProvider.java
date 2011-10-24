@@ -47,6 +47,10 @@ public class ExtendedContainerStateProvider extends ContainerStateProvider {
         }
 
         private final IResourceDescriptions rs;
+
+		public boolean isEmpty(String containerHandle) {
+			return getContainedURIs(containerHandle).isEmpty();
+		}
     }
 
     @Override

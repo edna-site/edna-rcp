@@ -142,7 +142,7 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 			EObject obj = i.next();
 			for (EObject referenced : obj.eCrossReferences()) {
 				if (referenced.eResource()!=null) {
-					importedNamespaces.add(nameProvider.getQualifiedName(referenced));
+					importedNamespaces.add(nameProvider.getFullyQualifiedName(referenced).toString());
 				}
 			}
 		}
@@ -162,7 +162,7 @@ public class Xsd2DslTransformation extends AbstractDatamodelTransformation<XSDSc
 			if (types == null) {
 				types = Maps.newTreeMap(Comparators.stringComparator);
 				for (IResourceDescription desc : index.getAllResourceDescriptions()) {
-					for (IEObjectDescription objDesc : desc.getExportedObjects(DatamodelPackage.eINSTANCE.getComplexType())) {
+					for (IEObjectDescription objDesc : desc.getExportedObjectsByType(DatamodelPackage.eINSTANCE.getComplexType())) {
 						ComplexType t = (ComplexType) objDesc.getEObjectOrProxy();
 						types.put(t.getName(), t);
 					}

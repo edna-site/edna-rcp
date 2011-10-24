@@ -114,7 +114,7 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 					}
 
 					Map<String, Object> slotContents = new HashMap<String, Object>();
-					Model model = (Model) resDesc.getExportedObjects(DatamodelPackage.Literals.MODEL).iterator().next().getEObjectOrProxy();
+					Model model = (Model) resDesc.getExportedObjectsByType(DatamodelPackage.Literals.MODEL).iterator().next().getEObjectOrProxy();
 
 					for (IResourceDescription rd : index.getAllResourceDescriptions()) {
 						resourceSet.createResource(rd.getURI());

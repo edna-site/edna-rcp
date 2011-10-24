@@ -29,6 +29,7 @@ package org.edna.uml2xsd.ui;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.mwe.core.WorkflowEngine;
 import org.eclipse.emf.mwe.core.WorkflowRunner;
 import org.eclipse.emf.mwe.core.issues.Issues;
 import org.eclipse.emf.mwe.core.issues.IssuesImpl;
@@ -36,7 +37,7 @@ import org.eclipse.emf.mwe.core.issues.MWEDiagnostic;
 import org.eclipse.emf.mwe.core.monitor.ProgressMonitor;
 
 public class WorkflowRunnerAdapter {
-	private WorkflowRunner wfRunner = new WorkflowRunner();
+	private WorkflowEngine wfEngine = new WorkflowEngine();
 
 	/**
 	 * Adapts the MWE {@link WorkflowRunner} for execution in the plugin.
@@ -48,11 +49,11 @@ public class WorkflowRunnerAdapter {
 	 */
 	public boolean run(final String workFlowFile, final ProgressMonitor theMonitor,
 			final Map<String, String> theParams, final Map<String, ?> externalSlotContents) {
-		final boolean configOK = wfRunner.prepare(workFlowFile, theMonitor, theParams);
+		final boolean configOK = wfEngine.prepare(workFlowFile, theMonitor, theParams);
 		final Issues issues = new IssuesImpl();
 		boolean wfExecuteSuccess = false;
 		if (configOK) {
-			wfExecuteSuccess = wfRunner.executeWorkflow(externalSlotContents, issues);
+			wfExecuteSuccess = wfEngine.executeWorkflow(externalSlotContents, issues);
 		} else {
 			issues.addError("Workflow configuration error.");
 		}

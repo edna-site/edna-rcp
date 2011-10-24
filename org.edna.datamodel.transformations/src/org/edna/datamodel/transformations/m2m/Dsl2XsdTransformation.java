@@ -140,7 +140,7 @@ public class Dsl2XsdTransformation extends AbstractDatamodelTransformation<Model
 			public EObject caseComplexType(ComplexType object) {
 				if (object.getDoc() != null) {
 					XSDElementDeclaration xsdElement = createXSDElementCreationFromComplexType.apply(object);
-					JavaExtensions.createAppInfo(xsdElement, nameProvider.getQualifiedName(object));
+					JavaExtensions.createAppInfo(xsdElement, nameProvider.getFullyQualifiedName(object).toString());
 				}
 				return targetModel;
 			};

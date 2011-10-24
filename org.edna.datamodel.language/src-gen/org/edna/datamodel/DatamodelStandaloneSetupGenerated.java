@@ -39,6 +39,5 @@ public class DatamodelStandaloneSetupGenerated implements ISetup {
 
 
 
-
 	}
 }

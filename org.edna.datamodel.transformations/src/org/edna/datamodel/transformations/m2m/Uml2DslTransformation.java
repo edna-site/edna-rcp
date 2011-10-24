@@ -128,7 +128,7 @@ public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.e
 			EObject obj = i.next();
 			for (EObject referenced : obj.eCrossReferences()) {
 				if (referenced.eResource()!=null) {
-					importedNamespaces.add(nameProvider.getQualifiedName(referenced));
+					importedNamespaces.add(nameProvider.getFullyQualifiedName(referenced).toString());
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.e
 			if (types == null) {
 				types = Maps.newTreeMap(Comparators.stringComparator);
 				for (IResourceDescription desc : index.getAllResourceDescriptions()) {
-					for (IEObjectDescription objDesc : desc.getExportedObjects(DatamodelPackage.eINSTANCE.getComplexType())) {
+					for (IEObjectDescription objDesc : desc.getExportedObjectsByType(DatamodelPackage.eINSTANCE.getComplexType())) {
 						ComplexType t = (ComplexType) objDesc.getEObjectOrProxy();
 						types.put(t.getName(), t);
 					}
@@ -227,7 +227,7 @@ public class Uml2DslTransformation extends AbstractDatamodelTransformation<org.e
 
 	private void addXmiId(EObject ctx, String xmiId) {
 		if (xmiId!=null) {
-			String qualifiedName = nameProvider.getQualifiedName(ctx);
+			String qualifiedName = nameProvider.getFullyQualifiedName(ctx).toString();
 			targetProperties.put(qualifiedName+".uuid", xmiId);
 		}
 	};

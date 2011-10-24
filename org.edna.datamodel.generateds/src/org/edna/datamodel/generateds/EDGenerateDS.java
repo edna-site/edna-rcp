@@ -133,9 +133,14 @@ public class EDGenerateDS {
 			}
 		}
 
-		WorkflowRunner.main(launchArgs.toArray(new String[0]));
-		LOG.info("Finished.");
-		return 0;
+		try {
+			WorkflowRunner.main(launchArgs.toArray(new String[0]));
+			LOG.info("Finished.");
+			return 0;
+		} catch (Exception e) {
+			LOG.error("Error occurred: "+e.getMessage() + "("+e.getClass().getSimpleName()+")");
+			return -1;
+		}
 	}
 
 	/**

@@ -8,42 +8,42 @@
     complianceLevel="5.0" copyrightFields="false" editPluginID="org.edna.datamodel.language.edit"
     editorPluginID="org.edna.datamodel.language.editor">
   <genPackages prefix="Datamodel" basePackage="org.edna.datamodel" disposableProviderFactory="true"
-      ecorePackage="Datamodel.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Datamodel.ecore#//PrimitiveType">
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/undefined"/>
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/string"/>
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/integer"/>
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/boolean"/>
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/float"/>
-      <genEnumLiterals ecoreEnumLiteral="Datamodel.ecore#//PrimitiveType/double"/>
+      ecorePackage="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType">
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/undefined"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/string"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/integer"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/boolean"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/float"/>
+      <genEnumLiterals ecoreEnumLiteral="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//PrimitiveType/double"/>
     </genEnums>
-    <genClasses ecoreClass="Datamodel.ecore#//Model">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Model/targetNamespace"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/imports"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/types"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Model/packages"/>
+    <genClasses ecoreClass="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Model/targetNamespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Model/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Model/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Model/packages"/>
     </genClasses>
-    <genClasses ecoreClass="Datamodel.ecore#//Import">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Import/importedNamespace"/>
+    <genClasses ecoreClass="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Import/importedNamespace"/>
     </genClasses>
-    <genClasses ecoreClass="Datamodel.ecore#//Package">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//Package/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Package/types"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//Package/packages"/>
+    <genClasses ecoreClass="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Package">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Package/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Package/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//Package/packages"/>
     </genClasses>
-    <genClasses ecoreClass="Datamodel.ecore#//ComplexType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ComplexType/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ComplexType/baseType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ComplexType/doc"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ComplexType/elements"/>
+    <genClasses ecoreClass="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ComplexType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ComplexType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ComplexType/baseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ComplexType/doc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ComplexType/elements"/>
     </genClasses>
-    <genClasses ecoreClass="Datamodel.ecore#//ElementDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Datamodel.ecore#//ElementDeclaration/ref"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/multiple"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/optional"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Datamodel.ecore#//ElementDeclaration/doc"/>
+    <genClasses ecoreClass="platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/ref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/multiple"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/optional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platform:/resource/org.edna.datamodel.language/src-gen/org/edna/datamodel/Datamodel.ecore#//ElementDeclaration/doc"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

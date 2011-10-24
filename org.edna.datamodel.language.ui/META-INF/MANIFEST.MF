@@ -12,9 +12,12 @@ Require-Bundle: org.edna.datamodel.language;visibility:=reexport,
  org.eclipse.xtext.ui.shared,
  org.eclipse.ui,
  org.eclipse.xtext.builder,
- org.antlr.runtime
+ org.antlr.runtime,
+ org.eclipse.compare,
+ org.eclipse.xtext.ui.codetemplates.ui
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.edna.datamodel.ui,
- org.edna.datamodel.ui.contentassist.antlr
+ org.edna.datamodel.ui.contentassist.antlr,
+ org.edna.datamodel.ui.internal
 Bundle-Activator: org.edna.datamodel.ui.Activator

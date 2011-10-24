@@ -1,10 +1,8 @@
 package org.edna.datamodel.parser.antlr.internal; 
 
-import java.io.InputStream;
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
 import org.eclipse.xtext.parser.impl.*;
-import org.eclipse.xtext.parsetree.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.common.util.Enumerator;
@@ -12,7 +10,6 @@ import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
-import org.eclipse.xtext.conversion.ValueConverterException;
 import org.edna.datamodel.services.DatamodelGrammarAccess;
 
 
@@ -28,37 +25,57 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'targetNamespace'", "'import'", "'package'", "'{'", "'}'", "'complex'", "'type'", "'extends'", "':'", "'[]'", "'optional'", "'.'", "'.*'", "'undefined'", "'string'", "'integer'", "'boolean'", "'float'", "'double'"
     };
     public static final int RULE_ID=5;
-    public static final int RULE_STRING=4;
+    public static final int T__29=29;
+    public static final int T__28=28;
+    public static final int T__27=27;
+    public static final int T__26=26;
+    public static final int T__25=25;
+    public static final int T__24=24;
+    public static final int T__23=23;
+    public static final int T__22=22;
     public static final int RULE_ANY_OTHER=10;
-    public static final int RULE_INT=6;
-    public static final int RULE_WS=9;
+    public static final int T__21=21;
+    public static final int T__20=20;
     public static final int RULE_SL_COMMENT=8;
     public static final int EOF=-1;
     public static final int RULE_ML_COMMENT=7;
+    public static final int T__19=19;
+    public static final int RULE_STRING=4;
+    public static final int T__16=16;
+    public static final int T__15=15;
+    public static final int T__18=18;
+    public static final int T__17=17;
+    public static final int T__12=12;
+    public static final int T__11=11;
+    public static final int T__14=14;
+    public static final int T__13=13;
+    public static final int RULE_INT=6;
+    public static final int RULE_WS=9;
+
+    // delegates
+    // delegators
+
 
         public InternalDatamodelParser(TokenStream input) {
-            super(input);
+            this(input, new RecognizerSharedState());
+        }
+        public InternalDatamodelParser(TokenStream input, RecognizerSharedState state) {
+            super(input, state);
+             
         }
         
 
-    public String[] getTokenNames() { return tokenNames; }
+    public String[] getTokenNames() { return InternalDatamodelParser.tokenNames; }
     public String getGrammarFileName() { return "../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g"; }
 
 
 
      	private DatamodelGrammarAccess grammarAccess;
      	
-        public InternalDatamodelParser(TokenStream input, IAstFactory factory, DatamodelGrammarAccess grammarAccess) {
+        public InternalDatamodelParser(TokenStream input, DatamodelGrammarAccess grammarAccess) {
             this(input);
-            this.factory = factory;
-            registerRules(grammarAccess.getGrammar());
             this.grammarAccess = grammarAccess;
-        }
-        
-        @Override
-        protected InputStream getTokenFile() {
-        	ClassLoader classLoader = getClass().getClassLoader();
-        	return classLoader.getResourceAsStream("org/edna/datamodel/parser/antlr/internal/InternalDatamodel.tokens");
+            registerRules(grammarAccess.getGrammar());
         }
         
         @Override
@@ -73,8 +90,8 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
 
-    // $ANTLR start entryRuleModel
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:78:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
+    // $ANTLR start "entryRuleModel"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:68:1: entryRuleModel returns [EObject current=null] : iv_ruleModel= ruleModel EOF ;
     public final EObject entryRuleModel() throws RecognitionException {
         EObject current = null;
 
@@ -82,13 +99,14 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:79:2: (iv_ruleModel= ruleModel EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:80:2: iv_ruleModel= ruleModel EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:69:2: (iv_ruleModel= ruleModel EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:70:2: iv_ruleModel= ruleModel EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getModelRule(), currentNode); 
+             newCompositeNode(grammarAccess.getModelRule()); 
             pushFollow(FOLLOW_ruleModel_in_entryRuleModel75);
             iv_ruleModel=ruleModel();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleModel; 
             match(input,EOF,FOLLOW_EOF_in_entryRuleModel85); 
@@ -105,14 +123,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleModel
+    // $ANTLR end "entryRuleModel"
 
 
-    // $ANTLR start ruleModel
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:87:1: ruleModel returns [EObject current=null] : ( ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* ) ;
+    // $ANTLR start "ruleModel"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:77:1: ruleModel returns [EObject current=null] : ( (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* ) ;
     public final EObject ruleModel() throws RecognitionException {
         EObject current = null;
 
+        Token otherlv_0=null;
         Token lv_targetNamespace_1_0=null;
         EObject lv_imports_2_0 = null;
 
@@ -121,48 +140,41 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         EObject lv_packages_4_0 = null;
 
 
-         EObject temp=null; setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:92:6: ( ( ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:93:1: ( ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:80:28: ( ( (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:81:1: ( (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:93:1: ( ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:93:2: ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:81:1: ( (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:81:2: (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) ) ( (lv_imports_2_0= ruleImport ) )* ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:93:2: ( 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:93:4: 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:81:2: (otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:81:4: otherlv_0= 'targetNamespace' ( (lv_targetNamespace_1_0= RULE_STRING ) )
             {
-            match(input,11,FOLLOW_11_in_ruleModel121); 
+            otherlv_0=(Token)match(input,11,FOLLOW_11_in_ruleModel123); 
 
-                    createLeafNode(grammarAccess.getModelAccess().getTargetNamespaceKeyword_0_0(), null); 
+                	newLeafNode(otherlv_0, grammarAccess.getModelAccess().getTargetNamespaceKeyword_0_0());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:97:1: ( (lv_targetNamespace_1_0= RULE_STRING ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:98:1: (lv_targetNamespace_1_0= RULE_STRING )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:85:1: ( (lv_targetNamespace_1_0= RULE_STRING ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:86:1: (lv_targetNamespace_1_0= RULE_STRING )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:98:1: (lv_targetNamespace_1_0= RULE_STRING )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:99:3: lv_targetNamespace_1_0= RULE_STRING
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:86:1: (lv_targetNamespace_1_0= RULE_STRING )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:87:3: lv_targetNamespace_1_0= RULE_STRING
             {
-            lv_targetNamespace_1_0=(Token)input.LT(1);
-            match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleModel138); 
+            lv_targetNamespace_1_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleModel140); 
 
-            			createLeafNode(grammarAccess.getModelAccess().getTargetNamespaceSTRINGTerminalRuleCall_0_1_0(), "targetNamespace"); 
+            			newLeafNode(lv_targetNamespace_1_0, grammarAccess.getModelAccess().getTargetNamespaceSTRINGTerminalRuleCall_0_1_0()); 
             		
 
             	        if (current==null) {
-            	            current = factory.create(grammarAccess.getModelRule().getType().getClassifier());
-            	            associateNodeWithAstElement(currentNode, current);
+            	            current = createModelElement(grammarAccess.getModelRule());
             	        }
-            	        try {
-            	       		set(
-            	       			current, 
-            	       			"targetNamespace",
-            	        		lv_targetNamespace_1_0, 
-            	        		"STRING", 
-            	        		lastConsumedNode);
-            	        } catch (ValueConverterException vce) {
-            				handleValueConverterException(vce);
-            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"targetNamespace",
+                    		lv_targetNamespace_1_0, 
+                    		"STRING");
             	    
 
             }
@@ -173,7 +185,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:121:3: ( (lv_imports_2_0= ruleImport ) )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:103:3: ( (lv_imports_2_0= ruleImport ) )*
             loop1:
             do {
                 int alt1=2;
@@ -186,34 +198,29 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:122:1: (lv_imports_2_0= ruleImport )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:104:1: (lv_imports_2_0= ruleImport )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:122:1: (lv_imports_2_0= ruleImport )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:123:3: lv_imports_2_0= ruleImport
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:104:1: (lv_imports_2_0= ruleImport )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:105:3: lv_imports_2_0= ruleImport
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getModelAccess().getImportsImportParserRuleCall_1_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getModelAccess().getImportsImportParserRuleCall_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleImport_in_ruleModel165);
+            	    pushFollow(FOLLOW_ruleImport_in_ruleModel167);
             	    lv_imports_2_0=ruleImport();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getModelRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getModelRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"imports",
-            	    	        		lv_imports_2_0, 
-            	    	        		"Import", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"imports",
+            	            		lv_imports_2_0, 
+            	            		"Import");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -227,7 +234,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:145:3: ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:121:3: ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
             loop2:
             do {
                 int alt2=3;
@@ -243,37 +250,32 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt2) {
             	case 1 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:145:4: ( (lv_types_3_0= ruleComplexType ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:121:4: ( (lv_types_3_0= ruleComplexType ) )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:145:4: ( (lv_types_3_0= ruleComplexType ) )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:146:1: (lv_types_3_0= ruleComplexType )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:121:4: ( (lv_types_3_0= ruleComplexType ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:122:1: (lv_types_3_0= ruleComplexType )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:146:1: (lv_types_3_0= ruleComplexType )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:147:3: lv_types_3_0= ruleComplexType
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:122:1: (lv_types_3_0= ruleComplexType )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:123:3: lv_types_3_0= ruleComplexType
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getModelAccess().getTypesComplexTypeParserRuleCall_2_0_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getModelAccess().getTypesComplexTypeParserRuleCall_2_0_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleComplexType_in_ruleModel188);
+            	    pushFollow(FOLLOW_ruleComplexType_in_ruleModel190);
             	    lv_types_3_0=ruleComplexType();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getModelRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getModelRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"types",
-            	    	        		lv_types_3_0, 
-            	    	        		"ComplexType", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"types",
+            	            		lv_types_3_0, 
+            	            		"ComplexType");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -285,37 +287,32 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             	    }
             	    break;
             	case 2 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:170:6: ( (lv_packages_4_0= rulePackage ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:140:6: ( (lv_packages_4_0= rulePackage ) )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:170:6: ( (lv_packages_4_0= rulePackage ) )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:171:1: (lv_packages_4_0= rulePackage )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:140:6: ( (lv_packages_4_0= rulePackage ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:141:1: (lv_packages_4_0= rulePackage )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:171:1: (lv_packages_4_0= rulePackage )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:172:3: lv_packages_4_0= rulePackage
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:141:1: (lv_packages_4_0= rulePackage )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:142:3: lv_packages_4_0= rulePackage
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getModelAccess().getPackagesPackageParserRuleCall_2_1_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getModelAccess().getPackagesPackageParserRuleCall_2_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_rulePackage_in_ruleModel215);
+            	    pushFollow(FOLLOW_rulePackage_in_ruleModel217);
             	    lv_packages_4_0=rulePackage();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getModelRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getModelRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"packages",
-            	    	        		lv_packages_4_0, 
-            	    	        		"Package", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"packages",
+            	            		lv_packages_4_0, 
+            	            		"Package");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -338,9 +335,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -351,11 +346,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleModel
+    // $ANTLR end "ruleModel"
 
 
-    // $ANTLR start entryRuleImport
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:202:1: entryRuleImport returns [EObject current=null] : iv_ruleImport= ruleImport EOF ;
+    // $ANTLR start "entryRuleImport"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:166:1: entryRuleImport returns [EObject current=null] : iv_ruleImport= ruleImport EOF ;
     public final EObject entryRuleImport() throws RecognitionException {
         EObject current = null;
 
@@ -363,16 +358,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:203:2: (iv_ruleImport= ruleImport EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:204:2: iv_ruleImport= ruleImport EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:167:2: (iv_ruleImport= ruleImport EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:168:2: iv_ruleImport= ruleImport EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getImportRule(), currentNode); 
-            pushFollow(FOLLOW_ruleImport_in_entryRuleImport253);
+             newCompositeNode(grammarAccess.getImportRule()); 
+            pushFollow(FOLLOW_ruleImport_in_entryRuleImport255);
             iv_ruleImport=ruleImport();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleImport; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleImport263); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleImport265); 
 
             }
 
@@ -386,59 +382,55 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleImport
+    // $ANTLR end "entryRuleImport"
 
 
-    // $ANTLR start ruleImport
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:211:1: ruleImport returns [EObject current=null] : ( 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) ) ;
+    // $ANTLR start "ruleImport"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:175:1: ruleImport returns [EObject current=null] : (otherlv_0= 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) ) ;
     public final EObject ruleImport() throws RecognitionException {
         EObject current = null;
 
+        Token otherlv_0=null;
         AntlrDatatypeRuleToken lv_importedNamespace_1_0 = null;
 
 
-         EObject temp=null; setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:216:6: ( ( 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:217:1: ( 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:178:28: ( (otherlv_0= 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:179:1: (otherlv_0= 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:217:1: ( 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:217:3: 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:179:1: (otherlv_0= 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:179:3: otherlv_0= 'import' ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) )
             {
-            match(input,12,FOLLOW_12_in_ruleImport298); 
+            otherlv_0=(Token)match(input,12,FOLLOW_12_in_ruleImport302); 
 
-                    createLeafNode(grammarAccess.getImportAccess().getImportKeyword_0(), null); 
+                	newLeafNode(otherlv_0, grammarAccess.getImportAccess().getImportKeyword_0());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:221:1: ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:222:1: (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:183:1: ( (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:184:1: (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:222:1: (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:223:3: lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:184:1: (lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:185:3: lv_importedNamespace_1_0= ruleQualifiedNameWithWildCard
             {
              
-            	        currentNode=createCompositeNode(grammarAccess.getImportAccess().getImportedNamespaceQualifiedNameWithWildCardParserRuleCall_1_0(), currentNode); 
+            	        newCompositeNode(grammarAccess.getImportAccess().getImportedNamespaceQualifiedNameWithWildCardParserRuleCall_1_0()); 
             	    
-            pushFollow(FOLLOW_ruleQualifiedNameWithWildCard_in_ruleImport319);
+            pushFollow(FOLLOW_ruleQualifiedNameWithWildCard_in_ruleImport323);
             lv_importedNamespace_1_0=ruleQualifiedNameWithWildCard();
-            _fsp--;
+
+            state._fsp--;
 
 
             	        if (current==null) {
-            	            current = factory.create(grammarAccess.getImportRule().getType().getClassifier());
-            	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	            current = createModelElementForParent(grammarAccess.getImportRule());
             	        }
-            	        try {
-            	       		set(
-            	       			current, 
-            	       			"importedNamespace",
-            	        		lv_importedNamespace_1_0, 
-            	        		"QualifiedNameWithWildCard", 
-            	        		currentNode);
-            	        } catch (ValueConverterException vce) {
-            				handleValueConverterException(vce);
-            	        }
-            	        currentNode = currentNode.getParent();
+                   		set(
+                   			current, 
+                   			"importedNamespace",
+                    		lv_importedNamespace_1_0, 
+                    		"QualifiedNameWithWildCard");
+            	        afterParserOrEnumRuleCall();
             	    
 
             }
@@ -452,9 +444,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -465,11 +455,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleImport
+    // $ANTLR end "ruleImport"
 
 
-    // $ANTLR start entryRulePackage
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:253:1: entryRulePackage returns [EObject current=null] : iv_rulePackage= rulePackage EOF ;
+    // $ANTLR start "entryRulePackage"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:209:1: entryRulePackage returns [EObject current=null] : iv_rulePackage= rulePackage EOF ;
     public final EObject entryRulePackage() throws RecognitionException {
         EObject current = null;
 
@@ -477,16 +467,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:254:2: (iv_rulePackage= rulePackage EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:255:2: iv_rulePackage= rulePackage EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:210:2: (iv_rulePackage= rulePackage EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:211:2: iv_rulePackage= rulePackage EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getPackageRule(), currentNode); 
-            pushFollow(FOLLOW_rulePackage_in_entryRulePackage355);
+             newCompositeNode(grammarAccess.getPackageRule()); 
+            pushFollow(FOLLOW_rulePackage_in_entryRulePackage359);
             iv_rulePackage=rulePackage();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_rulePackage; 
-            match(input,EOF,FOLLOW_EOF_in_entryRulePackage365); 
+            match(input,EOF,FOLLOW_EOF_in_entryRulePackage369); 
 
             }
 
@@ -500,59 +491,55 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRulePackage
+    // $ANTLR end "entryRulePackage"
 
 
-    // $ANTLR start rulePackage
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:262:1: rulePackage returns [EObject current=null] : ( 'package' ( (lv_name_1_0= RULE_ID ) ) '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* '}' ) ;
+    // $ANTLR start "rulePackage"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:218:1: rulePackage returns [EObject current=null] : (otherlv_0= 'package' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* otherlv_5= '}' ) ;
     public final EObject rulePackage() throws RecognitionException {
         EObject current = null;
 
+        Token otherlv_0=null;
         Token lv_name_1_0=null;
+        Token otherlv_2=null;
+        Token otherlv_5=null;
         EObject lv_types_3_0 = null;
 
         EObject lv_packages_4_0 = null;
 
 
-         EObject temp=null; setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:267:6: ( ( 'package' ( (lv_name_1_0= RULE_ID ) ) '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* '}' ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:268:1: ( 'package' ( (lv_name_1_0= RULE_ID ) ) '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* '}' )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:221:28: ( (otherlv_0= 'package' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* otherlv_5= '}' ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:222:1: (otherlv_0= 'package' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* otherlv_5= '}' )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:268:1: ( 'package' ( (lv_name_1_0= RULE_ID ) ) '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* '}' )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:268:3: 'package' ( (lv_name_1_0= RULE_ID ) ) '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* '}'
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:222:1: (otherlv_0= 'package' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* otherlv_5= '}' )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:222:3: otherlv_0= 'package' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= '{' ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )* otherlv_5= '}'
             {
-            match(input,13,FOLLOW_13_in_rulePackage400); 
+            otherlv_0=(Token)match(input,13,FOLLOW_13_in_rulePackage406); 
 
-                    createLeafNode(grammarAccess.getPackageAccess().getPackageKeyword_0(), null); 
+                	newLeafNode(otherlv_0, grammarAccess.getPackageAccess().getPackageKeyword_0());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:272:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:273:1: (lv_name_1_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:226:1: ( (lv_name_1_0= RULE_ID ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:227:1: (lv_name_1_0= RULE_ID )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:273:1: (lv_name_1_0= RULE_ID )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:274:3: lv_name_1_0= RULE_ID
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:227:1: (lv_name_1_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:228:3: lv_name_1_0= RULE_ID
             {
-            lv_name_1_0=(Token)input.LT(1);
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_rulePackage417); 
+            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_rulePackage423); 
 
-            			createLeafNode(grammarAccess.getPackageAccess().getNameIDTerminalRuleCall_1_0(), "name"); 
+            			newLeafNode(lv_name_1_0, grammarAccess.getPackageAccess().getNameIDTerminalRuleCall_1_0()); 
             		
 
             	        if (current==null) {
-            	            current = factory.create(grammarAccess.getPackageRule().getType().getClassifier());
-            	            associateNodeWithAstElement(currentNode, current);
+            	            current = createModelElement(grammarAccess.getPackageRule());
             	        }
-            	        try {
-            	       		set(
-            	       			current, 
-            	       			"name",
-            	        		lv_name_1_0, 
-            	        		"ID", 
-            	        		lastConsumedNode);
-            	        } catch (ValueConverterException vce) {
-            				handleValueConverterException(vce);
-            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"name",
+                    		lv_name_1_0, 
+                    		"ID");
             	    
 
             }
@@ -560,11 +547,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            match(input,14,FOLLOW_14_in_rulePackage432); 
+            otherlv_2=(Token)match(input,14,FOLLOW_14_in_rulePackage440); 
 
-                    createLeafNode(grammarAccess.getPackageAccess().getLeftCurlyBracketKeyword_2(), null); 
+                	newLeafNode(otherlv_2, grammarAccess.getPackageAccess().getLeftCurlyBracketKeyword_2());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:300:1: ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:248:1: ( ( (lv_types_3_0= ruleComplexType ) ) | ( (lv_packages_4_0= rulePackage ) ) )*
             loop3:
             do {
                 int alt3=3;
@@ -580,37 +567,32 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:300:2: ( (lv_types_3_0= ruleComplexType ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:248:2: ( (lv_types_3_0= ruleComplexType ) )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:300:2: ( (lv_types_3_0= ruleComplexType ) )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:301:1: (lv_types_3_0= ruleComplexType )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:248:2: ( (lv_types_3_0= ruleComplexType ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:249:1: (lv_types_3_0= ruleComplexType )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:301:1: (lv_types_3_0= ruleComplexType )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:302:3: lv_types_3_0= ruleComplexType
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:249:1: (lv_types_3_0= ruleComplexType )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:250:3: lv_types_3_0= ruleComplexType
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getPackageAccess().getTypesComplexTypeParserRuleCall_3_0_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getPackageAccess().getTypesComplexTypeParserRuleCall_3_0_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleComplexType_in_rulePackage454);
+            	    pushFollow(FOLLOW_ruleComplexType_in_rulePackage462);
             	    lv_types_3_0=ruleComplexType();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getPackageRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getPackageRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"types",
-            	    	        		lv_types_3_0, 
-            	    	        		"ComplexType", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"types",
+            	            		lv_types_3_0, 
+            	            		"ComplexType");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -622,37 +604,32 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             	    }
             	    break;
             	case 2 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:325:6: ( (lv_packages_4_0= rulePackage ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:267:6: ( (lv_packages_4_0= rulePackage ) )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:325:6: ( (lv_packages_4_0= rulePackage ) )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:326:1: (lv_packages_4_0= rulePackage )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:267:6: ( (lv_packages_4_0= rulePackage ) )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:268:1: (lv_packages_4_0= rulePackage )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:326:1: (lv_packages_4_0= rulePackage )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:327:3: lv_packages_4_0= rulePackage
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:268:1: (lv_packages_4_0= rulePackage )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:269:3: lv_packages_4_0= rulePackage
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getPackageAccess().getPackagesPackageParserRuleCall_3_1_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getPackageAccess().getPackagesPackageParserRuleCall_3_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_rulePackage_in_rulePackage481);
+            	    pushFollow(FOLLOW_rulePackage_in_rulePackage489);
             	    lv_packages_4_0=rulePackage();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getPackageRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getPackageRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"packages",
-            	    	        		lv_packages_4_0, 
-            	    	        		"Package", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"packages",
+            	            		lv_packages_4_0, 
+            	            		"Package");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -669,9 +646,9 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            match(input,15,FOLLOW_15_in_rulePackage493); 
+            otherlv_5=(Token)match(input,15,FOLLOW_15_in_rulePackage503); 
 
-                    createLeafNode(grammarAccess.getPackageAccess().getRightCurlyBracketKeyword_4(), null); 
+                	newLeafNode(otherlv_5, grammarAccess.getPackageAccess().getRightCurlyBracketKeyword_4());
                 
 
             }
@@ -679,9 +656,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -692,11 +667,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end rulePackage
+    // $ANTLR end "rulePackage"
 
 
-    // $ANTLR start entryRuleComplexType
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:361:1: entryRuleComplexType returns [EObject current=null] : iv_ruleComplexType= ruleComplexType EOF ;
+    // $ANTLR start "entryRuleComplexType"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:297:1: entryRuleComplexType returns [EObject current=null] : iv_ruleComplexType= ruleComplexType EOF ;
     public final EObject entryRuleComplexType() throws RecognitionException {
         EObject current = null;
 
@@ -704,16 +679,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:362:2: (iv_ruleComplexType= ruleComplexType EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:363:2: iv_ruleComplexType= ruleComplexType EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:298:2: (iv_ruleComplexType= ruleComplexType EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:299:2: iv_ruleComplexType= ruleComplexType EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getComplexTypeRule(), currentNode); 
-            pushFollow(FOLLOW_ruleComplexType_in_entryRuleComplexType529);
+             newCompositeNode(grammarAccess.getComplexTypeRule()); 
+            pushFollow(FOLLOW_ruleComplexType_in_entryRuleComplexType539);
             iv_ruleComplexType=ruleComplexType();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleComplexType; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleComplexType539); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleComplexType549); 
 
             }
 
@@ -727,62 +703,60 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleComplexType
+    // $ANTLR end "entryRuleComplexType"
 
 
-    // $ANTLR start ruleComplexType
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:370:1: ruleComplexType returns [EObject current=null] : ( 'complex' 'type' ( (lv_name_2_0= RULE_ID ) ) ( 'extends' ( ( ruleQualifiedName ) ) )? '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* '}' ) ;
+    // $ANTLR start "ruleComplexType"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:306:1: ruleComplexType returns [EObject current=null] : (otherlv_0= 'complex' otherlv_1= 'type' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )? otherlv_5= '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* otherlv_8= '}' ) ;
     public final EObject ruleComplexType() throws RecognitionException {
         EObject current = null;
 
+        Token otherlv_0=null;
+        Token otherlv_1=null;
         Token lv_name_2_0=null;
+        Token otherlv_3=null;
+        Token otherlv_5=null;
         Token lv_doc_6_0=null;
+        Token otherlv_8=null;
         EObject lv_elements_7_0 = null;
 
 
-         EObject temp=null; setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:375:6: ( ( 'complex' 'type' ( (lv_name_2_0= RULE_ID ) ) ( 'extends' ( ( ruleQualifiedName ) ) )? '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* '}' ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:376:1: ( 'complex' 'type' ( (lv_name_2_0= RULE_ID ) ) ( 'extends' ( ( ruleQualifiedName ) ) )? '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* '}' )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:309:28: ( (otherlv_0= 'complex' otherlv_1= 'type' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )? otherlv_5= '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* otherlv_8= '}' ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:310:1: (otherlv_0= 'complex' otherlv_1= 'type' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )? otherlv_5= '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* otherlv_8= '}' )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:376:1: ( 'complex' 'type' ( (lv_name_2_0= RULE_ID ) ) ( 'extends' ( ( ruleQualifiedName ) ) )? '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* '}' )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:376:3: 'complex' 'type' ( (lv_name_2_0= RULE_ID ) ) ( 'extends' ( ( ruleQualifiedName ) ) )? '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* '}'
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:310:1: (otherlv_0= 'complex' otherlv_1= 'type' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )? otherlv_5= '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* otherlv_8= '}' )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:310:3: otherlv_0= 'complex' otherlv_1= 'type' ( (lv_name_2_0= RULE_ID ) ) (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )? otherlv_5= '{' ( (lv_doc_6_0= RULE_STRING ) )? ( (lv_elements_7_0= ruleElementDeclaration ) )* otherlv_8= '}'
             {
-            match(input,16,FOLLOW_16_in_ruleComplexType574); 
+            otherlv_0=(Token)match(input,16,FOLLOW_16_in_ruleComplexType586); 
 
-                    createLeafNode(grammarAccess.getComplexTypeAccess().getComplexKeyword_0(), null); 
+                	newLeafNode(otherlv_0, grammarAccess.getComplexTypeAccess().getComplexKeyword_0());
                 
-            match(input,17,FOLLOW_17_in_ruleComplexType584); 
+            otherlv_1=(Token)match(input,17,FOLLOW_17_in_ruleComplexType598); 
 
-                    createLeafNode(grammarAccess.getComplexTypeAccess().getTypeKeyword_1(), null); 
+                	newLeafNode(otherlv_1, grammarAccess.getComplexTypeAccess().getTypeKeyword_1());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:384:1: ( (lv_name_2_0= RULE_ID ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:385:1: (lv_name_2_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:318:1: ( (lv_name_2_0= RULE_ID ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:319:1: (lv_name_2_0= RULE_ID )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:385:1: (lv_name_2_0= RULE_ID )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:386:3: lv_name_2_0= RULE_ID
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:319:1: (lv_name_2_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:320:3: lv_name_2_0= RULE_ID
             {
-            lv_name_2_0=(Token)input.LT(1);
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleComplexType601); 
+            lv_name_2_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleComplexType615); 
 
-            			createLeafNode(grammarAccess.getComplexTypeAccess().getNameIDTerminalRuleCall_2_0(), "name"); 
+            			newLeafNode(lv_name_2_0, grammarAccess.getComplexTypeAccess().getNameIDTerminalRuleCall_2_0()); 
             		
 
             	        if (current==null) {
-            	            current = factory.create(grammarAccess.getComplexTypeRule().getType().getClassifier());
-            	            associateNodeWithAstElement(currentNode, current);
+            	            current = createModelElement(grammarAccess.getComplexTypeRule());
             	        }
-            	        try {
-            	       		set(
-            	       			current, 
-            	       			"name",
-            	        		lv_name_2_0, 
-            	        		"ID", 
-            	        		lastConsumedNode);
-            	        } catch (ValueConverterException vce) {
-            				handleValueConverterException(vce);
-            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"name",
+                    		lv_name_2_0, 
+                    		"ID");
             	    
 
             }
@@ -790,7 +764,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:408:2: ( 'extends' ( ( ruleQualifiedName ) ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:336:2: (otherlv_3= 'extends' ( ( ruleQualifiedName ) ) )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -799,33 +773,33 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt4) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:408:4: 'extends' ( ( ruleQualifiedName ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:336:4: otherlv_3= 'extends' ( ( ruleQualifiedName ) )
                     {
-                    match(input,18,FOLLOW_18_in_ruleComplexType617); 
+                    otherlv_3=(Token)match(input,18,FOLLOW_18_in_ruleComplexType633); 
 
-                            createLeafNode(grammarAccess.getComplexTypeAccess().getExtendsKeyword_3_0(), null); 
+                        	newLeafNode(otherlv_3, grammarAccess.getComplexTypeAccess().getExtendsKeyword_3_0());
                         
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:412:1: ( ( ruleQualifiedName ) )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:413:1: ( ruleQualifiedName )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:340:1: ( ( ruleQualifiedName ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:341:1: ( ruleQualifiedName )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:413:1: ( ruleQualifiedName )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:414:3: ruleQualifiedName
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:341:1: ( ruleQualifiedName )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:342:3: ruleQualifiedName
                     {
 
                     			if (current==null) {
-                    	            current = factory.create(grammarAccess.getComplexTypeRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getComplexTypeRule());
                     	        }
                             
                      
-                    	        currentNode=createCompositeNode(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0(), currentNode); 
+                    	        newCompositeNode(grammarAccess.getComplexTypeAccess().getBaseTypeComplexTypeCrossReference_3_1_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleQualifiedName_in_ruleComplexType640);
+                    pushFollow(FOLLOW_ruleQualifiedName_in_ruleComplexType656);
                     ruleQualifiedName();
-                    _fsp--;
+
+                    state._fsp--;
 
                      
-                    	        currentNode = currentNode.getParent();
+                    	        afterParserOrEnumRuleCall();
                     	    
 
                     }
@@ -839,11 +813,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            match(input,14,FOLLOW_14_in_ruleComplexType652); 
+            otherlv_5=(Token)match(input,14,FOLLOW_14_in_ruleComplexType670); 
 
-                    createLeafNode(grammarAccess.getComplexTypeAccess().getLeftCurlyBracketKeyword_4(), null); 
+                	newLeafNode(otherlv_5, grammarAccess.getComplexTypeAccess().getLeftCurlyBracketKeyword_4());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:432:1: ( (lv_doc_6_0= RULE_STRING ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:359:1: ( (lv_doc_6_0= RULE_STRING ) )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -852,31 +826,24 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt5) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:433:1: (lv_doc_6_0= RULE_STRING )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:360:1: (lv_doc_6_0= RULE_STRING )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:433:1: (lv_doc_6_0= RULE_STRING )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:434:3: lv_doc_6_0= RULE_STRING
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:360:1: (lv_doc_6_0= RULE_STRING )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:361:3: lv_doc_6_0= RULE_STRING
                     {
-                    lv_doc_6_0=(Token)input.LT(1);
-                    match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleComplexType669); 
+                    lv_doc_6_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleComplexType687); 
 
-                    			createLeafNode(grammarAccess.getComplexTypeAccess().getDocSTRINGTerminalRuleCall_5_0(), "doc"); 
+                    			newLeafNode(lv_doc_6_0, grammarAccess.getComplexTypeAccess().getDocSTRINGTerminalRuleCall_5_0()); 
                     		
 
                     	        if (current==null) {
-                    	            current = factory.create(grammarAccess.getComplexTypeRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getComplexTypeRule());
                     	        }
-                    	        try {
-                    	       		set(
-                    	       			current, 
-                    	       			"doc",
-                    	        		lv_doc_6_0, 
-                    	        		"STRING", 
-                    	        		lastConsumedNode);
-                    	        } catch (ValueConverterException vce) {
-                    				handleValueConverterException(vce);
-                    	        }
+                           		setWithLastConsumed(
+                           			current, 
+                           			"doc",
+                            		lv_doc_6_0, 
+                            		"STRING");
                     	    
 
                     }
@@ -887,7 +854,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:456:3: ( (lv_elements_7_0= ruleElementDeclaration ) )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:377:3: ( (lv_elements_7_0= ruleElementDeclaration ) )*
             loop6:
             do {
                 int alt6=2;
@@ -900,34 +867,29 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt6) {
             	case 1 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:457:1: (lv_elements_7_0= ruleElementDeclaration )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:378:1: (lv_elements_7_0= ruleElementDeclaration )
             	    {
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:457:1: (lv_elements_7_0= ruleElementDeclaration )
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:458:3: lv_elements_7_0= ruleElementDeclaration
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:378:1: (lv_elements_7_0= ruleElementDeclaration )
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:379:3: lv_elements_7_0= ruleElementDeclaration
             	    {
             	     
-            	    	        currentNode=createCompositeNode(grammarAccess.getComplexTypeAccess().getElementsElementDeclarationParserRuleCall_6_0(), currentNode); 
+            	    	        newCompositeNode(grammarAccess.getComplexTypeAccess().getElementsElementDeclarationParserRuleCall_6_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleElementDeclaration_in_ruleComplexType696);
+            	    pushFollow(FOLLOW_ruleElementDeclaration_in_ruleComplexType714);
             	    lv_elements_7_0=ruleElementDeclaration();
-            	    _fsp--;
+
+            	    state._fsp--;
 
 
             	    	        if (current==null) {
-            	    	            current = factory.create(grammarAccess.getComplexTypeRule().getType().getClassifier());
-            	    	            associateNodeWithAstElement(currentNode.getParent(), current);
+            	    	            current = createModelElementForParent(grammarAccess.getComplexTypeRule());
             	    	        }
-            	    	        try {
-            	    	       		add(
-            	    	       			current, 
-            	    	       			"elements",
-            	    	        		lv_elements_7_0, 
-            	    	        		"ElementDeclaration", 
-            	    	        		currentNode);
-            	    	        } catch (ValueConverterException vce) {
-            	    				handleValueConverterException(vce);
-            	    	        }
-            	    	        currentNode = currentNode.getParent();
+            	           		add(
+            	           			current, 
+            	           			"elements",
+            	            		lv_elements_7_0, 
+            	            		"ElementDeclaration");
+            	    	        afterParserOrEnumRuleCall();
             	    	    
 
             	    }
@@ -941,9 +903,9 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            match(input,15,FOLLOW_15_in_ruleComplexType707); 
+            otherlv_8=(Token)match(input,15,FOLLOW_15_in_ruleComplexType727); 
 
-                    createLeafNode(grammarAccess.getComplexTypeAccess().getRightCurlyBracketKeyword_7(), null); 
+                	newLeafNode(otherlv_8, grammarAccess.getComplexTypeAccess().getRightCurlyBracketKeyword_7());
                 
 
             }
@@ -951,9 +913,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -964,11 +924,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleComplexType
+    // $ANTLR end "ruleComplexType"
 
 
-    // $ANTLR start entryRuleElementDeclaration
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:492:1: entryRuleElementDeclaration returns [EObject current=null] : iv_ruleElementDeclaration= ruleElementDeclaration EOF ;
+    // $ANTLR start "entryRuleElementDeclaration"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:407:1: entryRuleElementDeclaration returns [EObject current=null] : iv_ruleElementDeclaration= ruleElementDeclaration EOF ;
     public final EObject entryRuleElementDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -976,16 +936,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:493:2: (iv_ruleElementDeclaration= ruleElementDeclaration EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:494:2: iv_ruleElementDeclaration= ruleElementDeclaration EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:408:2: (iv_ruleElementDeclaration= ruleElementDeclaration EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:409:2: iv_ruleElementDeclaration= ruleElementDeclaration EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getElementDeclarationRule(), currentNode); 
-            pushFollow(FOLLOW_ruleElementDeclaration_in_entryRuleElementDeclaration743);
+             newCompositeNode(grammarAccess.getElementDeclarationRule()); 
+            pushFollow(FOLLOW_ruleElementDeclaration_in_entryRuleElementDeclaration763);
             iv_ruleElementDeclaration=ruleElementDeclaration();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleElementDeclaration; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleElementDeclaration753); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleElementDeclaration773); 
 
             }
 
@@ -999,56 +960,50 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleElementDeclaration
+    // $ANTLR end "entryRuleElementDeclaration"
 
 
-    // $ANTLR start ruleElementDeclaration
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:501:1: ruleElementDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? ) ;
+    // $ANTLR start "ruleElementDeclaration"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:416:1: ruleElementDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? ) ;
     public final EObject ruleElementDeclaration() throws RecognitionException {
         EObject current = null;
 
         Token lv_name_0_0=null;
+        Token otherlv_1=null;
         Token lv_multiple_4_0=null;
         Token lv_optional_5_0=null;
         Token lv_doc_6_0=null;
         Enumerator lv_type_3_0 = null;
 
 
-         EObject temp=null; setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:506:6: ( ( ( (lv_name_0_0= RULE_ID ) ) ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:1: ( ( (lv_name_0_0= RULE_ID ) ) ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:419:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:420:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:1: ( ( (lv_name_0_0= RULE_ID ) ) ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:2: ( (lv_name_0_0= RULE_ID ) ) ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:420:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )? )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:420:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) ) ( (lv_multiple_4_0= '[]' ) )? ( (lv_optional_5_0= 'optional' ) )? ( (lv_doc_6_0= RULE_STRING ) )?
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:2: ( (lv_name_0_0= RULE_ID ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:508:1: (lv_name_0_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:420:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:421:1: (lv_name_0_0= RULE_ID )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:508:1: (lv_name_0_0= RULE_ID )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:509:3: lv_name_0_0= RULE_ID
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:421:1: (lv_name_0_0= RULE_ID )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:422:3: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)input.LT(1);
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleElementDeclaration795); 
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleElementDeclaration815); 
 
-            			createLeafNode(grammarAccess.getElementDeclarationAccess().getNameIDTerminalRuleCall_0_0(), "name"); 
+            			newLeafNode(lv_name_0_0, grammarAccess.getElementDeclarationAccess().getNameIDTerminalRuleCall_0_0()); 
             		
 
             	        if (current==null) {
-            	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-            	            associateNodeWithAstElement(currentNode, current);
+            	            current = createModelElement(grammarAccess.getElementDeclarationRule());
             	        }
-            	        try {
-            	       		set(
-            	       			current, 
-            	       			"name",
-            	        		lv_name_0_0, 
-            	        		"ID", 
-            	        		lastConsumedNode);
-            	        } catch (ValueConverterException vce) {
-            				handleValueConverterException(vce);
-            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"name",
+                    		lv_name_0_0, 
+                    		"ID");
             	    
 
             }
@@ -1056,11 +1011,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            match(input,19,FOLLOW_19_in_ruleElementDeclaration810); 
+            otherlv_1=(Token)match(input,19,FOLLOW_19_in_ruleElementDeclaration832); 
 
-                    createLeafNode(grammarAccess.getElementDeclarationAccess().getColonKeyword_1(), null); 
+                	newLeafNode(otherlv_1, grammarAccess.getElementDeclarationAccess().getColonKeyword_1());
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:535:1: ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:442:1: ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) )
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -1072,35 +1027,35 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("535:1: ( ( ( ruleQualifiedName ) ) | ( (lv_type_3_0= rulePrimitiveType ) ) )", 7, 0, input);
+                    new NoViableAltException("", 7, 0, input);
 
                 throw nvae;
             }
             switch (alt7) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:535:2: ( ( ruleQualifiedName ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:442:2: ( ( ruleQualifiedName ) )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:535:2: ( ( ruleQualifiedName ) )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:536:1: ( ruleQualifiedName )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:442:2: ( ( ruleQualifiedName ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:443:1: ( ruleQualifiedName )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:536:1: ( ruleQualifiedName )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:537:3: ruleQualifiedName
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:443:1: ( ruleQualifiedName )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:444:3: ruleQualifiedName
                     {
 
                     			if (current==null) {
-                    	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getElementDeclarationRule());
                     	        }
                             
                      
-                    	        currentNode=createCompositeNode(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0(), currentNode); 
+                    	        newCompositeNode(grammarAccess.getElementDeclarationAccess().getRefComplexTypeCrossReference_2_0_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleQualifiedName_in_ruleElementDeclaration834);
+                    pushFollow(FOLLOW_ruleQualifiedName_in_ruleElementDeclaration856);
                     ruleQualifiedName();
-                    _fsp--;
+
+                    state._fsp--;
 
                      
-                    	        currentNode = currentNode.getParent();
+                    	        afterParserOrEnumRuleCall();
                     	    
 
                     }
@@ -1112,37 +1067,32 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:552:6: ( (lv_type_3_0= rulePrimitiveType ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:458:6: ( (lv_type_3_0= rulePrimitiveType ) )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:552:6: ( (lv_type_3_0= rulePrimitiveType ) )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:553:1: (lv_type_3_0= rulePrimitiveType )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:458:6: ( (lv_type_3_0= rulePrimitiveType ) )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:459:1: (lv_type_3_0= rulePrimitiveType )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:553:1: (lv_type_3_0= rulePrimitiveType )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:554:3: lv_type_3_0= rulePrimitiveType
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:459:1: (lv_type_3_0= rulePrimitiveType )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:460:3: lv_type_3_0= rulePrimitiveType
                     {
                      
-                    	        currentNode=createCompositeNode(grammarAccess.getElementDeclarationAccess().getTypePrimitiveTypeEnumRuleCall_2_1_0(), currentNode); 
+                    	        newCompositeNode(grammarAccess.getElementDeclarationAccess().getTypePrimitiveTypeEnumRuleCall_2_1_0()); 
                     	    
-                    pushFollow(FOLLOW_rulePrimitiveType_in_ruleElementDeclaration861);
+                    pushFollow(FOLLOW_rulePrimitiveType_in_ruleElementDeclaration883);
                     lv_type_3_0=rulePrimitiveType();
-                    _fsp--;
+
+                    state._fsp--;
 
 
                     	        if (current==null) {
-                    	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode.getParent(), current);
+                    	            current = createModelElementForParent(grammarAccess.getElementDeclarationRule());
                     	        }
-                    	        try {
-                    	       		set(
-                    	       			current, 
-                    	       			"type",
-                    	        		lv_type_3_0, 
-                    	        		"PrimitiveType", 
-                    	        		currentNode);
-                    	        } catch (ValueConverterException vce) {
-                    				handleValueConverterException(vce);
-                    	        }
-                    	        currentNode = currentNode.getParent();
+                           		set(
+                           			current, 
+                           			"type",
+                            		lv_type_3_0, 
+                            		"PrimitiveType");
+                    	        afterParserOrEnumRuleCall();
                     	    
 
                     }
@@ -1156,7 +1106,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:576:3: ( (lv_multiple_4_0= '[]' ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:476:3: ( (lv_multiple_4_0= '[]' ) )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1165,27 +1115,20 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt8) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:577:1: (lv_multiple_4_0= '[]' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:477:1: (lv_multiple_4_0= '[]' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:577:1: (lv_multiple_4_0= '[]' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:578:3: lv_multiple_4_0= '[]'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:477:1: (lv_multiple_4_0= '[]' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:478:3: lv_multiple_4_0= '[]'
                     {
-                    lv_multiple_4_0=(Token)input.LT(1);
-                    match(input,20,FOLLOW_20_in_ruleElementDeclaration880); 
+                    lv_multiple_4_0=(Token)match(input,20,FOLLOW_20_in_ruleElementDeclaration902); 
 
-                            createLeafNode(grammarAccess.getElementDeclarationAccess().getMultipleLeftSquareBracketRightSquareBracketKeyword_3_0(), "multiple"); 
+                            newLeafNode(lv_multiple_4_0, grammarAccess.getElementDeclarationAccess().getMultipleLeftSquareBracketRightSquareBracketKeyword_3_0());
                         
 
                     	        if (current==null) {
-                    	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getElementDeclarationRule());
                     	        }
-                    	        
-                    	        try {
-                    	       		set(current, "multiple", true, "[]", lastConsumedNode);
-                    	        } catch (ValueConverterException vce) {
-                    				handleValueConverterException(vce);
-                    	        }
+                           		setWithLastConsumed(current, "multiple", true, "[]");
                     	    
 
                     }
@@ -1196,7 +1139,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:597:3: ( (lv_optional_5_0= 'optional' ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:491:3: ( (lv_optional_5_0= 'optional' ) )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1205,27 +1148,20 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt9) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:598:1: (lv_optional_5_0= 'optional' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:492:1: (lv_optional_5_0= 'optional' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:598:1: (lv_optional_5_0= 'optional' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:599:3: lv_optional_5_0= 'optional'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:492:1: (lv_optional_5_0= 'optional' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:493:3: lv_optional_5_0= 'optional'
                     {
-                    lv_optional_5_0=(Token)input.LT(1);
-                    match(input,21,FOLLOW_21_in_ruleElementDeclaration912); 
+                    lv_optional_5_0=(Token)match(input,21,FOLLOW_21_in_ruleElementDeclaration934); 
 
-                            createLeafNode(grammarAccess.getElementDeclarationAccess().getOptionalOptionalKeyword_4_0(), "optional"); 
+                            newLeafNode(lv_optional_5_0, grammarAccess.getElementDeclarationAccess().getOptionalOptionalKeyword_4_0());
                         
 
                     	        if (current==null) {
-                    	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getElementDeclarationRule());
                     	        }
-                    	        
-                    	        try {
-                    	       		set(current, "optional", true, "optional", lastConsumedNode);
-                    	        } catch (ValueConverterException vce) {
-                    				handleValueConverterException(vce);
-                    	        }
+                           		setWithLastConsumed(current, "optional", true, "optional");
                     	    
 
                     }
@@ -1236,7 +1172,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:618:3: ( (lv_doc_6_0= RULE_STRING ) )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:506:3: ( (lv_doc_6_0= RULE_STRING ) )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1245,31 +1181,24 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt10) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:619:1: (lv_doc_6_0= RULE_STRING )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:1: (lv_doc_6_0= RULE_STRING )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:619:1: (lv_doc_6_0= RULE_STRING )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:620:3: lv_doc_6_0= RULE_STRING
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:507:1: (lv_doc_6_0= RULE_STRING )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:508:3: lv_doc_6_0= RULE_STRING
                     {
-                    lv_doc_6_0=(Token)input.LT(1);
-                    match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleElementDeclaration943); 
+                    lv_doc_6_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleElementDeclaration965); 
 
-                    			createLeafNode(grammarAccess.getElementDeclarationAccess().getDocSTRINGTerminalRuleCall_5_0(), "doc"); 
+                    			newLeafNode(lv_doc_6_0, grammarAccess.getElementDeclarationAccess().getDocSTRINGTerminalRuleCall_5_0()); 
                     		
 
                     	        if (current==null) {
-                    	            current = factory.create(grammarAccess.getElementDeclarationRule().getType().getClassifier());
-                    	            associateNodeWithAstElement(currentNode, current);
+                    	            current = createModelElement(grammarAccess.getElementDeclarationRule());
                     	        }
-                    	        try {
-                    	       		set(
-                    	       			current, 
-                    	       			"doc",
-                    	        		lv_doc_6_0, 
-                    	        		"STRING", 
-                    	        		lastConsumedNode);
-                    	        } catch (ValueConverterException vce) {
-                    				handleValueConverterException(vce);
-                    	        }
+                           		setWithLastConsumed(
+                           			current, 
+                           			"doc",
+                            		lv_doc_6_0, 
+                            		"STRING");
                     	    
 
                     }
@@ -1286,9 +1215,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -1299,11 +1226,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleElementDeclaration
+    // $ANTLR end "ruleElementDeclaration"
 
 
-    // $ANTLR start entryRuleQualifiedName
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:650:1: entryRuleQualifiedName returns [String current=null] : iv_ruleQualifiedName= ruleQualifiedName EOF ;
+    // $ANTLR start "entryRuleQualifiedName"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:532:1: entryRuleQualifiedName returns [String current=null] : iv_ruleQualifiedName= ruleQualifiedName EOF ;
     public final String entryRuleQualifiedName() throws RecognitionException {
         String current = null;
 
@@ -1311,16 +1238,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:651:2: (iv_ruleQualifiedName= ruleQualifiedName EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:652:2: iv_ruleQualifiedName= ruleQualifiedName EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:533:2: (iv_ruleQualifiedName= ruleQualifiedName EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:534:2: iv_ruleQualifiedName= ruleQualifiedName EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getQualifiedNameRule(), currentNode); 
-            pushFollow(FOLLOW_ruleQualifiedName_in_entryRuleQualifiedName986);
+             newCompositeNode(grammarAccess.getQualifiedNameRule()); 
+            pushFollow(FOLLOW_ruleQualifiedName_in_entryRuleQualifiedName1008);
             iv_ruleQualifiedName=ruleQualifiedName();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleQualifiedName.getText(); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedName997); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedName1019); 
 
             }
 
@@ -1334,11 +1262,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleQualifiedName
+    // $ANTLR end "entryRuleQualifiedName"
 
 
-    // $ANTLR start ruleQualifiedName
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:659:1: ruleQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) ;
+    // $ANTLR start "ruleQualifiedName"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:541:1: ruleQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) ;
     public final AntlrDatatypeRuleToken ruleQualifiedName() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -1346,24 +1274,23 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         Token kw=null;
         Token this_ID_2=null;
 
-         setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:664:6: ( (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:665:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:544:28: ( (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:545:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:665:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:665:6: this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:545:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:545:6: this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )*
             {
-            this_ID_0=(Token)input.LT(1);
-            match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedName1037); 
+            this_ID_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedName1059); 
 
             		current.merge(this_ID_0);
                 
              
-                createLeafNode(grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_0(), null); 
+                newLeafNode(this_ID_0, grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_0()); 
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:672:1: (kw= '.' this_ID_2= RULE_ID )*
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:552:1: (kw= '.' this_ID_2= RULE_ID )*
             loop11:
             do {
                 int alt11=2;
@@ -1376,21 +1303,19 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
                 switch (alt11) {
             	case 1 :
-            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:673:2: kw= '.' this_ID_2= RULE_ID
+            	    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:553:2: kw= '.' this_ID_2= RULE_ID
             	    {
-            	    kw=(Token)input.LT(1);
-            	    match(input,22,FOLLOW_22_in_ruleQualifiedName1056); 
+            	    kw=(Token)match(input,22,FOLLOW_22_in_ruleQualifiedName1078); 
 
             	            current.merge(kw);
-            	            createLeafNode(grammarAccess.getQualifiedNameAccess().getFullStopKeyword_1_0(), null); 
+            	            newLeafNode(kw, grammarAccess.getQualifiedNameAccess().getFullStopKeyword_1_0()); 
             	        
-            	    this_ID_2=(Token)input.LT(1);
-            	    match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedName1071); 
+            	    this_ID_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedName1093); 
 
             	    		current.merge(this_ID_2);
             	        
             	     
-            	        createLeafNode(grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_1_1(), null); 
+            	        newLeafNode(this_ID_2, grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_1_1()); 
             	        
 
             	    }
@@ -1407,9 +1332,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-            	    lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -1420,11 +1343,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleQualifiedName
+    // $ANTLR end "ruleQualifiedName"
 
 
-    // $ANTLR start entryRuleQualifiedNameWithWildCard
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:693:1: entryRuleQualifiedNameWithWildCard returns [String current=null] : iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF ;
+    // $ANTLR start "entryRuleQualifiedNameWithWildCard"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:573:1: entryRuleQualifiedNameWithWildCard returns [String current=null] : iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF ;
     public final String entryRuleQualifiedNameWithWildCard() throws RecognitionException {
         String current = null;
 
@@ -1432,16 +1355,17 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:694:2: (iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:695:2: iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:574:2: (iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:575:2: iv_ruleQualifiedNameWithWildCard= ruleQualifiedNameWithWildCard EOF
             {
-             currentNode = createCompositeNode(grammarAccess.getQualifiedNameWithWildCardRule(), currentNode); 
-            pushFollow(FOLLOW_ruleQualifiedNameWithWildCard_in_entryRuleQualifiedNameWithWildCard1119);
+             newCompositeNode(grammarAccess.getQualifiedNameWithWildCardRule()); 
+            pushFollow(FOLLOW_ruleQualifiedNameWithWildCard_in_entryRuleQualifiedNameWithWildCard1141);
             iv_ruleQualifiedNameWithWildCard=ruleQualifiedNameWithWildCard();
-            _fsp--;
+
+            state._fsp--;
 
              current =iv_ruleQualifiedNameWithWildCard.getText(); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedNameWithWildCard1130); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedNameWithWildCard1152); 
 
             }
 
@@ -1455,11 +1379,11 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end entryRuleQualifiedNameWithWildCard
+    // $ANTLR end "entryRuleQualifiedNameWithWildCard"
 
 
-    // $ANTLR start ruleQualifiedNameWithWildCard
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:702:1: ruleQualifiedNameWithWildCard returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? ) ;
+    // $ANTLR start "ruleQualifiedNameWithWildCard"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:582:1: ruleQualifiedNameWithWildCard returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? ) ;
     public final AntlrDatatypeRuleToken ruleQualifiedNameWithWildCard() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -1467,29 +1391,30 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         AntlrDatatypeRuleToken this_QualifiedName_0 = null;
 
 
-         setCurrentLookahead(); resetLookahead(); 
+         enterRule(); 
             
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:707:6: ( (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:708:1: (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:585:28: ( (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:586:1: (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:708:1: (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:709:5: this_QualifiedName_0= ruleQualifiedName (kw= '.*' )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:586:1: (this_QualifiedName_0= ruleQualifiedName (kw= '.*' )? )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:587:5: this_QualifiedName_0= ruleQualifiedName (kw= '.*' )?
             {
              
-                    currentNode=createCompositeNode(grammarAccess.getQualifiedNameWithWildCardAccess().getQualifiedNameParserRuleCall_0(), currentNode); 
+                    newCompositeNode(grammarAccess.getQualifiedNameWithWildCardAccess().getQualifiedNameParserRuleCall_0()); 
                 
-            pushFollow(FOLLOW_ruleQualifiedName_in_ruleQualifiedNameWithWildCard1177);
+            pushFollow(FOLLOW_ruleQualifiedName_in_ruleQualifiedNameWithWildCard1199);
             this_QualifiedName_0=ruleQualifiedName();
-            _fsp--;
+
+            state._fsp--;
 
 
             		current.merge(this_QualifiedName_0);
                 
              
-                    currentNode = currentNode.getParent();
+                    afterParserOrEnumRuleCall();
                 
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:719:1: (kw= '.*' )?
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:597:1: (kw= '.*' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1498,13 +1423,12 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
             }
             switch (alt12) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:720:2: kw= '.*'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:598:2: kw= '.*'
                     {
-                    kw=(Token)input.LT(1);
-                    match(input,23,FOLLOW_23_in_ruleQualifiedNameWithWildCard1196); 
+                    kw=(Token)match(input,23,FOLLOW_23_in_ruleQualifiedNameWithWildCard1218); 
 
                             current.merge(kw);
-                            createLeafNode(grammarAccess.getQualifiedNameWithWildCardAccess().getFullStopAsteriskKeyword_1(), null); 
+                            newLeafNode(kw, grammarAccess.getQualifiedNameWithWildCardAccess().getFullStopAsteriskKeyword_1()); 
                         
 
                     }
@@ -1518,9 +1442,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-            	    lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -1531,20 +1453,27 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end ruleQualifiedNameWithWildCard
+    // $ANTLR end "ruleQualifiedNameWithWildCard"
 
 
-    // $ANTLR start rulePrimitiveType
-    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:733:1: rulePrimitiveType returns [Enumerator current=null] : ( ( 'undefined' ) | ( 'string' ) | ( 'integer' ) | ( 'boolean' ) | ( 'float' ) | ( 'double' ) ) ;
+    // $ANTLR start "rulePrimitiveType"
+    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:611:1: rulePrimitiveType returns [Enumerator current=null] : ( (enumLiteral_0= 'undefined' ) | (enumLiteral_1= 'string' ) | (enumLiteral_2= 'integer' ) | (enumLiteral_3= 'boolean' ) | (enumLiteral_4= 'float' ) | (enumLiteral_5= 'double' ) ) ;
     public final Enumerator rulePrimitiveType() throws RecognitionException {
         Enumerator current = null;
 
-         setCurrentLookahead(); resetLookahead(); 
+        Token enumLiteral_0=null;
+        Token enumLiteral_1=null;
+        Token enumLiteral_2=null;
+        Token enumLiteral_3=null;
+        Token enumLiteral_4=null;
+        Token enumLiteral_5=null;
+
+         enterRule(); 
         try {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:737:6: ( ( ( 'undefined' ) | ( 'string' ) | ( 'integer' ) | ( 'boolean' ) | ( 'float' ) | ( 'double' ) ) )
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:738:1: ( ( 'undefined' ) | ( 'string' ) | ( 'integer' ) | ( 'boolean' ) | ( 'float' ) | ( 'double' ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:613:28: ( ( (enumLiteral_0= 'undefined' ) | (enumLiteral_1= 'string' ) | (enumLiteral_2= 'integer' ) | (enumLiteral_3= 'boolean' ) | (enumLiteral_4= 'float' ) | (enumLiteral_5= 'double' ) ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:614:1: ( (enumLiteral_0= 'undefined' ) | (enumLiteral_1= 'string' ) | (enumLiteral_2= 'integer' ) | (enumLiteral_3= 'boolean' ) | (enumLiteral_4= 'float' ) | (enumLiteral_5= 'double' ) )
             {
-            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:738:1: ( ( 'undefined' ) | ( 'string' ) | ( 'integer' ) | ( 'boolean' ) | ( 'float' ) | ( 'double' ) )
+            // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:614:1: ( (enumLiteral_0= 'undefined' ) | (enumLiteral_1= 'string' ) | (enumLiteral_2= 'integer' ) | (enumLiteral_3= 'boolean' ) | (enumLiteral_4= 'float' ) | (enumLiteral_5= 'double' ) )
             int alt13=6;
             switch ( input.LA(1) ) {
             case 24:
@@ -1579,22 +1508,22 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("738:1: ( ( 'undefined' ) | ( 'string' ) | ( 'integer' ) | ( 'boolean' ) | ( 'float' ) | ( 'double' ) )", 13, 0, input);
+                    new NoViableAltException("", 13, 0, input);
 
                 throw nvae;
             }
 
             switch (alt13) {
                 case 1 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:738:2: ( 'undefined' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:614:2: (enumLiteral_0= 'undefined' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:738:2: ( 'undefined' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:738:4: 'undefined'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:614:2: (enumLiteral_0= 'undefined' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:614:4: enumLiteral_0= 'undefined'
                     {
-                    match(input,24,FOLLOW_24_in_rulePrimitiveType1250); 
+                    enumLiteral_0=(Token)match(input,24,FOLLOW_24_in_rulePrimitiveType1274); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getUndefinedEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getUndefinedEnumLiteralDeclaration_0(), null); 
+                            newLeafNode(enumLiteral_0, grammarAccess.getPrimitiveTypeAccess().getUndefinedEnumLiteralDeclaration_0()); 
                         
 
                     }
@@ -1603,15 +1532,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:744:6: ( 'string' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:620:6: (enumLiteral_1= 'string' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:744:6: ( 'string' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:744:8: 'string'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:620:6: (enumLiteral_1= 'string' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:620:8: enumLiteral_1= 'string'
                     {
-                    match(input,25,FOLLOW_25_in_rulePrimitiveType1265); 
+                    enumLiteral_1=(Token)match(input,25,FOLLOW_25_in_rulePrimitiveType1291); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getStringEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getStringEnumLiteralDeclaration_1(), null); 
+                            newLeafNode(enumLiteral_1, grammarAccess.getPrimitiveTypeAccess().getStringEnumLiteralDeclaration_1()); 
                         
 
                     }
@@ -1620,15 +1549,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:750:6: ( 'integer' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:626:6: (enumLiteral_2= 'integer' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:750:6: ( 'integer' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:750:8: 'integer'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:626:6: (enumLiteral_2= 'integer' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:626:8: enumLiteral_2= 'integer'
                     {
-                    match(input,26,FOLLOW_26_in_rulePrimitiveType1280); 
+                    enumLiteral_2=(Token)match(input,26,FOLLOW_26_in_rulePrimitiveType1308); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getIntegerEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getIntegerEnumLiteralDeclaration_2(), null); 
+                            newLeafNode(enumLiteral_2, grammarAccess.getPrimitiveTypeAccess().getIntegerEnumLiteralDeclaration_2()); 
                         
 
                     }
@@ -1637,15 +1566,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:756:6: ( 'boolean' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:632:6: (enumLiteral_3= 'boolean' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:756:6: ( 'boolean' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:756:8: 'boolean'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:632:6: (enumLiteral_3= 'boolean' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:632:8: enumLiteral_3= 'boolean'
                     {
-                    match(input,27,FOLLOW_27_in_rulePrimitiveType1295); 
+                    enumLiteral_3=(Token)match(input,27,FOLLOW_27_in_rulePrimitiveType1325); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getBooleanEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getBooleanEnumLiteralDeclaration_3(), null); 
+                            newLeafNode(enumLiteral_3, grammarAccess.getPrimitiveTypeAccess().getBooleanEnumLiteralDeclaration_3()); 
                         
 
                     }
@@ -1654,15 +1583,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:762:6: ( 'float' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:638:6: (enumLiteral_4= 'float' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:762:6: ( 'float' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:762:8: 'float'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:638:6: (enumLiteral_4= 'float' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:638:8: enumLiteral_4= 'float'
                     {
-                    match(input,28,FOLLOW_28_in_rulePrimitiveType1310); 
+                    enumLiteral_4=(Token)match(input,28,FOLLOW_28_in_rulePrimitiveType1342); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getFloatEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getFloatEnumLiteralDeclaration_4(), null); 
+                            newLeafNode(enumLiteral_4, grammarAccess.getPrimitiveTypeAccess().getFloatEnumLiteralDeclaration_4()); 
                         
 
                     }
@@ -1671,15 +1600,15 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:768:6: ( 'double' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:644:6: (enumLiteral_5= 'double' )
                     {
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:768:6: ( 'double' )
-                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:768:8: 'double'
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:644:6: (enumLiteral_5= 'double' )
+                    // ../org.edna.datamodel.language/src-gen/org/edna/datamodel/parser/antlr/internal/InternalDatamodel.g:644:8: enumLiteral_5= 'double'
                     {
-                    match(input,29,FOLLOW_29_in_rulePrimitiveType1325); 
+                    enumLiteral_5=(Token)match(input,29,FOLLOW_29_in_rulePrimitiveType1359); 
 
                             current = grammarAccess.getPrimitiveTypeAccess().getDoubleEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
-                            createLeafNode(grammarAccess.getPrimitiveTypeAccess().getDoubleEnumLiteralDeclaration_5(), null); 
+                            newLeafNode(enumLiteral_5, grammarAccess.getPrimitiveTypeAccess().getDoubleEnumLiteralDeclaration_5()); 
                         
 
                     }
@@ -1693,9 +1622,7 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
 
             }
 
-             resetLookahead(); 
-                	lastConsumedNode = currentNode;
-                
+             leaveRule(); 
         }
          
             catch (RecognitionException re) { 
@@ -1706,64 +1633,66 @@ public class InternalDatamodelParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end rulePrimitiveType
+    // $ANTLR end "rulePrimitiveType"
+
+    // Delegated rules
 
 
  
 
     public static final BitSet FOLLOW_ruleModel_in_entryRuleModel75 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleModel85 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_11_in_ruleModel121 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_STRING_in_ruleModel138 = new BitSet(new long[]{0x0000000000013002L});
-    public static final BitSet FOLLOW_ruleImport_in_ruleModel165 = new BitSet(new long[]{0x0000000000013002L});
-    public static final BitSet FOLLOW_ruleComplexType_in_ruleModel188 = new BitSet(new long[]{0x0000000000012002L});
-    public static final BitSet FOLLOW_rulePackage_in_ruleModel215 = new BitSet(new long[]{0x0000000000012002L});
-    public static final BitSet FOLLOW_ruleImport_in_entryRuleImport253 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleImport263 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_12_in_ruleImport298 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleQualifiedNameWithWildCard_in_ruleImport319 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rulePackage_in_entryRulePackage355 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRulePackage365 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_13_in_rulePackage400 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_ID_in_rulePackage417 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_14_in_rulePackage432 = new BitSet(new long[]{0x000000000001A000L});
-    public static final BitSet FOLLOW_ruleComplexType_in_rulePackage454 = new BitSet(new long[]{0x000000000001A000L});
-    public static final BitSet FOLLOW_rulePackage_in_rulePackage481 = new BitSet(new long[]{0x000000000001A000L});
-    public static final BitSet FOLLOW_15_in_rulePackage493 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleComplexType_in_entryRuleComplexType529 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleComplexType539 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_16_in_ruleComplexType574 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleComplexType584 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleComplexType601 = new BitSet(new long[]{0x0000000000044000L});
-    public static final BitSet FOLLOW_18_in_ruleComplexType617 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleComplexType640 = new BitSet(new long[]{0x0000000000004000L});
-    public static final BitSet FOLLOW_14_in_ruleComplexType652 = new BitSet(new long[]{0x0000000000008030L});
-    public static final BitSet FOLLOW_RULE_STRING_in_ruleComplexType669 = new BitSet(new long[]{0x0000000000008020L});
-    public static final BitSet FOLLOW_ruleElementDeclaration_in_ruleComplexType696 = new BitSet(new long[]{0x0000000000008020L});
-    public static final BitSet FOLLOW_15_in_ruleComplexType707 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleElementDeclaration_in_entryRuleElementDeclaration743 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleElementDeclaration753 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleElementDeclaration795 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_19_in_ruleElementDeclaration810 = new BitSet(new long[]{0x000000003F000020L});
-    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleElementDeclaration834 = new BitSet(new long[]{0x0000000000300012L});
-    public static final BitSet FOLLOW_rulePrimitiveType_in_ruleElementDeclaration861 = new BitSet(new long[]{0x0000000000300012L});
-    public static final BitSet FOLLOW_20_in_ruleElementDeclaration880 = new BitSet(new long[]{0x0000000000200012L});
-    public static final BitSet FOLLOW_21_in_ruleElementDeclaration912 = new BitSet(new long[]{0x0000000000000012L});
-    public static final BitSet FOLLOW_RULE_STRING_in_ruleElementDeclaration943 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleQualifiedName_in_entryRuleQualifiedName986 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedName997 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedName1037 = new BitSet(new long[]{0x0000000000400002L});
-    public static final BitSet FOLLOW_22_in_ruleQualifiedName1056 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedName1071 = new BitSet(new long[]{0x0000000000400002L});
-    public static final BitSet FOLLOW_ruleQualifiedNameWithWildCard_in_entryRuleQualifiedNameWithWildCard1119 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedNameWithWildCard1130 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleQualifiedNameWithWildCard1177 = new BitSet(new long[]{0x0000000000800002L});
-    public static final BitSet FOLLOW_23_in_ruleQualifiedNameWithWildCard1196 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_24_in_rulePrimitiveType1250 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_25_in_rulePrimitiveType1265 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_26_in_rulePrimitiveType1280 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_27_in_rulePrimitiveType1295 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_28_in_rulePrimitiveType1310 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_29_in_rulePrimitiveType1325 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_11_in_ruleModel123 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_STRING_in_ruleModel140 = new BitSet(new long[]{0x0000000000013002L});
+    public static final BitSet FOLLOW_ruleImport_in_ruleModel167 = new BitSet(new long[]{0x0000000000013002L});
+    public static final BitSet FOLLOW_ruleComplexType_in_ruleModel190 = new BitSet(new long[]{0x0000000000012002L});
+    public static final BitSet FOLLOW_rulePackage_in_ruleModel217 = new BitSet(new long[]{0x0000000000012002L});
+    public static final BitSet FOLLOW_ruleImport_in_entryRuleImport255 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleImport265 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_12_in_ruleImport302 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleQualifiedNameWithWildCard_in_ruleImport323 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rulePackage_in_entryRulePackage359 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRulePackage369 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_13_in_rulePackage406 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_ID_in_rulePackage423 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_rulePackage440 = new BitSet(new long[]{0x000000000001A000L});
+    public static final BitSet FOLLOW_ruleComplexType_in_rulePackage462 = new BitSet(new long[]{0x000000000001A000L});
+    public static final BitSet FOLLOW_rulePackage_in_rulePackage489 = new BitSet(new long[]{0x000000000001A000L});
+    public static final BitSet FOLLOW_15_in_rulePackage503 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleComplexType_in_entryRuleComplexType539 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleComplexType549 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_16_in_ruleComplexType586 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_17_in_ruleComplexType598 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleComplexType615 = new BitSet(new long[]{0x0000000000044000L});
+    public static final BitSet FOLLOW_18_in_ruleComplexType633 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleComplexType656 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_ruleComplexType670 = new BitSet(new long[]{0x0000000000008030L});
+    public static final BitSet FOLLOW_RULE_STRING_in_ruleComplexType687 = new BitSet(new long[]{0x0000000000008020L});
+    public static final BitSet FOLLOW_ruleElementDeclaration_in_ruleComplexType714 = new BitSet(new long[]{0x0000000000008020L});
+    public static final BitSet FOLLOW_15_in_ruleComplexType727 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleElementDeclaration_in_entryRuleElementDeclaration763 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleElementDeclaration773 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleElementDeclaration815 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_19_in_ruleElementDeclaration832 = new BitSet(new long[]{0x000000003F000020L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleElementDeclaration856 = new BitSet(new long[]{0x0000000000300012L});
+    public static final BitSet FOLLOW_rulePrimitiveType_in_ruleElementDeclaration883 = new BitSet(new long[]{0x0000000000300012L});
+    public static final BitSet FOLLOW_20_in_ruleElementDeclaration902 = new BitSet(new long[]{0x0000000000200012L});
+    public static final BitSet FOLLOW_21_in_ruleElementDeclaration934 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_RULE_STRING_in_ruleElementDeclaration965 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_entryRuleQualifiedName1008 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedName1019 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedName1059 = new BitSet(new long[]{0x0000000000400002L});
+    public static final BitSet FOLLOW_22_in_ruleQualifiedName1078 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedName1093 = new BitSet(new long[]{0x0000000000400002L});
+    public static final BitSet FOLLOW_ruleQualifiedNameWithWildCard_in_entryRuleQualifiedNameWithWildCard1141 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedNameWithWildCard1152 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleQualifiedName_in_ruleQualifiedNameWithWildCard1199 = new BitSet(new long[]{0x0000000000800002L});
+    public static final BitSet FOLLOW_23_in_ruleQualifiedNameWithWildCard1218 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_24_in_rulePrimitiveType1274 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_25_in_rulePrimitiveType1291 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_26_in_rulePrimitiveType1308 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_27_in_rulePrimitiveType1325 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_28_in_rulePrimitiveType1342 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_29_in_rulePrimitiveType1359 = new BitSet(new long[]{0x0000000000000002L});
 
 }
