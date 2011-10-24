@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.edna.datamodel.language.ui
 Bundle-Vendor: ESRF
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-SymbolicName: org.edna.datamodel.language.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.edna.datamodel.language;visibility:=reexport,

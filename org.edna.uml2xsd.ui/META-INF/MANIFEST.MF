@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: UML-to-XSD transformator
 Bundle-SymbolicName: org.edna.uml2xsd.ui;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: org.edna.uml2xsd.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

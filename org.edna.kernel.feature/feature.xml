@@ -2,7 +2,7 @@
 <feature
       id="org.edna.kernel.feature"
       label="The EDNA kernel plugin feature"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="ESRF">
 
    <description url="http://www.edna-site.org">

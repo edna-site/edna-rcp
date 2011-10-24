@@ -2,7 +2,7 @@
 <feature
       id="org.edna.uml2xsd.feature"
       label="UML-2-XSD Feature"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="ESRF">
 
    <description url="http://www.example.com/description">
@@ -169,14 +169,14 @@ Library.
          id="org.edna.uml2xsd"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="1.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.edna.uml2xsd.ui"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="1.1.0.qualifier"
          unpack="false"/>
 
    <plugin
