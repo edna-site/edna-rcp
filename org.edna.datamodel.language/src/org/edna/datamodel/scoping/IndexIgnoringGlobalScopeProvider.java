@@ -1,6 +1,6 @@
 package org.edna.datamodel.scoping;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.resource.impl.ResourceSetBasedResourceDescriptions;
@@ -16,15 +16,15 @@ public class IndexIgnoringGlobalScopeProvider extends DefaultGlobalScopeProvider
     private IResourceServiceProvider.Registry registry;
 
     @Override
-    public IResourceDescriptions getResourceDescriptions(EObject ctx) {
-        if (ctx.eResource().getResourceSet().getLoadOptions()
+    public IResourceDescriptions getResourceDescriptions(Resource res) {
+        if (res.getResourceSet().getLoadOptions()
                 .containsKey(RESOURCE_SET_ONLY)) {
             ResourceSetBasedResourceDescriptions result = new ResourceSetBasedResourceDescriptions();
-            result.setContext(ctx);
+            result.setContext(res);
             result.setRegistry(registry);
             return result;
         }
-        return super.getResourceDescriptions(ctx);
+        return super.getResourceDescriptions(res);
     }
 }
 
