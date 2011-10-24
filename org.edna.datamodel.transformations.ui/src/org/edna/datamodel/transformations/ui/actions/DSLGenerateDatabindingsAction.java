@@ -45,7 +45,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -124,10 +123,9 @@ public class DSLGenerateDatabindingsAction extends ActionDelegate implements IOb
 					// Check for unresolved cross references
 					for (Iterator<EObject> it = model.eAllContents(); it.hasNext();) {
 						EObject obj = it.next();
-						for (EContentsEList.FeatureIterator featureIterator = (EContentsEList.FeatureIterator) obj
+						for (EContentsEList.FeatureIterator<EObject> featureIterator = (EContentsEList.FeatureIterator<EObject>) obj
 								.eCrossReferences().iterator(); featureIterator.hasNext();) {
 							EObject eObject = (EObject) featureIterator.next();
-							EReference eReference = (EReference) featureIterator.feature();
 							if (eObject.eIsProxy()) {
 
 								final String message = String.format("Resource %s has unresolved cross-references.", fileURI.lastSegment());

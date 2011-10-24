@@ -27,7 +27,8 @@ public class MweReaderExt extends Reader {
 
 		for (Iterator<EObject> it = result.eAllContents(); it.hasNext();) {
 			EObject obj = it.next();
-			for (EContentsEList.FeatureIterator featureIterator = (EContentsEList.FeatureIterator) obj
+			for (@SuppressWarnings("rawtypes")
+			EContentsEList.FeatureIterator featureIterator = (EContentsEList.FeatureIterator) obj
 					.eCrossReferences().iterator(); featureIterator.hasNext();) {
 				EObject eObject = (EObject) featureIterator.next();
 				EReference eReference = (EReference) featureIterator.feature();
