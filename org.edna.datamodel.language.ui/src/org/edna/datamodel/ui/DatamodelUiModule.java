@@ -4,8 +4,8 @@
 package org.edna.datamodel.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtext.resource.IContainer;
-import org.eclipse.xtext.resource.containers.StateBasedContainerManager;
+import org.eclipse.xtext.documentation.IEObjectDocumentationProvider;
+import org.edna.datamodel.ui.customizing.DatamodelDocumentationProvider;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -16,13 +16,12 @@ public class DatamodelUiModule extends
 		super(plugin);
 	}
 
-//	public Class<? extends IContainer.Manager> bindIContainer$Manager() {
-//		return StateBasedContainerManager.class;
-//	}
-
 	@Override
 	public com.google.inject.Provider<org.eclipse.xtext.resource.containers.IAllContainersState> provideIAllContainersState() {
 		return org.eclipse.xtext.ui.shared.Access.getWorkspaceProjectsState();
 	}
 
+	public Class<? extends IEObjectDocumentationProvider> bindIEObjectDocumentationProvider () {
+		return DatamodelDocumentationProvider.class;
+	}
 }

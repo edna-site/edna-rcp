@@ -5,6 +5,8 @@ package org.edna.datamodel.ui.labeling;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
+import org.edna.datamodel.datamodel.ComplexType;
+import org.edna.datamodel.datamodel.ElementDeclaration;
 
 import com.google.inject.Inject;
 
@@ -19,16 +21,28 @@ public class DatamodelLabelProvider extends DefaultEObjectLabelProvider {
 	public DatamodelLabelProvider(AdapterFactoryLabelProvider delegate) {
 		super(delegate);
 	}
-
-/*
-	//Labels and icons can be computed like this:
 	
-	String text(MyModel ele) {
-	  return "my "+ele.getName();
+	String text (ComplexType element) {
+		if (element.getBaseType()!=null) {
+			return element.getName() + " -> " + element.getBaseType().getName();
+		} else {
+			return element.getName();
+		}
 	}
-	 
-    String image(MyModel ele) {
-      return "MyModel.gif";
-    }
-*/
+	
+	String text (ElementDeclaration element) {
+		return element.getName() + ": " + (element.getRef()!=null ? element.getRef().getName() : element.getType().getName());
+	}
+	
+	String image (org.edna.datamodel.datamodel.Package element) {
+		return "EPackage.gif";
+	}
+	String image (ComplexType element) {
+		return "EClass.gif";
+	}
+	String image (ElementDeclaration element) {
+		return element.getRef()!=null ? "EReference.gif" : "EAttribute.gif";
+	}
+	
+	
 }
