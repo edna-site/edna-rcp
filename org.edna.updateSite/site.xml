@@ -3,6 +3,25 @@
    <description name="The EDNA Eclipse Update Site" url="http://www.edna-site.org/eclipse/updates">
       
    </description>
+   <feature url="features/org.edna.datamodel.feature_1.0.0.201110071534.jar" id="org.edna.datamodel.feature" version="1.0.0.201110071534">
+      <category name="edna_datamodel_transformations"/>
+   </feature>
+   <feature url="features/org.edna.uml2xsd.feature_1.0.0.201110071534.jar" id="org.edna.uml2xsd.feature" version="1.0.0.201110071534">
+      <category name="uml2xsd"/>
+   </feature>
+   <feature url="features/org.edna.plugingenerator.feature_1.0.0.201110071534.jar" id="org.edna.plugingenerator.feature" version="1.0.0.201110071534">
+      <category name="edna_plugin_generator"/>
+   </feature>
+   <feature url="features/org.edna.kernel.feature_1.0.0.201110071534.jar" id="org.edna.kernel.feature" version="1.0.0.201110071534">
+      <category name="edna_kernel_tools"/>
+   </feature>
    <category-def name="edna_datamodel_transformations" label="EDNA Datamodel Transformations"/>
    <category-def name="uml2xsd" label="UML 2 XSD transformation (deprecated)"/>
+   <category-def name="edna_plugin_generator" label="EDNA Plugin Generator"/>
+   <category-def name="edna_kernel_tools" label="EDNA Kernel Tools">
+      <description>
+         - View for running EDNA test cases and test suites
+- Common data model bindings for Java
+      </description>
+   </category-def>
 </site>
