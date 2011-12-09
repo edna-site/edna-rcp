@@ -116,9 +116,8 @@ def checkType(_strClassName, _strMethodName, _value, _strExpectedType):
 
 
 def warnEmptyAttribute(_strName, _strTypeName):
-	pass
-	#if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
-	#		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
+	if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
+		print("Warning! Non-optional attribute %s of type %s is None!" % (_strName, _strTypeName))
 
 class MixedContainer(object):
 	# Constants for category:
@@ -200,6 +199,53 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 	«IF hasExtension()-»
 		«baseType.name».__init__(self, «initValues(baseType)»)
 	«ENDIF-»
+	«REM»
+	The following part is only relevant for the XSData base class:
+	«ENDREM»
+	«IF name.matches("XSData")-»
+	def copyViaDict(self):
+		return XSData.importFromDict(self.exportToDict())
+
+	def exportToDict(self):
+		dictOut = {"__XSDataName" : str(self.__class__).split("'")[1]}
+		for key, val in self.__dict__.iteritems():
+			if callable(val):
+				pass
+			elif str(val.__class__).split("'")[1].startswith("XSData"):
+				dictOut[key] = val.exportToDict()
+			elif isinstance(val, list):
+				dictOut[key] = [i.exportToDict() for i in val]
+			else:
+				dictOut[key] = val
+		return dictOut
+	#Static method for parsing a dictionary
+	def importFromDict(inDict):
+		xsd = None
+		if "__XSDataName" in inDict:
+			name = inDict.pop("__XSDataName")
+			strModuleName, strClassName = name.split(".", 1)
+			module = sys.modules.get(strModuleName, None)
+			if module is None:
+				print("Error, Dictionary does not represent an XSData object. module %s not in memory" % strModuleName)
+			else:
+				if hasattr(module, strClassName):
+					xsdClass = getattr(module, strClassName)
+					xsd = xsdClass()
+				else:
+					print("Error, Dictionary does not represent an XSData object. Class %s not in module %s" % (strClassname, strModuleName))
+		else:
+			print("Error, Dictionary does not represent an XSData object. no __XSDataName")
+		if xsd is not None:
+			for key, val in inDict.iteritems():
+				if isinstance(val, list):
+					xsd.__dict__[key] = [ XSData.importFromDict(i) for i in val]
+				elif isinstance(val, dict):
+					xsd.__dict__[key] = XSData.importFromDict(val)
+				else:
+					xsd.__dict__[key] = val
+		return xsd
+	importFromDict = staticmethod(importFromDict)	
+	«ENDIF»
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
 		«FOREACH {"outputFile", "export", "exportChildren", "marshal", "copy", "parseString", "parseFile", "build", "buildChildren", "exportToFile"} AS methodname-»
@@ -210,36 +256,36 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 		«ENDFOREACH-»
 		«IF e.multiple-»
 		if «e.name» is None:
-			self.__«e.name» = []
+			self._«e.name» = []
 		else:
 			checkType("«name»", "Constructor of «name»", «e.name», "list")
-			self.__«e.name» = «e.name»
+			self._«e.name» = «e.name»
 		«ELSE-»
 		checkType("«name»", "Constructor of «name»", «e.name», "«e.typeName()»")
-		self.__«e.name» = «e.name»
+		self._«e.name» = «e.name»
 		«ENDIF-»
 	«ENDFOREACH-»
 	«ENDIF-»
 	«IF !elements.isEmpty-»
 	«FOREACH elements AS e-»
-	def get«e.name.toFirstUpper()»(self): return self.__«e.name»
+	def get«e.name.toFirstUpper()»(self): return self._«e.name»
 	def set«e.name.toFirstUpper()»(self, «e.name»):
 		«IF e.multiple-»
 		checkType("«name»", "set«e.name.toFirstUpper()»", «e.name», "list")
 		«ELSE-»
 		checkType("«name»", "set«e.name.toFirstUpper()»", «e.name», "«e.typeName()»")
 		«ENDIF-»
-		self.__«e.name» = «e.name»
-	def del«e.name.toFirstUpper()»(self): self.__«e.name» = None
+		self._«e.name» = «e.name»
+	def del«e.name.toFirstUpper()»(self): self._«e.name» = None
 	# Properties
 	«e.name» = property(get«e.name.toFirstUpper()», set«e.name.toFirstUpper()», del«e.name.toFirstUpper()», "Property for «e.name»")
 	«IF e.multiple-»
 	def add«e.name.toFirstUpper()»(self, value):
 		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
-		self.__«e.name».append(value)
+		self._«e.name».append(value)
 	def insert«e.name.toFirstUpper()»(self, index, value):
 		checkType("«name»", "set«e.name.toFirstUpper()»", value, "«e.typeName()»")
-		self.__«e.name»[index] = value
+		self._«e.name»[index] = value
 	«ENDIF-»
 	«ENDFOREACH-»
 	«ENDIF-»
@@ -275,9 +321,9 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 				else:
 					raise ValueError('requires boolean -- %s' % child_.toxml())
 				«IF e.multiple-»
-				self.__«e.name».append(ival_)
+				self._«e.name».append(ival_)
 				«ELSE-»
-				self.__«e.name» = ival_
+				self._«e.name» = ival_
 				«ENDIF-»
 			«ELSEIF e.typeName()=="string"-»
 			value_ = ''
@@ -285,9 +331,9 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 				if text__content_.nodeValue is not None:
 					value_ += text__content_.nodeValue
 			«IF e.multiple-»
-			self.__«e.name».append(value_)
+			self._«e.name».append(value_)
 			«ELSE-»
-			self.__«e.name» = value_
+			self._«e.name» = value_
 			«ENDIF-»
 			«ELSEIF e.typeName()=="double" || e.typeName()=="float"-»
 			if child_.firstChild:
@@ -297,9 +343,9 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 				except ValueError:
 					raise ValueError('requires float (or double) -- %s' % child_.toxml())
 				«IF e.multiple-»
-				self.__«e.name».append(fval_)
+				self._«e.name».append(fval_)
 				«ELSE-»
-				self.__«e.name» = fval_
+				self._«e.name» = fval_
 				«ENDIF-»
 			«ELSEIF e.typeName()=="integer"-»
 			if child_.firstChild:
@@ -309,9 +355,9 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 				except ValueError:
 					raise ValueError('requires integer -- %s' % child_.toxml())
 				«IF e.multiple-»
-				self.__«e.name».append(ival_)
+				self._«e.name».append(ival_)
 				«ELSE-»
-				self.__«e.name» = ival_
+				self._«e.name» = ival_
 				«ENDIF-»
 			«ELSE-»
 			obj_ = «e.typeName()»()
@@ -392,22 +438,22 @@ class «name»«IF hasExtension()»(«baseType.name»)«ELSE»(object)«ENDIF»:
 			warnEmptyAttribute("«name»", "«typeName()»")
 		«ENDIF-»
 	«ELSE-»
-		if self.__«name» is not None:
+		if self._«name» is not None:
 			«IF typeName()=="boolean"-»
 			showIndent(outfile, level)
-			if self.__«name»:
+			if self._«name»:
 				outfile.write(unicode('<«name»>true</«name»>\n'))
 			else:
 				outfile.write(unicode('<«name»>false</«name»>\n'))
 			«ELSEIF typeName()=="string"-»
 			showIndent(outfile, level)
-			outfile.write(unicode('<«name»>%s</«name»>\n' % self.__«name»))
+			outfile.write(unicode('<«name»>%s</«name»>\n' % self._«name»))
 			«ELSEIF typeName()=="double" || typeName()=="float"-»
 			showIndent(outfile, level)
-			outfile.write(unicode('<«name»>%e</«name»>\n' % self.__«name»))
+			outfile.write(unicode('<«name»>%e</«name»>\n' % self._«name»))
 			«ELSEIF typeName()=="integer"-»
 			showIndent(outfile, level)
-			outfile.write(unicode('<«name»>%d</«name»>\n' % self.__«name»))
+			outfile.write(unicode('<«name»>%d</«name»>\n' % self._«name»))
 			«ELSE-»
 			self.«name».export(outfile, level, name_='«name»')
 			«ENDIF-»
