@@ -217,7 +217,7 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
                     xsdClass = getattr(module, strClassName)
                     xsd = xsdClass()
                 else:
-                    print("Error, Dictionary does not represent an XSData object. Class %s not in module %s" % (strClassname, strModuleName))
+                    print("Error, Dictionary does not represent an XSData object. Class %s not in module %s" % (strClassName, strModuleName))
         else:
             print("Error, Dictionary does not represent an XSData object. no __XSDataName")
         if xsd is not None:
