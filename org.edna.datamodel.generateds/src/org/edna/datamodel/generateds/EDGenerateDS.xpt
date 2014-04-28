@@ -99,7 +99,13 @@ def showIndent(outfile, level):
     for idx in range(level):
         outfile.write(unicode('    '))
 
-
+def createJsonIndent(level):
+    strIndent = unicode('')
+    for idx in range(level):
+        strIndent += unicode('    ')
+    return strIndent
+    
+    
 def warnEmptyAttribute(_strName, _strTypeName):
     pass
     #if not _strTypeName in ["float", "double", "string", "boolean", "integer"]:
@@ -233,7 +239,7 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
     «ENDIF-»
     «IF !elements.isEmpty-»
     «FOREACH elements AS e-»
-        «FOREACH {"outputFile", "export", "exportChildren", "marshal", "copy", "parseString", "parseFile", "build", "buildChildren", "exportToFile"} AS methodname-»
+        «FOREACH {"outputFile", "export", "exportChildren", "exportJson", "exportJsonChildren", "dumps", "marshal", "copy", "parseString", "parseFile", "build", "buildChildren", "exportToFile"} AS methodname-»
         «IF e.name.matches(methodname)-»
         strMessage = "FATAL ERROR! Attribute name «e.name» is reserved for EDGenerateDS data binding code, please use another attribute name."
         raise BaseException(strMessage)
@@ -386,6 +392,26 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
         pass
     «ENDIF-»
     «EXPAND exportChildren FOREACH elements-»
+    def exportJson(self, level, name_='«name»'):
+        if name_ is None:
+            strJson = createJsonIndent(level) + unicode('{\n')
+        else:
+	        strJson = createJsonIndent(level) + unicode('"%s": {\n' % name_)
+        strJson += self.exportJsonChildren(level + 1, name_)
+        if strJson.endswith(',\n'):
+	        # Remove last ',\n' from string, replace with '\n'
+    	    strJson = strJson[:-2] + '\n'
+        strJson += createJsonIndent(level) + unicode('}\n')
+        return strJson
+    def exportJsonChildren(self, level, name_='«name»'):
+    	strJsonChildren = ""
+    «IF hasExtension()-»
+        strJsonChildren += «baseType.name».exportJsonChildren(self, level, name_)
+    «ELSE-»
+        strJsonChildren += ""
+    «ENDIF-»
+    «EXPAND exportJsonChildren FOREACH elements-»
+        return strJsonChildren
     def build(self, node_):
         for child_ in node_.childNodes:
             nodeName_ = child_.nodeName.split(':')[-1]
@@ -476,6 +502,9 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
     #Method for making a copy in a new instance
     def copy( self ):
         return «name».parseString(self.marshal())
+    # Export to json format
+    def dumps(self):
+        return self.exportJson(0, name_=None)
     #Static method for parsing a string
     def parseString( _inString ):
         doc = minidom.parseString(_inString)
@@ -540,6 +569,51 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
             outfile.write(unicode('<«name»>%d</«name»>\n' % self._«name»))
             «ELSE-»
             self.«name».export(outfile, level, name_='«name»')
+            «ENDIF-»
+        «IF !optional-»
+        else:
+            warnEmptyAttribute("«name»", "«typeName()»")
+        «ENDIF-»
+    «ENDIF-»
+«ENDDEFINE»
+
+«DEFINE exportJsonChildren FOR ElementDeclaration-»
+    «IF multiple-»
+    	strJsonChildren += createJsonIndent(level) + unicode('"«name»": [') 
+        for «name»_ in self.get«name.toFirstUpper()»():
+            «IF typeName()=="boolean"-»
+            strJsonChildren += unicode('%d, ' % «name»_)
+            «ELSEIF typeName()=="string"-»
+            strJsonChildren += unicode('"%s", ' % «name»_)
+            «ELSEIF typeName()=="double" || typeName()=="float"-»
+            strJsonChildren += unicode('%e, ' % «name»_)
+            «ELSEIF typeName()=="integer"-»
+            strJsonChildren += unicode('%d, ' % «name»_)
+            «ELSE-»
+            strJsonChildren += «name»_.exportJson(level, name_='«name»')
+            «ENDIF-»
+        if strJsonChildren.endswith(', '):
+            strJsonChildren = strJsonChildren[:-2]
+        strJsonChildren += "]\n"
+        «IF !optional-»
+        if self.get«name.toFirstUpper()»() == []:
+            warnEmptyAttribute("«name»", "«typeName()»")
+        «ENDIF-»
+    «ELSE-»
+        if self._«name» is not None:
+            «IF typeName()=="boolean"-»
+            if self._«name»:
+                strJsonChildren += createJsonIndent(level) + unicode('"«name»": true,\n')
+            else:
+                strJsonChildren += createJsonIndent(level) + unicode('"«name»": false,\n')
+            «ELSEIF typeName()=="string"-»
+            strJsonChildren += createJsonIndent(level) + unicode('"«name»": "%s",\n' % self._«name»)
+            «ELSEIF typeName()=="double" || typeName()=="float"-»
+            strJsonChildren += createJsonIndent(level) + unicode('"«name»": %e,\n' % self._«name»)
+            «ELSEIF typeName()=="integer"-»
+            strJsonChildren += createJsonIndent(level) + unicode('"«name»": %d,\n' % self._«name»)
+            «ELSE-»
+            strJsonChildren += self.«name».exportJson(level, name_='«name»')
             «ENDIF-»
         «IF !optional-»
         else:
