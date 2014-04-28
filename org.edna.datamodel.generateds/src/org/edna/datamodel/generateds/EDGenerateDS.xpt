@@ -73,7 +73,7 @@
 # Generated «currentTime()» by EDGenerateDS.
 #
 
-import os, sys
+import os, sys, json
 from xml.dom import minidom
 from xml.dom import Node
 
@@ -396,15 +396,15 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
         if name_ is None:
             strJson = createJsonIndent(level) + unicode('{\n')
         else:
-	        strJson = createJsonIndent(level) + unicode('"%s": {\n' % name_)
+            strJson = createJsonIndent(level) + unicode('"%s": {\n' % name_)
         strJson += self.exportJsonChildren(level + 1, name_)
         if strJson.endswith(',\n'):
-	        # Remove last ',\n' from string, replace with '\n'
-    	    strJson = strJson[:-2] + '\n'
-        strJson += createJsonIndent(level) + unicode('}\n')
+            # Remove last ',\n' from string, replace with '\n'
+            strJson = strJson[:-2] + '\n'
+        strJson += createJsonIndent(level) + unicode('},\n')
         return strJson
     def exportJsonChildren(self, level, name_='«name»'):
-    	strJsonChildren = ""
+        strJsonChildren = ""
     «IF hasExtension()-»
         strJsonChildren += «baseType.name».exportJsonChildren(self, level, name_)
     «ELSE-»
@@ -504,7 +504,61 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
         return «name».parseString(self.marshal())
     # Export to json format
     def dumps(self):
-        return self.exportJson(0, name_=None)
+        strJson = self.exportJson(0, name_=None)
+        if strJson.endswith('},\n'):
+            strJson = strJson[:-2]
+        return strJson
+    def buildFromDict(self, node_dict_):
+        for node_name_, node_value_ in node_dict_.iteritems():
+            self.buildChildrenFromDict(node_name_, node_value_)
+    def buildChildrenFromDict(self, nodeName_, nodeValue_):
+    «IF !elements.isEmpty-»
+    «FOREACH elements AS e ITERATOR it-»
+        «it.firstIteration ? "if" : "elif"» nodeName_ == '«e.name»':
+            «IF e.typeName()=="boolean"-»
+            «IF e.multiple-»
+            self._«e.name» = []
+            for value_ in nodeValue_:
+                self._«e.name».append(bool(value_))
+            «ELSE-»
+            self._«e.name» = bool(nodeValue_)
+            «ENDIF-»
+            «ELSEIF e.typeName()=="string"-»
+            «IF e.multiple-»
+            self._«e.name» = []
+            for value_ in nodeValue_:
+                self._«e.name».append(str(value_))
+            «ELSE-»
+            self._«e.name» = str(nodeValue_)
+            «ENDIF-»
+            «ELSEIF e.typeName()=="double" || e.typeName()=="float"-»
+            «IF e.multiple-»
+            self._«e.name» = []
+            for value_ in nodeValue_:
+                self._«e.name».append(float(value_))
+            «ELSE-»
+            self._«e.name» = float(nodeValue_)
+            «ENDIF-»
+            «ELSEIF e.typeName()=="integer"-»
+            «IF e.multiple-»
+            self._«e.name» = []
+            for value_ in nodeValue_:
+                self._«e.name».append(int(value_))
+            «ELSE-»
+            self._«e.name» = int(nodeValue_)
+            «ENDIF-»
+            «ELSE-»
+            self._«e.name» = «e.typeName()»()
+            «e.typeName()».buildFromDict(self._«e.name», nodeValue_)
+            «ENDIF-»
+    «ENDFOREACH-»
+    «ELSE-»
+        pass
+    «ENDIF-»
+    # Import from json format
+    def loads(self, _strJson):
+        dict_in = json.loads(_strJson)
+        self.buildFromDict(dict_in)
     #Static method for parsing a string
     def parseString( _inString ):
         doc = minidom.parseString(_inString)
@@ -579,26 +633,27 @@ class «name»«IF hasExtension()-»(«baseType.name»)«ELSE-»(object)«ENDIF-
 
 «DEFINE exportJsonChildren FOR ElementDeclaration-»
     «IF multiple-»
-    	strJsonChildren += createJsonIndent(level) + unicode('"«name»": [') 
-        for «name»_ in self.get«name.toFirstUpper()»():
-            «IF typeName()=="boolean"-»
-            strJsonChildren += unicode('%d, ' % «name»_)
-            «ELSEIF typeName()=="string"-»
-            strJsonChildren += unicode('"%s", ' % «name»_)
-            «ELSEIF typeName()=="double" || typeName()=="float"-»
-            strJsonChildren += unicode('%e, ' % «name»_)
-            «ELSEIF typeName()=="integer"-»
-            strJsonChildren += unicode('%d, ' % «name»_)
-            «ELSE-»
-            strJsonChildren += «name»_.exportJson(level, name_='«name»')
+        if self.get«name.toFirstUpper()»() != []:
+            strJsonChildren += createJsonIndent(level) + unicode('"«name»": [') 
+            for «name»_ in self.get«name.toFirstUpper()»():
+                «IF typeName()=="boolean"-»
+                strJsonChildren += unicode('%d, ' % «name»_)
+                «ELSEIF typeName()=="string"-»
+                strJsonChildren += unicode('"%s", ' % «name»_)
+                «ELSEIF typeName()=="double" || typeName()=="float"-»
+                strJsonChildren += unicode('%e, ' % «name»_)
+                «ELSEIF typeName()=="integer"-»
+                strJsonChildren += unicode('%d, ' % «name»_)
+                «ELSE-»
+                strJsonChildren += «name»_.exportJson(level, name_='«name»')
+                «ENDIF-»
+            if strJsonChildren.endswith(', '):
+                strJsonChildren = strJsonChildren[:-2]
+            strJsonChildren += "]\n"
+            «IF !optional-»
+            if self.get«name.toFirstUpper()»() == []:
+                warnEmptyAttribute("«name»", "«typeName()»")
             «ENDIF-»
-        if strJsonChildren.endswith(', '):
-            strJsonChildren = strJsonChildren[:-2]
-        strJsonChildren += "]\n"
-        «IF !optional-»
-        if self.get«name.toFirstUpper()»() == []:
-            warnEmptyAttribute("«name»", "«typeName()»")
-        «ENDIF-»
     «ELSE-»
         if self._«name» is not None:
             «IF typeName()=="boolean"-»
